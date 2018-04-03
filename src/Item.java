@@ -1,21 +1,23 @@
-public class Item {
+import sun.security.krb5.internal.crypto.Des;
 
-    int bonus;
-    int malus;
+import java.util.ArrayList;
+
+public class Item extends Description{
+
+    int bonus; // - signifie une augmentation de la borne max, + signifie une augmentation du nombre de dès
+    int malus; // - signifie une diminution de la borne max, + signifie une diminution du nombre de dès
     boolean activable;
     boolean estRecupéré;
-    String description;
 
-    private Item(int bonus, int malus, boolean activable, boolean estRecupéré, String description) {
+    public Item(String nom, int bonus, int malus, boolean activable, boolean estRecupéré, String description) {
+        super(nom, description);
         this.bonus = bonus;
         this.malus = malus;
         this.activable = activable;
         this.estRecupéré = estRecupéré;
-        this.description = description;
     }
 
     public int getBonus() {
-
         return bonus;
     }
 
@@ -31,11 +33,30 @@ public class Item {
         return estRecupéré;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public void setEstRecupéré(boolean estRecupéré) {
         this.estRecupéré = estRecupéré;
+    }
+
+    public static boolean contientItem (String nom, ArrayList<Item> items){
+        for(Item item : items){
+            if(nom==item.nom){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static Item obtenirItem (String nom, ArrayList<Item> items){
+        for(Item item : items){
+            if(nom==item.nom){
+                return item;
+            }
+        }
+        return null;
+    }
+
+    public static void activerItem (Item item, Personnage joueur){
+        //TODO
+        System.out.println("TODO");
     }
 }

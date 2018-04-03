@@ -1,29 +1,19 @@
-import java.util.HashSet;
+import java.util.ArrayList;
 
-public class Personnage {
-    String nom;
-    String description;
+public class Personnage extends Description {
     Boolean joueur;
     int debutDes;
     int finDes;
     int nbDes;
+    ArrayList<Item> inventaire;
 
-    public Personnage(String nom, String description, Boolean joueur, int debutDes, int finDes, int nbDes) {
-        this.nom = nom;
-        this.description = description;
+    public Personnage(String nom, String description, Boolean joueur, int debutDes, int finDes, int nbDes, ArrayList<Item> inventaire) {
+        super(nom, description);
         this.joueur = joueur;
         this.debutDes = debutDes;
         this.finDes = finDes;
         this.nbDes = nbDes;
-
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public String getDescription() {
-        return description;
+        this.inventaire = inventaire;
     }
 
     public Boolean getJoueur() {
@@ -42,8 +32,8 @@ public class Personnage {
         return nbDes;
     }
 
-    public void setDescription(String description) {
-        description = description;
+    public ArrayList<Item> getInventaire() {
+        return inventaire;
     }
 
     public void setDebutDes(int debutDes) {
@@ -60,6 +50,23 @@ public class Personnage {
 
     public void changeDeSalle(Salle salle){
 
+    }
+
+    public static boolean contientPerso (String nom, ArrayList<Personnage> persos){
+        for(Personnage perso : persos){
+            if(nom==perso.nom){
+                return true;
+            }
+        }
+        return false;
+    }
+    public static Personnage obtenirPerso (String nom, ArrayList<Personnage> persos){
+        for(Personnage perso : persos){
+            if(nom==perso.nom){
+                return perso;
+            }
+        }
+        return null;
     }
 
 }

@@ -1,3 +1,5 @@
+import java.util.*;
+
 public abstract class Description {
     String nom;
     String description;
@@ -22,4 +24,5 @@ public abstract class Description {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }
