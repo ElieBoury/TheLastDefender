@@ -1,13 +1,11 @@
-import sun.security.krb5.internal.crypto.Des;
-
 import java.util.ArrayList;
 
-public class Item extends Description{
+public class Item extends Description {
 
-    int bonus; // - signifie une augmentation de la borne max, + signifie une augmentation du nombre de dès
-    int malus; // - signifie une diminution de la borne max, + signifie une diminution du nombre de dès
-    boolean activable;
-    boolean estRecupéré;
+    private int bonus; // - signifie une augmentation de la borne max, + signifie une augmentation du nombre de dès
+    private int malus; // - signifie une diminution de la borne max, + signifie une diminution du nombre de dès
+    private boolean activable;
+    private boolean estRecupéré;
 
     public Item(String nom, int bonus, int malus, boolean activable, boolean estRecupéré, String description) {
         super(nom, description);
@@ -37,26 +35,22 @@ public class Item extends Description{
         this.estRecupéré = estRecupéré;
     }
 
-    public static boolean contientItem (String nom, ArrayList<Item> items){
-        for(Item item : items){
-            if(nom==item.nom){
+    public static boolean contientItem(String nom, ArrayList<Item> items) {
+        for (Item item : items) {
+            if (nom.equals(item.getNom())) {
                 return true;
             }
         }
         return false;
     }
 
-    public static Item obtenirItem (String nom, ArrayList<Item> items){
-        for(Item item : items){
-            if(nom==item.nom){
+    public static Item obtenirItem(String nom, ArrayList<Item> items) {
+        for (Item item : items) {
+            if (nom.equals(item.getNom())) {
                 return item;
             }
         }
         return null;
     }
 
-    public static void activerItem (Item item, Personnage joueur){
-        //TODO
-        System.out.println("TODO");
-    }
 }

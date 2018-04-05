@@ -1,8 +1,6 @@
-import java.util.*;
-
 public abstract class Description {
-    String nom;
-    String description;
+    private String nom;
+    private String description;
 
     public Description(String nom, String description) {
         this.nom = nom;
