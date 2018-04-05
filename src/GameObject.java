@@ -1,18 +1,18 @@
-public abstract class Description {
-    private String nom;
+public abstract class GameObject {
+    private String name;
     private String description;
 
-    public Description(String nom, String description) {
-        this.nom = nom;
+    public GameObject(String name, String description) {
+        this.name = name;
         this.description = description;
     }
 
-    public String getNom() {
-        return nom;
+    public String getName() {
+        return name;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {

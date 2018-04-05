@@ -1,111 +1,111 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Personnage extends Description {
-    private boolean joueur;
-    private boolean persoClé; //Vrai si c'est un perso nécessaire à battre pour passer à la salle suivante.
-    private int debutDes;
-    private int finDes;
-    private int nbDes;
-    private ArrayList<Item> inventaire;
-    private Salle currentRoom;
+public class Character extends GameObject {
+    private boolean player;
+    private boolean keyCharac; //Vrai si c'est un perso nécessaire à battre pour passer à la salle suivante.
+    private int earlyDice;
+    private int endDice;
+    private int nbDice;
+    private ArrayList<Item> inventory;
+    private Room currentRoom;
 
-    public Personnage(String nom, String description, boolean joueur, boolean persoClé, int debutDes, int finDes, int nbDes, ArrayList<Item> inventaire) {
+    public Character(String nom, String description, boolean player, boolean keyCharac, int earlyDice, int endDice, int nbDice, ArrayList<Item> inventory) {
         super(nom, description);
-        this.joueur = joueur;
-        this.debutDes = debutDes;
-        this.finDes = finDes;
-        this.nbDes = nbDes;
-        this.inventaire = inventaire;
+        this.player = player;
+        this.earlyDice = earlyDice;
+        this.endDice = endDice;
+        this.nbDice = nbDice;
+        this.inventory = inventory;
     }
 
 
-    public Boolean getPersoClé() {
-        return persoClé;
+    public Boolean getKeyCharac() {
+        return keyCharac;
     }
 
-    public void setPersoClé(Boolean persoClé) {
-        this.persoClé = persoClé;
+    public void setKeyCharac(Boolean keyCharac) {
+        this.keyCharac = keyCharac;
     }
 
-    public void setJoueur(Boolean joueur) {
-        this.joueur = joueur;
+    public void setPlayer(Boolean player) {
+        this.player = player;
     }
 
-    public void setInventaire(ArrayList<Item> inventaire) {
-        this.inventaire = inventaire;
+    public void setInventory(ArrayList<Item> inventory) {
+        this.inventory = inventory;
     }
 
-    public Salle getCurrentRoom() {
+    public Room getCurrentRoom() {
         return currentRoom;
     }
 
-    public void setCurrentRoom(Salle currentRoom) {
+    public void setCurrentRoom(Room currentRoom) {
         this.currentRoom = currentRoom;
     }
 
-    public Boolean getJoueur() {
-        return joueur;
+    public Boolean getPlayer() {
+        return player;
     }
 
-    public int getDebutDes() {
-        return debutDes;
+    public int getEarlyDice() {
+        return earlyDice;
     }
 
-    public int getFinDes() {
-        return finDes;
+    public int getEndDice() {
+        return endDice;
     }
 
-    public int getNbDes() {
-        return nbDes;
+    public int getNbDice() {
+        return nbDice;
     }
 
-    public ArrayList<Item> getInventaire() {
-        return inventaire;
+    public ArrayList<Item> getInventory() {
+        return inventory;
     }
 
-    public void setDebutDes(int debutDes) {
-        this.debutDes = debutDes;
+    public void setEarlyDice(int earlyDice) {
+        this.earlyDice = earlyDice;
     }
 
-    public void setFinDes(int finDes) {
-        this.finDes = finDes;
+    public void setEndDice(int endDice) {
+        this.endDice = endDice;
     }
 
-    public void setNbDes(int nbDes) {
-        this.nbDes = nbDes;
+    public void setNbDice(int nbDice) {
+        this.nbDice = nbDice;
     }
 
-    public void changeDeSalle(Salle salle) {
+    public void changeOfRoom(Room room) {
 
     }
 
-    public static boolean contientPerso(String nom, ArrayList<Personnage> persos) {
-        for (Personnage perso : persos) {
-            if (nom.equals(perso.getNom())) {
+    public static boolean containCharac(String nom, ArrayList<Character> persos) {
+        for (Character perso : persos) {
+            if (nom.equals(perso.getName())) {
                 return true;
             }
         }
         return false;
     }
 
-    public static Personnage obtenirPerso(String nom, ArrayList<Personnage> persos) {
-        for (Personnage perso : persos) {
-            if (nom.equals(perso.getNom())) {
+    public static Character getCharac(String nom, ArrayList<Character> persos) {
+        for (Character perso : persos) {
+            if (nom.equals(perso.getName())) {
                 return perso;
             }
         }
         return null;
     }
 
-    public void gérerInventaire() {
+    public void manageInventory() {
         boolean done = false;
-        if (this.inventaire.size() == 0) {
-            System.out.println("Votre inventaire est vide, récupérez des items !");
+        if (this.inventory.size() == 0) {
+            System.out.println("Votre inventory est vide, récupérez des items !");
         } else {
-            System.out.println("Voici les différents objets présents dans votre inventaire :");
-            for (Item item : this.inventaire) {
-                System.out.println("   " + item.getNom());
+            System.out.println("Voici les différents objets présents dans votre inventory :");
+            for (Item item : this.inventory) {
+                System.out.println("   " + item.getName());
             }
             System.out.println("Vous pouvez :\n" +
                     "   Activer un item (activate)\n" +
@@ -116,12 +116,13 @@ public class Personnage extends Description {
                 String motEntré = sc.nextLine();
                 switch (motEntré) {
                     case ("activate"):
+                        System.out.println("Entrez le nom de l'objet concerné :");
                         String motEntré3 = sc.nextLine();
-                        if (Item.contientItem(motEntré3, this.inventaire)) {
+                        if (Item.containItem(motEntré3, this.inventory)) {
                             System.out.println("Si vous utilisez cet objet, vous le perdrez, en êtes vous sûr ? (yes)/(no)");
                             String motEntré4 = sc.nextLine();
                             if (motEntré4.equals("yes")) {
-                                this.activerItem(Item.obtenirItem(motEntré3, this.inventaire));
+                                this.activateItem(Item.getItem(motEntré3, this.inventory));
                             } else {
                                 System.out.println("Action annulée.");
                             }
@@ -133,8 +134,8 @@ public class Personnage extends Description {
                     case ("know more"):
                         System.out.println("Entrez le nom de l'objet concerné :");
                         String motEntré2 = sc.nextLine();
-                        if (Item.contientItem(motEntré2, this.inventaire)) {
-                            System.out.println(Item.obtenirItem(motEntré2, this.inventaire).getDescription());
+                        if (Item.containItem(motEntré2, this.inventory)) {
+                            System.out.println(Item.getItem(motEntré2, this.inventory).getDescription());
                             done = true;
                         } else {
                             System.out.println("Vous ne possédez pas cet item.");
@@ -151,16 +152,16 @@ public class Personnage extends Description {
     }
 
 
-    public void gérerItem(Item item) {
+    public void manageItem(Item item) {
         System.out.println("Gestion de la récupération de l'item");
-        if (this.inventaire.size() == 0) {
-            System.out.println("Votre inventaire est vide.");
+        if (this.inventory.size() == 0) {
+            System.out.println("Votre inventory est vide.");
         } else {
 
         }
     }
 
-    public void récupérerItem(Item item, Salle salle) {
+    public void takeItem(Item item, Room room) {
         if (item == null) {
             System.out.println("Item null");
             return;
@@ -169,83 +170,83 @@ public class Personnage extends Description {
         Scanner sc = new Scanner(System.in);
         String motEntré = sc.nextLine();
         if (motEntré.equals("yes")) {
-            this.inventaire.add(item);
-            salle.getItems().remove(item);
-            System.out.println("Vous venez de récupérer un " + item.getNom() + " !\n" +
-                    "Cet item est désormais dans votre inventaire.");
+            this.inventory.add(item);
+            room.getItems().remove(item);
+            System.out.println("Vous venez de récupérer un " + item.getName() + " !\n" +
+                    "Cet item est désormais dans votre inventory.");
         } else {
             System.out.println("Action annulée.");
         }
     }
 
-    public void activerItem(Item item) {
+    public void activateItem(Item item) {
         if (item.getBonus() != 0) {
             if (item.getBonus() > 0) {
-                this.nbDes += item.getBonus();
+                this.nbDice += item.getBonus();
                 System.out.println("Votre nombre de dés vient d'augmenter de " + item.getBonus() + " !\n" +
-                        "Il est maintenant de " + this.nbDes + ".");
+                        "Il est maintenant de " + this.nbDice + ".");
             } else {
-                this.finDes += (item.getBonus() * -1);
+                this.endDice += (item.getBonus() * -1);
                 System.out.println("La borne maximale de vos dés vient d'augmenter de " + item.getBonus() * -1 + " !\n" +
-                        "Elle est maintenant de " + this.finDes + ".");
+                        "Elle est maintenant de " + this.endDice + ".");
             }
         }
         if (item.getMalus() != 0) {
             if (item.getMalus() > 0) {
-                this.nbDes -= item.getMalus();
+                this.nbDice -= item.getMalus();
                 System.out.println("Votre nombre de dés vient de diminuer de " + item.getMalus() + " !\n" +
-                        "Il est maintenant de " + this.nbDes + ".");
+                        "Il est maintenant de " + this.nbDice + ".");
             } else {
-                this.finDes += (item.getMalus() * -1);
+                this.endDice += (item.getMalus() * -1);
                 System.out.println("La borne maximale de vos dés vient de diminuer de " + item.getMalus() * -1 + " !\n" +
-                        "Elle est maintenant de " + this.finDes + ".");
+                        "Elle est maintenant de " + this.endDice + ".");
             }
         }
-        this.inventaire.remove(item);
+        this.inventory.remove(item);
     }
 
-    public void fight(Personnage adversaire, int nbManches) {
-        int ptsJoueur = 0, ptsIa = 0, lancéJoueur, lancéIa, mancheActuelle = 1;
+    public void fight(Character adversaire, int nbManches) {
+        int ptsplayer = 0, ptsIa = 0, lancéplayer, lancéIa, mancheActuelle = 1;
         boolean away = false;
         System.out.println("Combat entre " +
-                this.getNom() + " et " + adversaire.getNom() + " en " + nbManches + " manches !");
-        while (ptsJoueur < nbManches && ptsIa < nbManches && !away) {
+                this.getName() + " et " + adversaire.getName() + " en " + nbManches + " manches !");
+        while (ptsplayer < nbManches && ptsIa < nbManches && !away) {
             System.out.println("Manche " + mancheActuelle);
-            System.out.println(this.getNom() + " : " + ptsJoueur + " - " + ptsIa + " : " + adversaire.getNom());
+            System.out.println(this.getName() + " : " + ptsplayer + " - " + ptsIa + " : " + adversaire.getName());
             System.out.println("Que voulez vous faire ?\n" +
                     "   Attaquer (Attack)\n   Utiliser objet (Use)\n   Fuir (Run Away)\n");
             Scanner sc = new Scanner(System.in);
             String motEntré = sc.nextLine();
             switch (motEntré) {
                 case ("Attack"):
-                    lancéJoueur = Générateur.générerScore(this.getDebutDes(), this.getFinDes());
-                    lancéIa = Générateur.générerScore(adversaire.getDebutDes(), adversaire.getFinDes());
-                    System.out.println("Vous avez obtenu " + lancéJoueur);
-                    System.out.println(adversaire.getNom() + " a obtenu " + lancéIa);
-                    if (lancéJoueur < lancéIa) {
-                        System.out.println(adversaire.getNom() + " gagne cette manche");
+                    lancéplayer = Générateur.generateScore(this.getEarlyDice(), this.getEndDice());
+                    lancéIa = Générateur.generateScore(adversaire.getEarlyDice(), adversaire.getEndDice());
+                    System.out.println("Vous avez obtenu " + lancéplayer);
+                    System.out.println(adversaire.getName() + " a obtenu " + lancéIa);
+                    if (lancéplayer < lancéIa) {
+                        System.out.println(adversaire.getName() + " gagne cette manche");
                         ptsIa++;
                         mancheActuelle++;
-                    } else if (lancéJoueur > lancéIa) {
+                    } else if (lancéplayer > lancéIa) {
                         System.out.println("Vous gagnez cette manche");
-                        ptsJoueur++;
+                        ptsplayer++;
                         mancheActuelle++;
                     } else {
-                        System.out.println("Egalité, la défense gagne, " + adversaire.getNom() + " remporte la manche");
+                        System.out.println("Egalité, la défense gagne, " + adversaire.getName() + " remporte la manche");
                         ptsIa++;
                         mancheActuelle++;
                     }
                     break;
                 case ("Use"):
-                    if (this.getInventaire().size() != 0) {
+                    if (this.getInventory().size() != 0) {
                         System.out.println("Quel item voulez vous activer ?");
 
-                        for (Item items : this.getInventaire()) {
+                        for (Item items : this.getInventory()) {
                             System.out.println("   " + items);
                         }
                         String motEntré2 = sc.nextLine();
-                        if (Item.contientItem(motEntré2, this.getInventaire())) {
-                            this.activerItem(Item.obtenirItem(motEntré2, this.getInventaire()));
+                        if (Item.containItem(motEntré2, this.getInventory())) {
+                            this.activateItem(Item.getItem(motEntré2, this.getInventory()));
                         } else {
                             System.out.println("Vous ne possédez pas cet objet");
                         }
@@ -262,15 +263,15 @@ public class Personnage extends Description {
 
         }
         if (!away) {
-            if (ptsJoueur > nbManches / 2) {
-                System.out.println("Bravo " + this.getNom() + ", vous avez gagné !");
-                if(adversaire.getPersoClé()){
+            if (ptsplayer > nbManches / 2) {
+                System.out.println("Bravo " + this.getName() + ", vous avez gagné !");
+                if(adversaire.getKeyCharac()){
                     this.getCurrentRoom().setUnlocked(true);
                     System.out.println("Bonne nouvelle ! Vous venez de battre le virus gardien de la salle,\n" +
                             "vous pouvez à présent accéder à la salle suivante !");
                 }
             } else {
-                System.out.println(adversaire.getNom() + " a gagné ! Vous avez perdu.");
+                System.out.println(adversaire.getName() + " a gagné ! Vous avez perdu.");
             }
         } else {
             System.out.println("Vous avez fuit, combat terminé.");
