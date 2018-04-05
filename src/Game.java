@@ -33,13 +33,13 @@ public class Game {
                 "Gourde mystère", 0, -2, true, false, "Cet objet diminue la limite " +
                 "max des dès de 2 pour toujours !");
 
-        Room room1 = new Room("Room Initiale", "Description room1");
+        Room room1 = new Room(0, "Salle Initiale", "Salle de préparation");
         room1.getItems().add(item1);
         room1.getItems().add(item2);
         room1.getCharacters().add(perso1);
         room1.getCharacters().add(perso2);
 
-        Room room2 = new Room("Room Numero 2", "Description room2");
+        Room room2 = new Room(1,"Salle infernale", "Description salle infernale");
 
         player.setCurrentRoom(room1);
 

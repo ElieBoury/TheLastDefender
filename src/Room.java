@@ -5,16 +5,26 @@ public class Room extends GameObject {
     private ArrayList<Item> items;
     private ArrayList<Character> characters;
     private boolean unlocked = false;
+    private int id;
 
     /**
      * Constructor
      * @param name the name of the room
      * @param description the description of the room
      */
-    public Room(String name, String description) {
+    public Room(int id, String name, String description) {
         super(name, description);
+        this.id = id;
         this.items = new ArrayList<>();
         this.characters = new ArrayList<>();
+    }
+
+    /**
+     * id getter
+     * @return the id of the room
+     */
+    public int getId() {
+        return id;
     }
 
     /**
