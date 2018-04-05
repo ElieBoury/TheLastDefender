@@ -79,6 +79,8 @@ public class Room extends GameObject {
      * Present the room : tell what is in it
      */
     public void presentRoom() {
+        System.out.println("Vous êtes dans " + this.getName());
+        System.out.println("Description :\n " + this.getDescription());
         if(this.getItems().size()!=0) {
             System.out.println("Dans cette room sont présents ces items: ");
             for (Item item : this.items) {
