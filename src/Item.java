@@ -5,14 +5,14 @@ public class Item extends GameObject {
     private int bonus; // - signifie une augmentation de la borne max, + signifie une augmentation du nombre de dès
     private int malus; // - signifie une diminution de la borne max, + signifie une diminution du nombre de dès
     private boolean toActivate;
-    private boolean isTaken;
+    private boolean taken;
 
-    public Item(String nom, int bonus, int malus, boolean toActivate, boolean isTaken, String description) {
+    public Item(String nom, int bonus, int malus, boolean toActivate, boolean taken, String description) {
         super(nom, description);
         this.bonus = bonus;
         this.malus = malus;
         this.toActivate = toActivate;
-        this.isTaken = isTaken;
+        this.taken = taken;
     }
 
     public int getBonus() {
@@ -27,12 +27,12 @@ public class Item extends GameObject {
         return toActivate;
     }
 
-    public boolean getIsTaken() {
-        return isTaken;
+    public boolean isTaken() {
+        return taken;
     }
 
-    public void setIsTaken(boolean isTaken) {
-        this.isTaken = isTaken;
+    public void setTaken(boolean taken) {
+        this.taken = taken;
     }
 
     public static boolean containItem(String nom, ArrayList<Item> items) {

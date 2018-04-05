@@ -36,13 +36,13 @@ public class Room extends GameObject {
         this.characters = characters;
     }
 
-    static void presentRoom(Room room) {
+    public void presentRoom() {
         System.out.println("Dans cette room sont présents ces items: ");
-        for (Item item : room.items) {
+        for (Item item : this.items) {
             System.out.println("   " + item.getName());
         }
         System.out.println("Dans cette room sont présents ces characters: ");
-        for (Character personnages : room.characters) {
+        for (Character personnages : this.characters) {
             System.out.println("   " + personnages.getName());
         }
     }

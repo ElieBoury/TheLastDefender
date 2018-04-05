@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 public class Character extends GameObject {
     private boolean player;
+    private boolean wicked;
     private boolean keyCharac; //Vrai si c'est un perso nécessaire à battre pour passer à la salle suivante.
     private int earlyDice;
     private int endDice;
@@ -10,26 +11,42 @@ public class Character extends GameObject {
     private ArrayList<Item> inventory;
     private Room currentRoom;
 
-    public Character(String nom, String description, boolean player, boolean keyCharac, int earlyDice, int endDice, int nbDice, ArrayList<Item> inventory) {
-        super(nom, description);
+    public Character(String name, boolean wicked, String description, boolean player, boolean keyCharac, int earlyDice, int endDice, int nbDice, ArrayList<Item> inventory) {
+        super(name, description);
         this.player = player;
+        this.wicked = wicked;
         this.earlyDice = earlyDice;
         this.endDice = endDice;
         this.nbDice = nbDice;
         this.inventory = inventory;
     }
 
+    public boolean isPlayer() {
+        return player;
+    }
 
-    public Boolean getKeyCharac() {
+    public void setPlayer(boolean player) {
+        this.player = player;
+    }
+
+    public boolean isWicked() {
+        return wicked;
+    }
+
+    public void setWicked(boolean wicked) {
+        this.wicked = wicked;
+    }
+
+    public boolean isKeyCharac() {
         return keyCharac;
     }
 
-    public void setKeyCharac(Boolean keyCharac) {
+    public void setKeyCharac(boolean keyCharac) {
         this.keyCharac = keyCharac;
     }
 
-    public void setPlayer(Boolean player) {
-        this.player = player;
+    public ArrayList<Item> getInventory() {
+        return inventory;
     }
 
     public void setInventory(ArrayList<Item> inventory) {
@@ -44,32 +61,24 @@ public class Character extends GameObject {
         this.currentRoom = currentRoom;
     }
 
-    public Boolean getPlayer() {
-        return player;
-    }
-
     public int getEarlyDice() {
         return earlyDice;
-    }
-
-    public int getEndDice() {
-        return endDice;
-    }
-
-    public int getNbDice() {
-        return nbDice;
-    }
-
-    public ArrayList<Item> getInventory() {
-        return inventory;
     }
 
     public void setEarlyDice(int earlyDice) {
         this.earlyDice = earlyDice;
     }
 
+    public int getEndDice() {
+        return endDice;
+    }
+
     public void setEndDice(int endDice) {
         this.endDice = endDice;
+    }
+
+    public int getNbDice() {
+        return nbDice;
     }
 
     public void setNbDice(int nbDice) {
@@ -80,18 +89,18 @@ public class Character extends GameObject {
 
     }
 
-    public static boolean containCharac(String nom, ArrayList<Character> persos) {
+    public static boolean containCharac(String name, ArrayList<Character> persos) {
         for (Character perso : persos) {
-            if (nom.equals(perso.getName())) {
+            if (name.equals(perso.getName())) {
                 return true;
             }
         }
         return false;
     }
 
-    public static Character getCharac(String nom, ArrayList<Character> persos) {
+    public static Character getCharac(String name, ArrayList<Character> persos) {
         for (Character perso : persos) {
-            if (nom.equals(perso.getName())) {
+            if (name.equals(perso.getName())) {
                 return perso;
             }
         }
@@ -116,7 +125,7 @@ public class Character extends GameObject {
                 String motEntré = sc.nextLine();
                 switch (motEntré) {
                     case ("activate"):
-                        System.out.println("Entrez le nom de l'objet concerné :");
+                        System.out.println("Entrez le name de l'objet concerné :");
                         String motEntré3 = sc.nextLine();
                         if (Item.containItem(motEntré3, this.inventory)) {
                             System.out.println("Si vous utilisez cet objet, vous le perdrez, en êtes vous sûr ? (yes)/(no)");
@@ -132,7 +141,7 @@ public class Character extends GameObject {
                         done = true;
                         break;
                     case ("know more"):
-                        System.out.println("Entrez le nom de l'objet concerné :");
+                        System.out.println("Entrez le name de l'objet concerné :");
                         String motEntré2 = sc.nextLine();
                         if (Item.containItem(motEntré2, this.inventory)) {
                             System.out.println(Item.getItem(motEntré2, this.inventory).getDescription());
@@ -148,16 +157,6 @@ public class Character extends GameObject {
                         System.out.println("Commande introuvable");
                 }
             }
-        }
-    }
-
-
-    public void manageItem(Item item) {
-        System.out.println("Gestion de la récupération de l'item");
-        if (this.inventory.size() == 0) {
-            System.out.println("Votre inventory est vide.");
-        } else {
-
         }
     }
 
@@ -183,7 +182,7 @@ public class Character extends GameObject {
         if (item.getBonus() != 0) {
             if (item.getBonus() > 0) {
                 this.nbDice += item.getBonus();
-                System.out.println("Votre nombre de dés vient d'augmenter de " + item.getBonus() + " !\n" +
+                System.out.println("Votre namebre de dés vient d'augmenter de " + item.getBonus() + " !\n" +
                         "Il est maintenant de " + this.nbDice + ".");
             } else {
                 this.endDice += (item.getBonus() * -1);
@@ -194,7 +193,7 @@ public class Character extends GameObject {
         if (item.getMalus() != 0) {
             if (item.getMalus() > 0) {
                 this.nbDice -= item.getMalus();
-                System.out.println("Votre nombre de dés vient de diminuer de " + item.getMalus() + " !\n" +
+                System.out.println("Votre namebre de dés vient de diminuer de " + item.getMalus() + " !\n" +
                         "Il est maintenant de " + this.nbDice + ".");
             } else {
                 this.endDice += (item.getMalus() * -1);
@@ -219,8 +218,8 @@ public class Character extends GameObject {
             String motEntré = sc.nextLine();
             switch (motEntré) {
                 case ("Attack"):
-                    lancéplayer = Générateur.generateScore(this.getEarlyDice(), this.getEndDice());
-                    lancéIa = Générateur.generateScore(adversaire.getEarlyDice(), adversaire.getEndDice());
+                    lancéplayer = Generator.generateScore(this.getEarlyDice(), this.getEndDice());
+                    lancéIa = Generator.generateScore(adversaire.getEarlyDice(), adversaire.getEndDice());
                     System.out.println("Vous avez obtenu " + lancéplayer);
                     System.out.println(adversaire.getName() + " a obtenu " + lancéIa);
                     if (lancéplayer < lancéIa) {
@@ -265,10 +264,13 @@ public class Character extends GameObject {
         if (!away) {
             if (ptsplayer > nbManches / 2) {
                 System.out.println("Bravo " + this.getName() + ", vous avez gagné !");
-                if(adversaire.getKeyCharac()){
+                if(adversaire.isKeyCharac()){
                     this.getCurrentRoom().setUnlocked(true);
                     System.out.println("Bonne nouvelle ! Vous venez de battre le virus gardien de la salle,\n" +
                             "vous pouvez à présent accéder à la salle suivante !");
+                }else{
+                    System.out.println("Félicitation, mais " + adversaire.getName() +
+                    " n'était pas un gardien de la salle.");
                 }
             } else {
                 System.out.println(adversaire.getName() + " a gagné ! Vous avez perdu.");
