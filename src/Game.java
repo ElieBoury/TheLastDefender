@@ -3,19 +3,26 @@ import java.util.*;
 
 public class Game {
 
+    /**
+     * Main loop
+     * @param args
+     */
     public static void main(String[] args) {
         launch();
     }
 
+    /**
+     * Loop of the game
+     */
     public static void launch() {
-        boolean monsterBeaten = false;
-        boolean end = false;
+        boolean endGame = false;
+        boolean endRoom;
 
         ArrayList<Item> inventoryNull= new ArrayList<>();
         Character player = new Character(
                 "AVAST", false, "C'est vous !", true, false, 1, 6, 1, inventoryNull);
         Character perso1 = new Character(
-                "Abelson", true, "Abelson est un virus méchant", false, false, 1, 6, 1, inventoryNull);
+                "Antivira", false, "Antivira est un anti virus", false, false, 1, 6, 1, inventoryNull);
         Character perso2 = new Character(
                 "JigSaw", true,"JigSaw est un virus méchant", false, true, 1, 4, 1, inventoryNull);
 
@@ -36,22 +43,23 @@ public class Game {
 
         player.setCurrentRoom(room1);
 
-        //Démarrage jeu
+        //Start of the game
         System.out.println("ERREUR ERREUR, VOTRE ORDINATEUR A ETE INFECTE !\n" +
                 "Passez de salle en salle et tuez les virus grâce à des combats de dés !\n" +
                 "Bon courage, mais faites vite !\n" +
                 "-------------------------------------");
 
-        //Début jeu
-        while (!end) {
+        //Start of the game loop
+        while (!endGame) {
             System.out.println("Vous êtes dans la " + player.getCurrentRoom().getName() + ".\n" +
                     "Essayez d'en sortir !");
             player.getCurrentRoom().presentRoom();
             System.out.println("Pour ramasser un objet, tapez \"take\".\n" +
                     "Pour parler à un personnage, tapez \"speak\".\n" +
                     "Pour connaître d'autres commandes, tapez \"help\".");
-            while (!player.getCurrentRoom().isUnlocked()) {
-                //Demande d'action du joueur
+            endRoom=false;
+            while (!endRoom) {
+                //Ask of action from the player
                 System.out.println("Agissez !");
 
                 Scanner sc = new Scanner(System.in);
@@ -78,7 +86,7 @@ public class Game {
                                 player.fight(Character.getCharac(motEntré2, room1.getCharacters()), 2);
                             }else{
                                 System.out.println(Character.getCharac(motEntré2, room1.getCharacters()).getName() +
-                                " veut vous aider ! Ne le combattez pas !");
+                                " veut vous aider mais ne sait toujours pas comment, revenez plus tard !");
                             }
                         } else {
                             System.out.println("Ce personnage n'est pas dans cette salle.");
@@ -98,8 +106,9 @@ public class Game {
                         player.getCurrentRoom().presentRoom();
                         break;
                     case ("next room"):
-                        if (monsterBeaten) {
+                        if (player.getCurrentRoom().isUnlocked()) {
                             player.setCurrentRoom(room2);
+                            endRoom=true;
                             System.out.println("Vous venez de changer de salle, observez la bien ...");
                         }else{
                             System.out.println("Un ou plusieurs virus bloquent l'accès à la salle suivante,\n" +
@@ -113,8 +122,9 @@ public class Game {
         }
     }
 
-    //Différentes fonctions
-
+    /**
+     * Manage an ask of help
+     */
     static void help() {
         System.out.println("But : sortir de cette salle.\n" +
                 "Actions possibles :\n" +
@@ -126,6 +136,9 @@ public class Game {
                 "   \"next room\" : aller à la salle suivante");
     }
 
+    /**
+     * Quit the game
+     */
     static void quit() {
         System.out.println("Au revoir !");
         System.exit(0);
