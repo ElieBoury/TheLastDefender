@@ -70,7 +70,7 @@ public class Item extends GameObject {
      * @param items the ArrayList in which we are looking for
      * @return yes if the item is in the ArrayList, no if not
      */
-    public static boolean containItem(String name, ArrayList<Item> items) {
+    static boolean containItem(String name, ArrayList<Item> items) {
         for (Item item : items) {
             if (name.equals(item.getName())) {
                 return true;
@@ -85,7 +85,7 @@ public class Item extends GameObject {
      * @param items the ArrayList in which we are looking for
      * @return the item, null if the name is not found
      */
-    public static Item getItem(String name, ArrayList<Item> items) {
+    static Item getItem(String name, ArrayList<Item> items) {
         for (Item item : items) {
             if (name.equals(item.getName())) {
                 return item;

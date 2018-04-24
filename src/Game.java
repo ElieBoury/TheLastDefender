@@ -5,6 +5,7 @@ public class Game {
 
     /**
      * Main loop
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -18,13 +19,13 @@ public class Game {
         boolean endGame = false;
         boolean endRoom;
 
-        ArrayList<Item> inventoryNull= new ArrayList<>();
+        ArrayList<Item> inventoryNull = new ArrayList<>();
         Character player = new Character(
                 "AVAST", false, "C'est vous !", true, false, 1, 6, 1, inventoryNull);
         Character perso1 = new Character(
                 "Antivira", false, "Antivira est un anti virus", false, false, 1, 6, 1, inventoryNull);
         Character perso2 = new Character(
-                "JigSaw", true,"JigSaw est un virus méchant", false, true, 1, 4, 1, inventoryNull);
+                "JigSaw", true, "JigSaw est un virus méchant", false, true, 1, 4, 1, inventoryNull);
 
         Item item1 = new Item(
                 "Bleuvrage", -2, 0, true, false, "Cet objet augmente la limite " +
@@ -33,15 +34,18 @@ public class Game {
                 "Gourde mystère", 0, -2, true, false, "Cet objet diminue la limite " +
                 "max des dès de 2 pour toujours !");
 
-        Room room1 = new Room(0, "Salle Initiale", "Salle de préparation");
+        ArrayList<Room> rooms = new ArrayList<>();
+        Room room1 = new Room(0, "Salle initiale", "Salle de préparation");
         room1.getItems().add(item1);
         room1.getItems().add(item2);
         room1.getCharacters().add(perso1);
         room1.getCharacters().add(perso2);
+        rooms.add(room1);
 
-        Room room2 = new Room(1,"Salle infernale", "Description salle infernale");
+        Room room2 = new Room(1, "Salle infernale", "Description salle infernale");
+        rooms.add(room2);
 
-        player.setCurrentRoom(room1);
+        player.setCurrentRoom(rooms.get(0));
 
         //Start of the game
         System.out.println("ERREUR ERREUR, VOTRE ORDINATEUR A ETE INFECTE !\n" +
@@ -52,12 +56,11 @@ public class Game {
         //Start of the game loop
         while (!endGame) {
             System.out.println("Vous êtes dans la " + player.getCurrentRoom().getName() + ".\n" +
-                    "Essayez d'en sortir !");
-            player.getCurrentRoom().presentRoom();
+                    "Essayez d'en sortir !\n");
             System.out.println("Pour ramasser un objet, tapez \"take\".\n" +
                     "Pour parler à un personnage, tapez \"speak\".\n" +
                     "Pour connaître d'autres commandes, tapez \"help\".");
-            endRoom=false;
+            endRoom = false;
             while (!endRoom) {
                 //Ask of action from the player
                 System.out.println("Agissez !");
@@ -79,14 +82,14 @@ public class Game {
                         System.out.println("Avec qui voulez-vous parler ?");
                         String motEntré2 = sc.nextLine();
                         if (Character.containCharac(motEntré2, room1.getCharacters())) {
-                            if(Character.getCharac(motEntré2, room1.getCharacters()).isWicked()){
+                            if (Character.getCharac(motEntré2, room1.getCharacters()).isWicked()) {
                                 System.out.println(Character.getCharac(motEntré2, room1.getCharacters()).getName() +
                                         " n'aime pas quand on lui parle..\n" +
                                         "Cela va se régler en combat !");
                                 player.fight(Character.getCharac(motEntré2, room1.getCharacters()), 2);
-                            }else{
+                            } else {
                                 System.out.println(Character.getCharac(motEntré2, room1.getCharacters()).getName() +
-                                " veut vous aider mais ne sait toujours pas comment, revenez plus tard !");
+                                        " veut vous aider mais ne sait toujours pas comment, revenez plus tard !");
                             }
                         } else {
                             System.out.println("Ce personnage n'est pas dans cette salle.");
@@ -96,7 +99,7 @@ public class Game {
                         System.out.println("Quel objet voulez-vous récupérer ?");
                         String motEntré3 = sc.nextLine();
                         if (Item.containItem(motEntré3, room1.getItems())) {
-                            player.takeItem(Item.getItem(motEntré3, room1.getItems()), room1);
+                            player.takeItem(Item.getItem(motEntré3, room1.getItems()));
                         } else {
                             System.out.println("Cet item n'est pas dans cette salle.");
 
@@ -105,12 +108,25 @@ public class Game {
                     case ("look room"):
                         player.getCurrentRoom().presentRoom();
                         break;
+                    case ("previous room"):
+                        if (rooms.indexOf(player.getCurrentRoom()) != 0) {
+                            player.setCurrentRoom(rooms.get(rooms.indexOf(player.getCurrentRoom()) - 1));
+                            endRoom = true;
+                            System.out.println("Vous venez de changer de salle, observez la bien ...");
+                        } else {
+                            System.out.println("Vous êtes dans la première salle, il n'y en a pas de précédente !");
+                        }
+                        break;
                     case ("next room"):
                         if (player.getCurrentRoom().isUnlocked()) {
-                            player.setCurrentRoom(room2);
-                            endRoom=true;
-                            System.out.println("Vous venez de changer de salle, observez la bien ...");
-                        }else{
+                            if (rooms.indexOf(player.getCurrentRoom()) == rooms.size()) {
+                                player.setCurrentRoom(rooms.get(rooms.indexOf(player.getCurrentRoom()) + 1));
+                                endRoom = true;
+                                System.out.println("Vous venez de changer de salle, observez la bien ...");
+                            } else {
+                                System.out.println("Vous êtes dans la dernière salle, il n'y en a pas de suivante !");
+                            }
+                        } else {
                             System.out.println("Un ou plusieurs virus bloquent l'accès à la salle suivante,\n" +
                                     "faites preuve d'assurance !");
                         }
@@ -133,6 +149,7 @@ public class Game {
                 "   \"take\" : prendre un objet présent dans la salle\n" +
                 "   \"speak\" : parler à un personnage présent dans la salle\n" +
                 "   \"look room\" : regarder ce qu'il y a dans la salle\n" +
+                "   \"previous room\" : aller à la salle précédente\n" +
                 "   \"next room\" : aller à la salle suivante");
     }
 

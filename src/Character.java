@@ -205,21 +205,25 @@ public class Character extends GameObject {
                 System.out.println("   " + item.getName());
             }
             System.out.println("Vous pouvez :\n" +
+                    "   Relâcher un item (release)\n" +
                     "   Activer un item (activate)\n" +
                     "   En savoir plus sur cet objet (know more)\n" +
                     "   Ne rien faire (nothing)");
             while (!done) {
                 Scanner sc = new Scanner(System.in);
-                String motEntré = sc.nextLine();
-                switch (motEntré) {
+                String wordRead = sc.nextLine();
+                switch (wordRead) {
+                    case("release"):
+                        this.releaseItem();
+                        break;
                     case ("activate"):
-                        System.out.println("Entrez le name de l'objet concerné :");
-                        String motEntré3 = sc.nextLine();
-                        if (Item.containItem(motEntré3, this.inventory)) {
+                        System.out.println("Entrez le nom de l'objet concerné :");
+                        String wordRead3 = sc.nextLine();
+                        if (Item.containItem(wordRead3, this.inventory)) {
                             System.out.println("Si vous utilisez cet objet, vous le perdrez, en êtes vous sûr ? (yes)/(no)");
-                            String motEntré4 = sc.nextLine();
-                            if (motEntré4.equals("yes")) {
-                                this.activateItem(Item.getItem(motEntré3, this.inventory));
+                            String wordRead4 = sc.nextLine();
+                            if (wordRead4.equals("yes")) {
+                                this.activateItem(Item.getItem(wordRead3, this.inventory));
                             } else {
                                 System.out.println("Action annulée.");
                             }
@@ -230,9 +234,9 @@ public class Character extends GameObject {
                         break;
                     case ("know more"):
                         System.out.println("Entrez le name de l'objet concerné :");
-                        String motEntré2 = sc.nextLine();
-                        if (Item.containItem(motEntré2, this.inventory)) {
-                            System.out.println(Item.getItem(motEntré2, this.inventory).getDescription());
+                        String wordRead2 = sc.nextLine();
+                        if (Item.containItem(wordRead2, this.inventory)) {
+                            System.out.println(Item.getItem(wordRead2, this.inventory).getDescription());
                             done = true;
                         } else {
                             System.out.println("Vous ne possédez pas cet item.");
@@ -251,21 +255,20 @@ public class Character extends GameObject {
     /**
      * Item recovery action from the character
      * @param item The item taken
-     * @param room The room in which the item is taken
      */
-    public void takeItem(Item item, Room room) {
+    public void takeItem(Item item) {
         if (item == null) {
             System.out.println("Item null");
             return;
         }
         System.out.println("Êtes-vous sûr de vouloir récupérer cet item ? (yes) / (no)");
         Scanner sc = new Scanner(System.in);
-        String motEntré = sc.nextLine();
-        if (motEntré.equals("yes")) {
+        String wordRead = sc.nextLine();
+        if (wordRead.equals("yes")) {
             this.inventory.add(item);
-            room.getItems().remove(item);
+            this.currentRoom.getItems().remove(item);
             System.out.println("Vous venez de récupérer un " + item.getName() + " !\n" +
-                    "Cet item est désormais dans votre inventory.");
+                    "Cet item est désormais dans votre inventaire.");
         } else {
             System.out.println("Action annulée.");
         }
@@ -317,8 +320,8 @@ public class Character extends GameObject {
             System.out.println("Que voulez vous faire ?\n" +
                     "   Attaquer (Attack)\n   Utiliser objet (Use)\n   Fuir (Run Away)\n");
             Scanner sc = new Scanner(System.in);
-            String motEntré = sc.nextLine();
-            switch (motEntré) {
+            String wordRead = sc.nextLine();
+            switch (wordRead) {
                 case ("Attack"):
                     rolledPlayer = Generator.generateScore(this.getLowerDice(), this.getUpperDice());
                     rolledIA = Generator.generateScore(opponent.getLowerDice(), opponent.getUpperDice());
@@ -345,9 +348,9 @@ public class Character extends GameObject {
                         for (Item items : this.getInventory()) {
                             System.out.println("   " + items);
                         }
-                        String motEntré2 = sc.nextLine();
-                        if (Item.containItem(motEntré2, this.getInventory())) {
-                            this.activateItem(Item.getItem(motEntré2, this.getInventory()));
+                        String wordRead2 = sc.nextLine();
+                        if (Item.containItem(wordRead2, this.getInventory())) {
+                            this.activateItem(Item.getItem(wordRead2, this.getInventory()));
                         } else {
                             System.out.println("Vous ne possédez pas cet objet");
                         }
@@ -379,6 +382,28 @@ public class Character extends GameObject {
             }
         } else {
             System.out.println("Vous avez fuit, combat terminé.");
+        }
+    }
+
+    public void releaseItem(){
+        System.out.println("Quel item voulez-vous relâcher ?");
+        for(Item item : this.inventory){
+            System.out.println(item.getName());
+        }
+        Scanner sc = new Scanner(System.in);
+        String wordRead = sc.nextLine();
+        if(Item.containItem(wordRead, this.inventory)){
+            System.out.println("Êtes-vous sûr de vouloir relâcher cet item dans cette salle ? (yes/no)");
+            String wordRead2 = sc.nextLine();
+            if(wordRead2.equals("yes")){
+                this.inventory.remove(Item.getItem(wordRead, this.inventory));
+                this.currentRoom.getItems().add(Item.getItem(wordRead, this.inventory));
+                System.out.println("Vous venez de relâcher l'objet dans " + this.currentRoom.getName());
+            }else{
+                System.out.println("Action annulée");
+            }
+        }else{
+            System.out.println("Vous ne possédez pas cet item");
         }
     }
 
