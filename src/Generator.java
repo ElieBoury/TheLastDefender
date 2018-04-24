@@ -1,8 +1,7 @@
 public class Generator {
 
     /**
-     *
-     simulates a roll of dice between 2 bounds
+     * simulates a roll of dice between 2 bounds
      * @param min the lower bound
      * @param max the upper bound
      * @return the score obtained
