@@ -20,12 +20,13 @@ public class Game {
         boolean endRoom;
 
         ArrayList<Item> inventoryNull = new ArrayList<>();
+
         Character player = new Character(
-                "AVAST", false, "C'est vous !", true, false, 1, 6, 1, inventoryNull);
+                "AVAST", false, "C'est vous !", true, 1, 6, 1, inventoryNull);
         Character perso1 = new Character(
-                "Antivira", false, "Antivira est un anti virus", false, false, 1, 6, 1, inventoryNull);
+                "Antivira", false, "Antivira est un anti virus", false, 1, 6, 1, inventoryNull);
         Character perso2 = new Character(
-                "JigSaw", true, "JigSaw est un virus méchant", false, true, 1, 4, 1, inventoryNull);
+                "JigSaw", true, "JigSaw est un virus méchant", false, 1, 4, 1, inventoryNull);
 
         Item item1 = new Item(
                 "Bleuvrage", -2, 0, true, false, "Cet objet augmente la limite " +
@@ -40,6 +41,7 @@ public class Game {
         room1.getItems().add(item2);
         room1.getCharacters().add(perso1);
         room1.getCharacters().add(perso2);
+        room1.getLockedCharacters().add(perso2);
         rooms.add(room1);
 
         Room room2 = new Room(1, "Salle infernale", "Description salle infernale");
@@ -81,14 +83,14 @@ public class Game {
                     case ("speak"):
                         System.out.println("Avec qui voulez-vous parler ?");
                         String motEntré2 = sc.nextLine();
-                        if (Character.containCharac(motEntré2, room1.getCharacters())) {
-                            if (Character.getCharac(motEntré2, room1.getCharacters()).isWicked()) {
-                                System.out.println(Character.getCharac(motEntré2, room1.getCharacters()).getName() +
+                        if (Room.containCharac(motEntré2, room1.getCharacters())) {
+                            if (Room.getCharac(motEntré2, room1.getCharacters()).isWicked()) {
+                                System.out.println(Room.getCharac(motEntré2, room1.getCharacters()).getName() +
                                         " n'aime pas quand on lui parle..\n" +
                                         "Cela va se régler en combat !");
-                                player.fight(Character.getCharac(motEntré2, room1.getCharacters()), 2);
+                                player.fight(Room.getCharac(motEntré2, room1.getCharacters()), 2);
                             } else {
-                                System.out.println(Character.getCharac(motEntré2, room1.getCharacters()).getName() +
+                                System.out.println(Room.getCharac(motEntré2, room1.getCharacters()).getName() +
                                         " veut vous aider mais ne sait toujours pas comment, revenez plus tard !");
                             }
                         } else {

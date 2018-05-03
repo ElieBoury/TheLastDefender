@@ -4,7 +4,6 @@ import java.util.Scanner;
 public class Character extends GameObject {
     private boolean player;
     private boolean wicked;
-    private boolean keyCharac; //Vrai si c'est un perso nécessaire à battre pour passer à la salle suivante.
     private int lowerDice;
     private int upperDice;
     private int nbDice;
@@ -17,17 +16,15 @@ public class Character extends GameObject {
      * @param wicked Character is wicked or not
      * @param description Description of the character
      * @param player Character is the player or not
-     * @param keyCharac Character is a key character or not (necessary beaten to access to the next room)
      * @param lowerDice Lower bound of the dice
      * @param upperDice Upper bound of the dice
      * @param nbDice Number of dice owned
      * @param inventory Inventory of the character
      */
-    public Character(String name, boolean wicked, String description, boolean player, boolean keyCharac, int lowerDice, int upperDice, int nbDice, ArrayList<Item> inventory) {
+    public Character(String name, boolean wicked, String description, boolean player, int lowerDice, int upperDice, int nbDice, ArrayList<Item> inventory) {
         super(name, description);
         this.player = player;
         this.wicked = wicked;
-        this.keyCharac = keyCharac;
         this.lowerDice = lowerDice;
         this.upperDice = upperDice;
         this.nbDice = nbDice;
@@ -64,22 +61,6 @@ public class Character extends GameObject {
      */
     public void setWicked(boolean wicked) {
         this.wicked = wicked;
-    }
-
-    /**
-     * keyCharac getter
-     * @return If the character is a key character or not
-     */
-    public boolean isKeyCharac() {
-        return keyCharac;
-    }
-
-    /**
-     * keyCharac setter
-     * @param keyCharac
-     */
-    public void setKeyCharac(boolean keyCharac) {
-        this.keyCharac = keyCharac;
     }
 
     /**
@@ -160,36 +141,6 @@ public class Character extends GameObject {
      */
     public void setNbDice(int nbDice) {
         this.nbDice = nbDice;
-    }
-
-    /**
-     * Tell if a character, from his name, is in an ArrayList or not
-     * @param name the name of the character
-     * @param persos the ArrayList in which we are looking for
-     * @return yes if the character is in the ArrayList, no if not
-     */
-    public static boolean containCharac(String name, ArrayList<Character> persos) {
-        for (Character perso : persos) {
-            if (name.equals(perso.getName())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Give a character, given by his name, in an ArrayList
-     * @param name the name of the character
-     * @param persos the ArrayList in which we are looking for
-     * @return the item, null if the name is not found
-     */
-    public static Character getCharac(String name, ArrayList<Character> persos) {
-        for (Character perso : persos) {
-            if (name.equals(perso.getName())) {
-                return perso;
-            }
-        }
-        return null;
     }
 
     /**
@@ -369,13 +320,15 @@ public class Character extends GameObject {
         if (!away) {
             if (ptsPlayer > nbRounds / 2) {
                 System.out.println("Bravo " + this.getName() + ", vous avez gagné !");
-                if(opponent.isKeyCharac()){
-                    this.getCurrentRoom().setUnlocked(true);
-                    System.out.println("Bonne nouvelle ! Vous venez de battre le virus gardien de la salle,\n" +
-                            "vous pouvez à présent accéder à la salle suivante !");
+                if(Room.containCharac(opponent.getName(), currentRoom.getCharacters())){
+                    Room.removeCharac(opponent.getName(), this.getCurrentRoom().getLockedCharacters());
+                    System.out.println("Bonne nouvelle ! Vous venez de battre un virus gardien de la salle!");
                 }else{
                     System.out.println("Félicitation, mais " + opponent.getName() +
                     " n'était pas un gardien de la salle.");
+                }
+                if(currentRoom.getLockedCharacters().isEmpty() && currentRoom.getLockedItems().isEmpty()){
+                    currentRoom.setUnlocked(true);
                 }
             } else {
                 System.out.println(opponent.getName() + " a gagné ! Vous avez perdu.");

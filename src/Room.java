@@ -6,6 +6,24 @@ public class Room extends GameObject {
     private ArrayList<Character> characters;
     private boolean unlocked = false;
     private int id;
+    private ArrayList<Item> lockedItems;
+    private ArrayList<Character> lockedCharacters;
+
+    public ArrayList<Item> getLockedItems() {
+        return lockedItems;
+    }
+
+    public void setLockedItems(ArrayList<Item> lockedItems) {
+        this.lockedItems = lockedItems;
+    }
+
+    public ArrayList<Character> getLockedCharacters() {
+        return lockedCharacters;
+    }
+
+    public void setLockedCharacters(ArrayList<Character> lockedCharacters) {
+        this.lockedCharacters = lockedCharacters;
+    }
 
     /**
      * Constructor
@@ -17,6 +35,8 @@ public class Room extends GameObject {
         this.id = id;
         this.items = new ArrayList<>();
         this.characters = new ArrayList<>();
+        this.lockedItems = new ArrayList<>();
+        this.lockedCharacters = new ArrayList<>();
     }
 
     /**
@@ -96,6 +116,49 @@ public class Room extends GameObject {
             }
         }else{
             System.out.println("Aucun personnage présent dans cette salle.");
+        }
+    }
+
+    /**
+     * Tell if a character, from his name, is in an ArrayList or not
+     * @param name the name of the character
+     * @param persos the ArrayList in which we are looking for
+     * @return yes if the character is in the ArrayList, no if not
+     */
+    public static boolean containCharac(String name, ArrayList<Character> persos) {
+        for (Character perso : persos) {
+            if (name.equals(perso.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Give a character, given by his name, in an ArrayList
+     * @param name the name of the character
+     * @param persos the ArrayList in which we are looking for
+     * @return the item, null if the name is not found
+     */
+    public static Character getCharac(String name, ArrayList<Character> persos) {
+        for (Character perso : persos) {
+            if (name.equals(perso.getName())) {
+                return perso;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Remove a character, given by his name, in an ArrayList
+     * @param name the name of the character
+     * @param persos the ArrayList in which we are looking for
+     */
+    public static void removeCharac(String name, ArrayList<Character> persos){
+        for (Character perso : persos) {
+            if (name.equals(perso.getName())) {
+                persos.remove(perso);
+            }
         }
     }
 }
