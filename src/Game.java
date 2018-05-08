@@ -1,9 +1,8 @@
 import java.util.Scanner;
 import java.util.*;
+import javax.swing.JFrame;
 
 public class Game {
-
-    private String wordRead;
 
     /**
      * Main loop
@@ -11,6 +10,14 @@ public class Game {
      * @param args
      */
     public static void main(String[] args) {
+        JFrame window = new JFrame();
+        window.setVisible(true);
+        window.setTitle("Save your Computer");
+        window.setSize(1000, 400);
+        window.setLocationRelativeTo(null);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setVisible(true);
+
         launch();
     }
 
