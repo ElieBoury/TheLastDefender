@@ -94,4 +94,9 @@ public class Item extends GameObject {
         return null;
     }
 
+    public String itemToCSV(){
+        String line =(getName()+";"+ getBonus()+";"+getMalus()+";"+isToActivate()+";"+isTaken()+";"+getDescription()+";");
+        return line;
+    }
+
 }

@@ -3,7 +3,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import jdk.nashorn.internal.runtime.regexp.joni.exception.SyntaxException;
 
+import java.io.*;
 import java.net.URL;
 import java.util.Scanner;
 import java.util.*;
@@ -13,6 +15,15 @@ public class Game extends Application {
     private static EditorController editorController;
 
     private static Stage STAGE;
+
+    final static String DefaultPathCharacter = "src/Sauvegarde/Default/Character.csv";
+    final static String DefaultPathItem = "src/Sauvegarde/Default/Item.csv";
+    final static String DefaultPathRoom = "src/Sauvegarde/Default/Room.csv";
+
+
+    private static ArrayList<Room> rooms;
+    private static ArrayList<Character> characters;
+    private static ArrayList<Item> items;
 
     /**
      * Main loop
@@ -25,7 +36,7 @@ public class Game extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
+        /*
         Game.STAGE = stage;
         // Get the Editor Scene and its Controller from the FXML file
         FXMLLoader loader = new FXMLLoader();
@@ -38,13 +49,17 @@ public class Game extends Application {
         STAGE.setScene(editorScene);
         STAGE.setTitle("Oui");
         STAGE.show();
-/*
+        */
         boolean endGame = false;
-        ArrayList<Room> rooms = new ArrayList<>();
-        ArrayList<Character> characters = new ArrayList<>();
-        ArrayList<Item> items = new ArrayList<>();
+        rooms = new ArrayList<>();
+        characters = new ArrayList<>();
+        items = new ArrayList<>();
 
         initialize(rooms, characters, items);
+        sauvegardeCharacter();
+        sauvegardeItems();
+        sauvegardeRoom();
+        importCharacter();
 
         //Start of the game
         System.out.println("ERREUR ERREUR, VOTRE ORDINATEUR A ETE INFECTE !\n" +
@@ -58,10 +73,11 @@ public class Game extends Application {
                 "Pour connaître d'autres commandes, tapez \"help\".");
 
         //Start of the game loop
+
         while (!endGame) {
             mainAct(rooms, characters, items);
         }
-        */
+
     }
 
     /**
@@ -220,4 +236,80 @@ public class Game extends Application {
                     "faites preuve d'assurance !");
         }
     }
+
+    static void sauvegardeCharacter() {
+        BufferedWriter myFile = null;
+        try {
+            myFile = new BufferedWriter(new FileWriter(new File(DefaultPathCharacter)));
+            myFile.write("Name;Wicked;Description;Player;LowerDice;UpperDice;nbDice;Items");
+            myFile.newLine();
+            for (Character myCharacter: characters) {
+                myFile.write(myCharacter.characterToCSV());
+                myFile.newLine();
+            }
+            myFile.close();
+        } catch (FileNotFoundException e) {
+            e.toString();
+            System.out.println("Wrong path");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void sauvegardeItems() {
+        BufferedWriter myFile = null;
+        try {
+            myFile = new BufferedWriter(new FileWriter(new File(DefaultPathItem)));
+            myFile.write("Name;Bonus;Malus;toActivate;Taken;Description");
+            myFile.newLine();
+            for (Item myItem: items) {
+                myFile.write(myItem.itemToCSV());
+                myFile.newLine();
+            }
+            myFile.close();
+        } catch (FileNotFoundException e) {
+            e.toString();
+            System.out.println("Wrong path");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    static void sauvegardeRoom() {
+        BufferedWriter myFile = null;
+        try {
+            myFile = new BufferedWriter(new FileWriter(new File(DefaultPathRoom)));
+            myFile.write("ID;Name; Description;IsUnlocked; Items; Characters; LockedCharacters; lockedItems");
+            myFile.newLine();
+            for (Room myRoom: rooms) {
+                myFile.write(myRoom.roomToCSV());
+                myFile.newLine();
+            }
+            myFile.close();
+        } catch (FileNotFoundException e) {
+            e.toString();
+            System.out.println("Wrong path");
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void importCharacter() {
+        BufferedReader myFile = null;
+        try {
+            myFile = new BufferedReader(new FileReader(DefaultPathCharacter));
+            String line = myFile.readLine();
+            while ((line = myFile.readLine()) != null) {
+                Character.CSVToCharacter(line);
+                System.out.println(line);
+            }
+        } catch (FileNotFoundException e) {
+            e.toString();
+            System.out.println("Wrong path");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -161,4 +161,42 @@ public class Room extends GameObject {
             }
         }
     }
+
+    public String roomToCSV(){
+        StringBuilder line =  new StringBuilder();
+        line.append(getId()+";"+getName()+";"+ getDescription()+";"+isUnlocked()+";");
+        for (Item myItem: items) {
+            if (items.get(items.size()-1)==myItem){
+                line.append(myItem.getName());
+            }else{
+                line.append(myItem.getName()+"/");
+            }
+        }
+        line.append(";");
+        for (Character myCharacter: characters) {
+            if(characters.get(characters.size()-1)==myCharacter){
+                line.append(myCharacter.getName());
+            }else{
+                line.append(myCharacter.getName()+"/");
+            }
+        }
+        line.append(";");
+        for (Character myCharacter: lockedCharacters) {
+            if(lockedCharacters.get(lockedCharacters.size()-1)==myCharacter){
+                line.append(myCharacter.getName());
+            }else{
+                line.append(myCharacter.getName()+"/");
+            }
+        }
+        line.append(";");
+        for (Item myItem: lockedItems) {
+            if (lockedItems.get(lockedItems.size()-1)==myItem){
+                line.append(myItem.getName());
+            }else{
+                line.append(myItem.getName()+"/");
+            }
+        }
+        line.append(";");
+        return line.toString();
+    }
 }

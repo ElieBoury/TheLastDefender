@@ -360,4 +360,31 @@ public class Character extends GameObject {
         }
     }
 
+    public String characterToCSV(){
+        StringBuilder line =  new StringBuilder();
+        line.append(getName()+";"+ isWicked()+";"+getDescription()+";"+isPlayer()+";"+getLowerDice()+";"+getUpperDice()+";"+getNbDice()+";");
+        if (inventory.isEmpty()){
+            line.append("null;");
+        }else{
+            for (Item myItem: inventory) {
+                if(inventory.get(inventory.size()-1)==myItem){
+                    line.append(myItem.getName());
+                }else{
+                    line.append(myItem.getName()+"/");
+                }
+            }
+            line.append(";");
+        }
+        return line.toString();
+    }
+
+    public static void CSVToCharacter(String line){
+        String[]values = line.split(";");
+        System.out.println(values.length);
+        if (values[7] == "null") {
+            ArrayList<Item> inventoryNull = new ArrayList<>();
+            //new Character(values[0],values[1],values[2],values[3],values[4],values[5],values[6],inventoryNull);
+            //String name, boolean wicked, String description, boolean player, int lowerDice, int upperDice, int nbDice, ArrayList<Item> inventory
+        }
+    }
 }
