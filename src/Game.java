@@ -1,8 +1,18 @@
+import Editor.EditorController;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.net.URL;
 import java.util.Scanner;
 import java.util.*;
-import javax.swing.JFrame;
 
-public class Game {
+public class Game extends Application {
+
+    private static EditorController editorController;
+
+    private static Stage STAGE;
 
     /**
      * Main loop
@@ -10,22 +20,25 @@ public class Game {
      * @param args
      */
     public static void main(String[] args) {
-        JFrame window = new JFrame();
-        window.setVisible(true);
-        window.setTitle("Save your Computer");
-        window.setSize(1000, 400);
-        window.setLocationRelativeTo(null);
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setVisible(true);
-
-        launch();
+        launch(args);
     }
 
-    /**
-     * Loop of the game
-     */
-    static void launch() {
+    @Override
+    public void start(Stage stage) throws Exception {
 
+        Game.STAGE = stage;
+        // Get the Editor Scene and its Controller from the FXML file
+        FXMLLoader loader = new FXMLLoader();
+        URL resource = getClass().getResource("/Editor/InterfaceProjet.fxml");
+        loader.setLocation(resource);
+        Scene editorScene = new Scene(loader.load());
+        editorController = loader.getController();
+        //editorController.quit();
+
+        STAGE.setScene(editorScene);
+        STAGE.setTitle("Oui");
+        STAGE.show();
+/*
         boolean endGame = false;
         ArrayList<Room> rooms = new ArrayList<>();
         ArrayList<Character> characters = new ArrayList<>();
@@ -46,10 +59,19 @@ public class Game {
 
         //Start of the game loop
         while (!endGame) {
-                mainAct(rooms, characters, items);
+            mainAct(rooms, characters, items);
         }
+        */
     }
 
+    /**
+     * Loop of the game
+     */
+    /*static void launch() {
+
+
+    }
+*/
     /**
      * Manage an ask of help
      */
