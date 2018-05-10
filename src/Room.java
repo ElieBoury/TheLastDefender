@@ -163,6 +163,7 @@ public class Room extends GameObject {
     }
 
     public String roomToCSV(){
+        //ID;Name; Description;IsUnlocked; Items; Characters; LockedCharacters; lockedItems;
         StringBuilder line =  new StringBuilder();
         line.append(getId()+";"+getName()+";"+ getDescription()+";"+isUnlocked()+";");
         for (Item myItem: items) {
@@ -172,6 +173,9 @@ public class Room extends GameObject {
                 line.append(myItem.getName()+"/");
             }
         }
+        if (items.isEmpty()){
+            line.append("null");
+        }
         line.append(";");
         for (Character myCharacter: characters) {
             if(characters.get(characters.size()-1)==myCharacter){
@@ -179,6 +183,9 @@ public class Room extends GameObject {
             }else{
                 line.append(myCharacter.getName()+"/");
             }
+        }
+        if (characters.isEmpty()){
+            line.append("null");
         }
         line.append(";");
         for (Character myCharacter: lockedCharacters) {
@@ -188,6 +195,9 @@ public class Room extends GameObject {
                 line.append(myCharacter.getName()+"/");
             }
         }
+        if (lockedCharacters.isEmpty()){
+            line.append("null");
+        }
         line.append(";");
         for (Item myItem: lockedItems) {
             if (lockedItems.get(lockedItems.size()-1)==myItem){
@@ -196,7 +206,59 @@ public class Room extends GameObject {
                 line.append(myItem.getName()+"/");
             }
         }
+        if (lockedItems.isEmpty()){
+            line.append("null");
+        }
         line.append(";");
         return line.toString();
+    }
+
+    public static void CSVToRoom(String line){
+        //ID;Name; Description;IsUnlocked; Items; Characters; LockedCharacters; lockedItems;
+        String[]values = line.split(";");
+        Boolean isUnlocked =false;
+        ArrayList<Item> items = new ArrayList<>();
+        ArrayList<Character> characters = new ArrayList<>();
+        ArrayList<Character> lockedCharacters = new ArrayList<>();
+        ArrayList<Item> lockedItems = new ArrayList<>();
+        Room maRoom = new Room(Integer.parseInt(values[0]),values[1],values[2]);
+        if(values[3].equals("true")){
+            isUnlocked=true;
+            maRoom.setUnlocked(isUnlocked);
+        }
+        if (!values[4].equals("null")) {
+            String[] oneItem = values[4].split("/");
+            for (String myItem:oneItem) {
+                items.add(Item.getItem(myItem,Game.items));
+            }
+            maRoom.setItems(items);
+        }
+        if (!values[5].equals("null")) {
+            String[] oneCharacter = values[5].split("/");
+            for (String myCharacter:oneCharacter) {
+                characters.add(Character.getCharacter(myCharacter, Game.characters));
+                for (Character character:Game.characters){
+                    if(myCharacter==character.getName()){
+                        character.setCurrentRoom(maRoom);
+                    }
+                }
+            }
+            maRoom.setCharacters(characters);
+        }
+        if (!values[6].equals("null")) {
+            String[] oneCharacter = values[5].split("/");
+            for (String myCharacter:oneCharacter) {
+                lockedCharacters.add(Character.getCharacter(myCharacter, Game.characters));
+            }
+            maRoom.setLockedCharacters(lockedCharacters);
+        }
+        if (!values[4].equals("null")) {
+            String[] oneItem = values[4].split("/");
+            for (String myItem:oneItem) {
+                lockedItems.add(Item.getItem(myItem,Game.items));
+            }
+            maRoom.setLockedItems(lockedItems);
+        }
+        Game.rooms.add(maRoom);
     }
 }

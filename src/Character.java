@@ -1,3 +1,5 @@
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -41,7 +43,7 @@ public class Character extends GameObject {
 
     /**
      * player setter
-     * @param player 
+     * @param player
      */
     public void setPlayer(boolean player) {
         this.player = player;
@@ -225,6 +227,22 @@ public class Character extends GameObject {
         }
     }
 
+    @Override
+    public String toString(){
+        return (getName()+" is a player:"+isPlayer()+", is wicked:"+isWicked()+", his lowerDice is:"+getLowerDice()+
+                ", his upperDice is:"+getUpperDice()+", his number of Dice is:"+getNbDice()+", his inventory is" +
+                getInventory()+", and his current room is:"+getCurrentRoom());
+    }
+    /**
+     *   private boolean player;
+     *     private boolean wicked;
+     *     private int lowerDice;
+     *     private int upperDice;
+     *     private int nbDice;
+     *     private ArrayList<Item> inventory;
+     *     private Room currentRoom;
+     */
+
     /**
      * Activation of an item owned by the character
      * @param item the item activated
@@ -359,11 +377,20 @@ public class Character extends GameObject {
             System.out.println("Vous ne possédez pas cet item");
         }
     }
+    static Character getCharacter(String name, ArrayList<Character> characters) {
+        for (Character myCharacter : characters) {
+            if (name.equals(myCharacter.getName())) {
+                return myCharacter;
+            }
+        }
+        return null;
+    }
 
     public String characterToCSV(){
+        //Name;Wicked;Description;Player;LowerDice;UpperDice;nbDice;Items;
         StringBuilder line =  new StringBuilder();
         line.append(getName()+";"+ isWicked()+";"+getDescription()+";"+isPlayer()+";"+getLowerDice()+";"+getUpperDice()+";"+getNbDice()+";");
-        if (inventory.isEmpty()){
+        if (this.inventory.isEmpty()){
             line.append("null;");
         }else{
             for (Item myItem: inventory) {
@@ -379,12 +406,23 @@ public class Character extends GameObject {
     }
 
     public static void CSVToCharacter(String line){
+        //Name;Wicked;Description;Player;LowerDice;UpperDice;nbDice;Items;
         String[]values = line.split(";");
-        System.out.println(values.length);
-        if (values[7] == "null") {
-            ArrayList<Item> inventoryNull = new ArrayList<>();
-            //new Character(values[0],values[1],values[2],values[3],values[4],values[5],values[6],inventoryNull);
-            //String name, boolean wicked, String description, boolean player, int lowerDice, int upperDice, int nbDice, ArrayList<Item> inventory
+        ArrayList<Item> myInventory = new ArrayList<>();
+        Boolean isWicked =false;
+        Boolean isPlayer=false;
+        if(values[1].equals("true")){
+            isWicked = true;
         }
+        if(values[3].equals("true")){
+            isPlayer=true;
+        }
+        if (!values[7].equals("null")) {
+            String[] OneItem = values[7].split("/");
+            for (String myItem:OneItem) {
+                myInventory.add(Item.getItem(myItem,Game.items));
+            }
+        }
+        Game.characters.add(new Character(values[0],isWicked,values[2],isPlayer,Integer.parseInt(values[4]),Integer.parseInt(values[5]),Integer.parseInt(values[6]),myInventory));
     }
 }

@@ -21,9 +21,9 @@ public class Game extends Application {
     final static String DefaultPathRoom = "src/Sauvegarde/Default/Room.csv";
 
 
-    private static ArrayList<Room> rooms;
-    private static ArrayList<Character> characters;
-    private static ArrayList<Item> items;
+    public static ArrayList<Room> rooms;
+    public static ArrayList<Character> characters;
+    public static ArrayList<Item> items;
 
     /**
      * Main loop
@@ -55,11 +55,28 @@ public class Game extends Application {
         characters = new ArrayList<>();
         items = new ArrayList<>();
 
-        initialize(rooms, characters, items);
-        sauvegardeCharacter();
-        sauvegardeItems();
-        sauvegardeRoom();
+        importItem();
         importCharacter();
+        importRoom();
+        for (Character c : characters){
+            System.out.println(c.toString());
+        }
+        for (Item c : items){
+            System.out.println(c.toString());
+        }
+        for (Room c : rooms){
+            c.presentRoom();
+        }
+        sauvegardeItems();
+        sauvegardeCharacter();
+        sauvegardeCharacter();
+        //initialize(rooms, characters, items);
+        for (Character c : characters){
+            System.out.println(c.toString());
+        }
+        characters.get(0).setCurrentRoom(rooms.get(0));
+        sauvegardeRoom();
+
 
         //Start of the game
         System.out.println("ERREUR ERREUR, VOTRE ORDINATEUR A ETE INFECTE !\n" +
@@ -130,7 +147,8 @@ public class Game extends Application {
                 "Gourde mystère", 0, -2, true, false, "Cet objet diminue la limite " +
                 "max des dès de 2 pour toujours !");
         items.add(item1);
-
+        perso1.getInventory().add(item0);
+        perso1.getInventory().add(item1);
 
         Room room0 = new Room(0, "Salle initiale", "Salle de préparation");
         room0.getItems().add(item0);
@@ -241,7 +259,7 @@ public class Game extends Application {
         BufferedWriter myFile = null;
         try {
             myFile = new BufferedWriter(new FileWriter(new File(DefaultPathCharacter)));
-            myFile.write("Name;Wicked;Description;Player;LowerDice;UpperDice;nbDice;Items");
+            myFile.write("Name;Wicked;Description;Player;LowerDice;UpperDice;nbDice;Items;");
             myFile.newLine();
             for (Character myCharacter: characters) {
                 myFile.write(myCharacter.characterToCSV());
@@ -260,7 +278,8 @@ public class Game extends Application {
         BufferedWriter myFile = null;
         try {
             myFile = new BufferedWriter(new FileWriter(new File(DefaultPathItem)));
-            myFile.write("Name;Bonus;Malus;toActivate;Taken;Description");
+
+            myFile.write("Name;Bonus;Malus;toActivate;Taken;Description;");
             myFile.newLine();
             for (Item myItem: items) {
                 myFile.write(myItem.itemToCSV());
@@ -279,7 +298,7 @@ public class Game extends Application {
         BufferedWriter myFile = null;
         try {
             myFile = new BufferedWriter(new FileWriter(new File(DefaultPathRoom)));
-            myFile.write("ID;Name; Description;IsUnlocked; Items; Characters; LockedCharacters; lockedItems");
+            myFile.write("ID;Name; Description;IsUnlocked; Items; Characters; LockedCharacters; lockedItems;");
             myFile.newLine();
             for (Room myRoom: rooms) {
                 myFile.write(myRoom.roomToCSV());
@@ -302,7 +321,38 @@ public class Game extends Application {
             String line = myFile.readLine();
             while ((line = myFile.readLine()) != null) {
                 Character.CSVToCharacter(line);
-                System.out.println(line);
+            }
+        } catch (FileNotFoundException e) {
+            e.toString();
+            System.out.println("Wrong path");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void importItem() {
+        BufferedReader myFile = null;
+        try {
+            myFile = new BufferedReader(new FileReader(DefaultPathItem));
+            String line = myFile.readLine();
+            while ((line = myFile.readLine()) != null) {
+                Item.CSVToItem(line);
+            }
+        } catch (FileNotFoundException e) {
+            e.toString();
+            System.out.println("Wrong path");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void importRoom() {
+        BufferedReader myFile = null;
+        try {
+            myFile = new BufferedReader(new FileReader(DefaultPathRoom));
+            String line = myFile.readLine();
+            while ((line = myFile.readLine()) != null) {
+                Room.CSVToRoom(line);
             }
         } catch (FileNotFoundException e) {
             e.toString();

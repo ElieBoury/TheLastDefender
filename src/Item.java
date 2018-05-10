@@ -64,6 +64,11 @@ public class Item extends GameObject {
         this.taken = taken;
     }
 
+    @Override
+    public String toString(){
+        return( getName()+" have a bonus :" + getBonus()+", have a malus :"+getMalus()+", is an activate item :"+isToActivate()+", is taken :"+isTaken()+", his description : "+getDescription());
+    }
+
     /**
      * Tell if an item, from his name, is in an ArrayList or not
      * @param name the name of the item
@@ -95,8 +100,23 @@ public class Item extends GameObject {
     }
 
     public String itemToCSV(){
+        //Name;Bonus;Malus;toActivate;Taken;Description;
         String line =(getName()+";"+ getBonus()+";"+getMalus()+";"+isToActivate()+";"+isTaken()+";"+getDescription()+";");
         return line;
+    }
+
+    public static void CSVToItem(String line){
+        //Name;Bonus;Malus;toActivate;Taken;Description;
+        String[]values = line.split(";");
+        Boolean activate =false;
+        Boolean take=false;
+        if(values[3].equals("true")){
+            activate = true;
+        }
+        if(values[4].equals("true")){
+            take=true;
+        }
+        Game.items.add(new Item(values[0],Integer.parseInt(values[1]),Integer.parseInt(values[2]),activate, take, values[5]));
     }
 
 }
