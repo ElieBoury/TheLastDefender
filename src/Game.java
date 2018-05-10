@@ -36,7 +36,7 @@ public class Game extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        /*
+
         Game.STAGE = stage;
         // Get the Editor Scene and its Controller from the FXML file
         FXMLLoader loader = new FXMLLoader();
@@ -49,7 +49,7 @@ public class Game extends Application {
         STAGE.setScene(editorScene);
         STAGE.setTitle("Oui");
         STAGE.show();
-        */
+        /*
         boolean endGame = false;
         rooms = new ArrayList<>();
         characters = new ArrayList<>();
@@ -94,7 +94,7 @@ public class Game extends Application {
         while (!endGame) {
             mainAct(rooms, characters, items);
         }
-
+*/
     }
 
     /**
