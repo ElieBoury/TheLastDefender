@@ -64,6 +64,13 @@
         <AnchorPane prefHeight="539.0" prefWidth="137.0">
           <children>
                   <Button fx:id="quitButton" layoutX="29.0" layoutY="468.0" mnemonicParsing="false" text="Quitter" />
+                  <Button fx:id="helpButton" layoutX="30.0" layoutY="427.0" mnemonicParsing="false" text="Help" />
+                  <Button fx:id="inventoryButton" layoutX="22.0" layoutY="110.0" mnemonicParsing="false" text="Inventory" />
+                  <Button fx:id="speakButton" layoutX="33.0" layoutY="31.0" mnemonicParsing="false" text="Speak" />
+                  <Button fx:id="takeButton" layoutX="37.0" layoutY="70.0" mnemonicParsing="false" text="Take" />
+                  <Button fx:id="lookButton" layoutX="16.0" layoutY="150.0" mnemonicParsing="false" text="Look Classes.Room" />
+                  <Button fx:id="previousButton" layoutX="3.0" layoutY="192.0" mnemonicParsing="false" text="Previous Classes.Room" />
+                  <Button fx:id="nextButton" layoutX="17.0" layoutY="232.0" mnemonicParsing="false" text="Next Classes.Room" />
           </children>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -71,7 +78,7 @@
         </AnchorPane>
         <ScrollPane prefHeight="539.0" prefWidth="666.0">
                <content>
-                  <TextArea prefHeight="539.0" prefWidth="449.0" />
+                  <TextArea fx:id="console" prefHeight="539.0" prefWidth="449.0" />
                </content>
         </ScrollPane>
       </items>
