@@ -16,11 +16,9 @@ public class Game extends Application {
 
     private static Stage STAGE;
 
-
     public static ArrayList<Room> rooms = new ArrayList<>();
     public static ArrayList<Character> characters = new ArrayList<>();
     public static ArrayList<Item> items = new ArrayList<>();
-
 
     /**
      * Main loop
@@ -52,29 +50,6 @@ public class Game extends Application {
         STAGE.setScene(editorScene);
         STAGE.setTitle("Try to Escape");
         STAGE.show();
-    }
-
-    /**
-     * Manage an ask of help
-     */
-    static void help() {
-        System.out.println("But : sortir de cette salle.\n" +
-                "Actions possibles :\n" +
-                "   \"quit\" : quit le jeu sans sauvegarder\n" +
-                "   \"inventory\" : accéder à l'inventaire\n" +
-                "   \"take\" : prendre un objet présent dans la salle\n" +
-                "   \"speak\" : parler à un personnage présent dans la salle\n" +
-                "   \"look room\" : regarder ce qu'il y a dans la salle\n" +
-                "   \"previous room\" : aller à la salle précédente\n" +
-                "   \"next room\" : aller à la salle suivante");
-    }
-
-    /**
-     * Quit the game
-     */
-    static void quit() {
-        System.out.println("Au revoir !");
-        System.exit(0);
     }
 
     public static void initializeObjects(ArrayList<Room> rooms, ArrayList<Character> characters, ArrayList<Item> items) {

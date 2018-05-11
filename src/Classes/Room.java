@@ -1,5 +1,8 @@
 package Classes;
 
+import Editor.EditorController;
+
+import java.awt.*;
 import java.util.*;
 
 public class Room extends GameObject {
