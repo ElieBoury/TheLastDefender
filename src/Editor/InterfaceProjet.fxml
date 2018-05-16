@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -61,16 +62,17 @@
     </MenuBar>
     <SplitPane dividerPositions="0.14253897550111358" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
-        <AnchorPane prefHeight="539.0" prefWidth="137.0">
+        <AnchorPane prefHeight="539.0" prefWidth="230.0">
           <children>
-                  <Button fx:id="quitButton" layoutX="29.0" layoutY="468.0" mnemonicParsing="false" text="Quitter" />
+                  <Button fx:id="quitButton" layoutX="22.0" layoutY="468.0" mnemonicParsing="false" text="Quitter" />
                   <Button fx:id="helpButton" layoutX="30.0" layoutY="427.0" mnemonicParsing="false" text="Help" />
                   <Button fx:id="inventoryButton" layoutX="22.0" layoutY="110.0" mnemonicParsing="false" text="Inventory" />
                   <Button fx:id="speakButton" layoutX="33.0" layoutY="31.0" mnemonicParsing="false" text="Speak" />
                   <Button fx:id="takeButton" layoutX="37.0" layoutY="70.0" mnemonicParsing="false" text="Take" />
-                  <Button fx:id="lookButton" layoutX="16.0" layoutY="150.0" mnemonicParsing="false" text="Look Classes.Room" />
-                  <Button fx:id="previousButton" layoutX="3.0" layoutY="192.0" mnemonicParsing="false" text="Previous Classes.Room" />
-                  <Button fx:id="nextButton" layoutX="17.0" layoutY="232.0" mnemonicParsing="false" text="Next Classes.Room" />
+                  <Button fx:id="lookButton" layoutX="16.0" layoutY="150.0" mnemonicParsing="false" text="Look Room" />
+                  <Button fx:id="previousButton" layoutX="3.0" layoutY="192.0" mnemonicParsing="false" text="Previous Room" />
+                  <Button fx:id="nextButton" layoutX="17.0" layoutY="232.0" mnemonicParsing="false" text="Next Room" />
+                  <ComboBox fx:id="persoListe" layoutX="-13.0" layoutY="86.0" prefWidth="150.0" />
           </children>
                <cursor>
                   <Cursor fx:constant="HAND" />

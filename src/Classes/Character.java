@@ -2,6 +2,7 @@ package Classes;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import javafx.scene.control.TextArea;
 
 public class Character extends GameObject {
     private boolean player;
@@ -148,58 +149,58 @@ public class Character extends GameObject {
     /**
      * Management of the inventory by the player
      */
-    public void manageInventory() {
+    public void manageInventory(TextArea console) {
         boolean done = false;
         if (this.inventory.size() == 0) {
-            System.out.println("Votre inventory est vide, récupérez des items !");
+            console.appendText("\nVotre inventory est vide, récupérez des items !\n");
         } else {
-            System.out.println("Voici les différents objets présents dans votre inventory :");
+            console.appendText("\nVoici les différents objets présents dans votre inventory :\n");
             for (Item item : this.inventory) {
-                System.out.println("   " + item.getName());
+                console.appendText("   " + item.getName() + "\n");
             }
-            System.out.println("Vous pouvez :\n" +
+            console.appendText("Vous pouvez :\n" +
                     "   Relâcher un item (release)\n" +
                     "   Activer un item (activate)\n" +
                     "   En savoir plus sur cet objet (know more)\n" +
-                    "   Ne rien faire (nothing)");
+                    "   Ne rien faire (nothing)\n");
             while (!done) {
                 Scanner sc = new Scanner(System.in);
                 String wordRead = sc.nextLine();
                 switch (wordRead) {
                     case("release"):
-                        this.releaseItem();
+                        this.releaseItem(console);
                         break;
                     case ("activate"):
-                        System.out.println("Entrez le nom de l'objet concerné :");
+                        console.appendText("\nEntrez le nom de l'objet concerné :\n");
                         String wordRead3 = sc.nextLine();
                         if (Item.containItem(wordRead3, this.inventory)) {
-                            System.out.println("Si vous utilisez cet objet, vous le perdrez, en êtes vous sûr ? (yes)/(no)");
+                            console.appendText("\nSi vous utilisez cet objet, vous le perdrez, en êtes vous sûr ? (yes)/(no)\n");
                             String wordRead4 = sc.nextLine();
                             if (wordRead4.equals("yes")) {
-                                this.activateItem(Item.getItem(wordRead3, this.inventory));
+                                this.activateItem(Item.getItem(wordRead3, this.inventory), console);
                             } else {
-                                System.out.println("Action annulée.");
+                                console.appendText("\nAction annulée.\n");
                             }
                         } else {
-                            System.out.println("Vous ne possédez pas cet item.");
+                            console.appendText("\nVous ne possédez pas cet item.\n");
                         }
                         done = true;
                         break;
                     case ("know more"):
-                        System.out.println("Entrez le name de l'objet concerné :");
+                        console.appendText("\nEntrez le name de l'objet concerné :\n");
                         String wordRead2 = sc.nextLine();
                         if (Item.containItem(wordRead2, this.inventory)) {
-                            System.out.println(Item.getItem(wordRead2, this.inventory).getDescription());
+                            console.appendText(Item.getItem(wordRead2, this.inventory).getDescription());
                             done = true;
                         } else {
-                            System.out.println("Vous ne possédez pas cet item.");
+                            console.appendText("Vous ne possédez pas cet item.\n");
                         }
                         break;
                     case ("nothing"):
                         done = true;
                         break;
                     default:
-                        System.out.println("Commande introuvable");
+                        console.appendText("\nCommande introuvable\n");
                 }
             }
         }
@@ -209,21 +210,22 @@ public class Character extends GameObject {
      * Classes.Item recovery action from the character
      * @param item The item taken
      */
-    public void takeItem(Item item) {
+    public void takeItem(Item item, TextArea console) {
         if (item == null) {
-            System.out.println("Classes.Item null");
+            console.appendText("\nClasses.Item null\n");
             return;
-        }
-        System.out.println("Êtes-vous sûr de vouloir récupérer cet item ? (yes) / (no)");
-        Scanner sc = new Scanner(System.in);
-        String wordRead = sc.nextLine();
-        if (wordRead.equals("yes")) {
-            this.inventory.add(item);
-            this.currentRoom.getItems().remove(item);
-            System.out.println("Vous venez de récupérer un " + item.getName() + " !\n" +
-                    "Cet item est désormais dans votre inventaire.");
-        } else {
-            System.out.println("Action annulée.");
+        }else {
+            console.appendText("\nÊtes-vous sûr de vouloir récupérer cet item ? (yes) / (no)\n");
+            Scanner sc = new Scanner(System.in);
+            String wordRead = sc.nextLine();
+            if (wordRead.equals("yes")) {
+                this.inventory.add(item);
+                this.currentRoom.getItems().remove(item);
+                console.appendText("\nVous venez de récupérer un " + item.getName() + " !\n" +
+                        "Cet item est désormais dans votre inventaire.\n");
+            } else {
+                console.appendText("\nAction annulée.\n");
+            }
         }
     }
 
@@ -247,27 +249,27 @@ public class Character extends GameObject {
      * Activation of an item owned by the character
      * @param item the item activated
      */
-    public void activateItem(Item item) {
+    public void activateItem(Item item, TextArea console) {
         if (item.getBonus() != 0) {
             if (item.getBonus() > 0) {
                 this.nbDice += item.getBonus();
-                System.out.println("Votre namebre de dés vient d'augmenter de " + item.getBonus() + " !\n" +
-                        "Il est maintenant de " + this.nbDice + ".");
+                console.appendText("\nVotre nombre de dés vient d'augmenter de " + item.getBonus() + " !\n" +
+                        "Il est maintenant de " + this.nbDice + ".\n");
             } else {
                 this.upperDice += (item.getBonus() * -1);
-                System.out.println("La borne maximale de vos dés vient d'augmenter de " + item.getBonus() * -1 + " !\n" +
-                        "Elle est maintenant de " + this.upperDice + ".");
+                console.appendText("\nLa borne maximale de vos dés vient d'augmenter de " + item.getBonus() * -1 + " !\n" +
+                        "Elle est maintenant de " + this.upperDice + ".\n");
             }
         }
         if (item.getMalus() != 0) {
             if (item.getMalus() > 0) {
                 this.nbDice -= item.getMalus();
-                System.out.println("Votre namebre de dés vient de diminuer de " + item.getMalus() + " !\n" +
-                        "Il est maintenant de " + this.nbDice + ".");
+                console.appendText("\nVotre namebre de dés vient de diminuer de " + item.getMalus() + " !\n" +
+                        "Il est maintenant de " + this.nbDice + ".\n");
             } else {
                 this.upperDice += (item.getMalus() * -1);
-                System.out.println("La borne maximale de vos dés vient de diminuer de " + item.getMalus() * -1 + " !\n" +
-                        "Elle est maintenant de " + this.upperDice + ".");
+                console.appendText("\nLa borne maximale de vos dés vient de diminuer de " + item.getMalus() * -1 + " !\n" +
+                        "Elle est maintenant de " + this.upperDice + ".\n");
             }
         }
         this.inventory.remove(item);
@@ -278,15 +280,15 @@ public class Character extends GameObject {
      * @param opponent The opponent
      * @param nbRounds The number of rounds needed to win
      */
-    public void fight(Character opponent, int nbRounds) {
+    public void fight(Character opponent, int nbRounds, TextArea console) {
         int ptsPlayer = 0, ptsIa = 0, rolledPlayer, rolledIA, currentRound = 1;
         boolean away = false;
-        System.out.println("Combat entre " +
-                this.getName() + " et " + opponent.getName() + " en " + nbRounds + " manches !");
+        console.appendText("\nCombat entre " +
+                this.getName() + " et " + opponent.getName() + " en " + nbRounds + " manches !\n");
         while (ptsPlayer < nbRounds && ptsIa < nbRounds && !away) {
-            System.out.println("Manche " + currentRound);
-            System.out.println(this.getName() + " : " + ptsPlayer + " - " + ptsIa + " : " + opponent.getName());
-            System.out.println("Que voulez vous faire ?\n" +
+            console.appendText("Manche " + currentRound + "\n");
+            console.appendText(this.getName() + " : " + ptsPlayer + " - " + ptsIa + " : " + opponent.getName() + "\n");
+            console.appendText("Que voulez vous faire ?\n" +
                     "   Attaquer (Attack)\n   Utiliser objet (Use)\n   Fuir (Run Away)\n");
             Scanner sc = new Scanner(System.in);
             String wordRead = sc.nextLine();
@@ -294,87 +296,87 @@ public class Character extends GameObject {
                 case ("Attack"):
                     rolledPlayer = Generator.generateScore(this.getLowerDice(), this.getUpperDice());
                     rolledIA = Generator.generateScore(opponent.getLowerDice(), opponent.getUpperDice());
-                    System.out.println("Vous avez obtenu " + rolledPlayer);
-                    System.out.println(opponent.getName() + " a obtenu " + rolledIA);
+                    console.appendText("Vous avez obtenu " + rolledPlayer + "\n");
+                    console.appendText(opponent.getName() + " a obtenu " + rolledIA + "\n");
                     if (rolledPlayer < rolledIA) {
-                        System.out.println(opponent.getName() + " gagne cette manche");
+                        console.appendText(opponent.getName() + " gagne cette manche\n");
                         ptsIa++;
                         currentRound++;
                     } else if (rolledPlayer > rolledIA) {
-                        System.out.println("Vous gagnez cette manche");
+                        console.appendText("Vous gagnez cette manche\n");
                         ptsPlayer++;
                         currentRound++;
                     } else {
-                        System.out.println("Egalité, la défense gagne, " + opponent.getName() + " remporte la manche");
+                        console.appendText("Egalité, la défense gagne, " + opponent.getName() + " remporte la manche\n");
                         ptsIa++;
                         currentRound++;
                     }
                     break;
                 case ("Use"):
                     if (this.getInventory().size() != 0) {
-                        System.out.println("Quel item voulez vous activer ?");
+                        console.appendText("Quel item voulez vous activer ?\n");
 
                         for (Item items : this.getInventory()) {
-                            System.out.println("   " + items);
+                            console.appendText("   " + items + "\n");
                         }
                         String wordRead2 = sc.nextLine();
                         if (Item.containItem(wordRead2, this.getInventory())) {
-                            this.activateItem(Item.getItem(wordRead2, this.getInventory()));
+                            this.activateItem(Item.getItem(wordRead2, this.getInventory()), console);
                         } else {
-                            System.out.println("Vous ne possédez pas cet objet");
+                            console.appendText("Vous ne possédez pas cet objet\n");
                         }
                     } else {
-                        System.out.println("Vous n'avez aucun item.");
+                        console.appendText("Vous n'avez aucun item.\n");
                     }
                     break;
                 case ("Run Away"):
                     away = true;
                     break;
                 default:
-                    System.out.println("Mauvaise commande");
+                    console.appendText("Mauvaise commande\n");
             }
 
         }
         if (!away) {
             if (ptsPlayer > nbRounds / 2) {
-                System.out.println("Bravo " + this.getName() + ", vous avez gagné !");
+                console.appendText("Bravo " + this.getName() + ", vous avez gagné !\n");
                 if(Room.containCharac(opponent.getName(), currentRoom.getCharacters())){
                     Room.removeCharac(opponent.getName(), this.getCurrentRoom().getLockedCharacters());
-                    System.out.println("Bonne nouvelle ! Vous venez de battre un virus gardien de la salle!");
+                    console.appendText("Bonne nouvelle ! Vous venez de battre un virus gardien de la salle!\n");
                 }else{
-                    System.out.println("Félicitation, mais " + opponent.getName() +
-                    " n'était pas un gardien de la salle.");
+                    console.appendText("Félicitation, mais " + opponent.getName() +
+                    " n'était pas un gardien de la salle.\n");
                 }
                 if(currentRoom.getLockedCharacters().isEmpty() && currentRoom.getLockedItems().isEmpty()){
                     currentRoom.setUnlocked(true);
                 }
             } else {
-                System.out.println(opponent.getName() + " a gagné ! Vous avez perdu.");
+                console.appendText(opponent.getName() + " a gagné ! Vous avez perdu.\n");
             }
         } else {
-            System.out.println("Vous avez fuit, combat terminé.");
+            console.appendText("Vous avez fuit, combat terminé.\n");
         }
     }
 
-    public void releaseItem(){
-        System.out.println("Quel item voulez-vous relâcher ?");
+    public void releaseItem(TextArea console){
+        console.appendText("\nQuel item voulez-vous relâcher ?\n");
         for(Item item : this.inventory){
-            System.out.println(item.getName());
+            console.appendText(item.getName());
         }
         Scanner sc = new Scanner(System.in);
         String wordRead = sc.nextLine();
         if(Item.containItem(wordRead, this.inventory)){
-            System.out.println("Êtes-vous sûr de vouloir relâcher cet item dans cette salle ? (yes/no)");
+            console.appendText("Êtes-vous sûr de vouloir relâcher cet item dans cette salle ? (yes/no)\n");
             String wordRead2 = sc.nextLine();
             if(wordRead2.equals("yes")){
                 this.inventory.remove(Item.getItem(wordRead, this.inventory));
                 this.currentRoom.getItems().add(Item.getItem(wordRead, this.inventory));
-                System.out.println("Vous venez de relâcher l'objet dans " + this.currentRoom.getName());
+                console.appendText("Vous venez de relâcher l'objet dans " + this.currentRoom.getName() + "\n");
             }else{
-                System.out.println("Action annulée");
+                console.appendText("Action annulée\n");
             }
         }else{
-            System.out.println("Vous ne possédez pas cet item");
+            console.appendText("Vous ne possédez pas cet item\n");
         }
     }
     static Character getCharacter(String name, ArrayList<Character> characters) {

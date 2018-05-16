@@ -12,8 +12,7 @@ import Classes.Character;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 
 
 public class EditorController implements Initializable {
@@ -21,7 +20,7 @@ public class EditorController implements Initializable {
 
 
     @FXML
-    Button quitButton;
+    private Button quitButton;
 
     @FXML
     private Button helpButton;
@@ -45,28 +44,31 @@ public class EditorController implements Initializable {
     private Button nextButton;
 
     @FXML
+    private ComboBox<?> persoListe;
+
+    @FXML
     private TextArea console;
 
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Game.initializeObjects(Game.rooms, Game.characters, Game.items);
-        console.setText("ERREUR ERREUR, VOTRE ORDINATEUR A ETE INFECTE !\n" +
+        console.appendText("\nERREUR ERREUR, VOTRE ORDINATEUR A ETE INFECTE !\n" +
                 "Passez de salle en salle et \n" +
                 "tuez les virus grâce à des combats de dés !\n" +
                 "Bon courage, mais faites vite !\n" +
                 "-------------------------------------\n" +
                 "Vous êtes dans la " + Game.characters.get(0).getCurrentRoom().getName() + ".\n" +
                 "Essayez d'en sortir !\n" +
-                "Pour en savoir plus sur les commandes, cliquez sur \"help\".");
+                "Pour en savoir plus, cliquez sur \"help\".\n");
         speakButton.setOnAction(e -> manageSpeak(Game.rooms, Game.characters, Game.items));
         helpButton.setOnAction(e -> help());
         quitButton.setOnAction(e -> quit());
         takeButton.setOnAction(e -> manageTake(Game.rooms, Game.characters, Game.items));
-        lookButton.setOnAction(e -> Game.characters.get(0).getCurrentRoom().presentRoom());
+        lookButton.setOnAction(e -> Game.characters.get(0).getCurrentRoom().presentRoom(console));
         previousButton.setOnAction(e -> managePreviousRoom(Game.rooms, Game.characters, Game.items));
         nextButton.setOnAction(e -> manageNextRoom(Game.rooms, Game.characters, Game.items));
-        inventoryButton.setOnAction(e -> Game.characters.get(0).manageInventory());
+        inventoryButton.setOnAction(e -> Game.characters.get(0).manageInventory(console));
     }
 
     /**
@@ -74,7 +76,7 @@ public class EditorController implements Initializable {
      */
     public void help() {
 
-        console.setText("But : sortir de cette salle.\n" +
+        console.appendText("\nBut : sortir de cette salle.\n" +
                 "Actions possibles :\n" +
                 "   \"quit\" : quit le jeu sans sauvegarder\n" +
                 "   \"inventory\" : accéder à l'inventaire\n" +
@@ -82,20 +84,24 @@ public class EditorController implements Initializable {
                 "   \"speak\" : parler à un personnage présent dans la salle\n" +
                 "   \"look room\" : regarder ce qu'il y a dans la salle\n" +
                 "   \"previous room\" : aller à la salle précédente\n" +
-                "   \"next room\" : aller à la salle suivante");
+                "   \"next room\" : aller à la salle suivante\n");
     }
 
     public void quit() {
-        console.setText("Au revoir !");
+        console.appendText("\nAu revoir !");
         System.exit(0);
     }
 
     public void manageSpeak(ArrayList<Room> rooms, ArrayList<Character> characters, ArrayList<Item> items){
         //Scanner sc = new Scanner(System.in);
-        console.setText("Avec qui voulez-vous parler ?\");
+        console.appendText("\nAvec qui voulez-vous parler ?\n");
         for(Character perso : characters.get(0).getCurrentRoom().getCharacters()){
-            console.appendText(perso.getName());
+            console.appendText("   " + perso.getName() + "\n");
+            persoListe.getItems().add(0, perso).setText(perso.getName());
         }
+        changeMainButtonVision(false);
+        persoListe.setVisible(true);
+
         /*String wordRead = sc.nextLine();
         if (Room.containCharac(wordRead, rooms.get(0).getCharacters())) {
             if (Room.getCharac(wordRead, rooms.get(0).getCharacters()).isWicked()) {
@@ -114,12 +120,12 @@ public class EditorController implements Initializable {
 
     public void manageTake(ArrayList<Room> rooms, ArrayList<Character> characters, ArrayList<Item> items){
         Scanner sc = new Scanner(System.in);
-        console.appendText("Quel objet voulez-vous récupérer ?");
+        console.appendText("\nQuel objet voulez-vous récupérer ?\n");
         String wordRead = sc.nextLine();
         if (Item.containItem(wordRead, rooms.get(0).getItems())) {
-            characters.get(0).takeItem(Item.getItem(wordRead, rooms.get(0).getItems()));
+            characters.get(0).takeItem(Item.getItem(wordRead, rooms.get(0).getItems()), console);
         } else {
-            console.appendText("Cet item n'est pas dans cette salle.");
+            console.appendText("Cet item n'est pas dans cette salle.\n");
 
         }
     }
@@ -127,9 +133,9 @@ public class EditorController implements Initializable {
     public void managePreviousRoom(ArrayList<Room> rooms, ArrayList<Character> characters, ArrayList<Item> items){
         if (rooms.indexOf(characters.get(0).getCurrentRoom()) != 0) {
             characters.get(0).setCurrentRoom(rooms.get(rooms.indexOf(characters.get(0).getCurrentRoom()) - 1));
-            console.appendText("Vous venez de changer de salle, observez la bien ...");
+            console.appendText("\nVous venez de changer de salle, observez la bien ...\n");
         } else {
-            console.appendText("Vous êtes dans la première salle, il n'y en a pas de précédente !");
+            console.appendText("\nVous êtes dans la première salle,\nil n'y en a pas de précédente !\n");
         }
     }
 
@@ -137,13 +143,33 @@ public class EditorController implements Initializable {
         if (characters.get(0).getCurrentRoom().isUnlocked()) {
             if (rooms.indexOf(characters.get(0).getCurrentRoom()) == rooms.size()) {
                 characters.get(0).setCurrentRoom(rooms.get(rooms.indexOf(characters.get(0).getCurrentRoom()) + 1));
-                console.appendText("Vous venez de changer de salle, observez la bien ...");
+                console.appendText("\nVous venez de changer de salle, observez la bien ...\n");
             } else {
-                console.appendText("Vous êtes dans la dernière salle, il n'y en a pas de suivante !");
+                console.appendText("\nVous êtes dans la dernière salle,\nil n'y en a pas de suivante !\n");
             }
         } else {
-            console.appendText("Un ou plusieurs virus bloquent l'accès à la salle suivante,\n" +
-                    "faites preuve d'assurance !");
+            console.appendText("\nUn ou plusieurs virus bloquent l'accès à la salle suivante,\n" +
+                    "faites preuve d'assurance !\n");
+        }
+    }
+
+    public void changeMainButtonVision(boolean a){
+        if(a){
+            speakButton.setVisible(true);
+            helpButton.setVisible(true);
+            takeButton.setVisible(true);
+            lookButton.setVisible(true);
+            previousButton.setVisible(true);
+            nextButton.setVisible(true);
+            inventoryButton.setVisible(true);
+        }else {
+            speakButton.setVisible(false);
+            helpButton.setVisible(false);
+            takeButton.setVisible(false);
+            lookButton.setVisible(false);
+            previousButton.setVisible(false);
+            nextButton.setVisible(false);
+            inventoryButton.setVisible(false);
         }
     }
 }

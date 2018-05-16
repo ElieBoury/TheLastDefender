@@ -2,7 +2,7 @@ package Classes;
 
 import Editor.EditorController;
 
-import java.awt.*;
+import javafx.scene.control.TextArea;
 import java.util.*;
 
 public class Room extends GameObject {
@@ -103,24 +103,24 @@ public class Room extends GameObject {
     /**
      * Present the room : tell what is in it
      */
-    public void presentRoom() {
-        System.out.println("Vous êtes dans la " + this.getName());
-        System.out.println("Description :\n " + this.getDescription());
+    public void presentRoom(TextArea console) {
+        console.appendText("\nVous êtes dans la " + this.getName() + "\n");
+        console.appendText("Description : " + this.getDescription() + "\n");
         if(this.getItems().size()!=0) {
-            System.out.println("Dans cette room sont présents ces items: ");
+            console.appendText("Dans cette salle sont présents ces items: \n");
             for (Item item : this.items) {
-                System.out.println("   " + item.getName());
+                console.appendText("   " + item.getName() + "\n");
             }
         }else{
-            System.out.println("Aucun item présent dans cette salle.");
+            console.appendText("Aucun item présent dans cette salle.\n");
         }
         if(this.getCharacters().size()!=0) {
-            System.out.println("Dans cette room sont présents ces characters: ");
+            console.appendText("Dans cette salle sont présents ces personnages: \n");
             for (Character personnages : this.characters) {
-                System.out.println("   " + personnages.getName());
+                console.appendText("   " + personnages.getName() + "\n");
             }
         }else{
-            System.out.println("Aucun personnage présent dans cette salle.");
+            console.appendText("Aucun personnage présent dans cette salle.\n");
         }
     }
 
