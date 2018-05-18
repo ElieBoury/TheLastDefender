@@ -379,7 +379,7 @@ public class Character extends GameObject {
             console.appendText("Vous ne possédez pas cet item\n");
         }
     }
-    static Character getCharacter(String name, ArrayList<Character> characters) {
+   public static Character getCharacter(String name, ArrayList<Character> characters) {
         for (Character myCharacter : characters) {
             if (name.equals(myCharacter.getName())) {
                 return myCharacter;

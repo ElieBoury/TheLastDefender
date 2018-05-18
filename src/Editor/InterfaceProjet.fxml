@@ -12,6 +12,7 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -72,7 +73,12 @@
                   <Button fx:id="lookButton" layoutX="16.0" layoutY="150.0" mnemonicParsing="false" text="Look Room" />
                   <Button fx:id="previousButton" layoutX="3.0" layoutY="192.0" mnemonicParsing="false" text="Previous Room" />
                   <Button fx:id="nextButton" layoutX="17.0" layoutY="232.0" mnemonicParsing="false" text="Next Room" />
-                  <ComboBox fx:id="persoListe" layoutX="-13.0" layoutY="86.0" prefWidth="150.0" />
+                  <ComboBox fx:id="characList" layoutY="95.0" prefWidth="150.0" visible="false" />
+                  <ComboBox fx:id="itemList" layoutY="126.0" prefWidth="150.0" visible="false" />
+                  <Button fx:id="speak" layoutX="32.0" layoutY="324.0" mnemonicParsing="false" text="Action" visible="false" />
+                  <TextField fx:id="textField" layoutY="150.0" promptText="Entrez votre choix" visible="false" />
+                  <Button fx:id="textFieldOK" layoutX="22.0" layoutY="232.0" mnemonicParsing="false" text="OK" visible="false" />
+                  <Button fx:id="backButton" layoutX="91.0" layoutY="232.0" mnemonicParsing="false" text="Back" visible="false" />
           </children>
                <cursor>
                   <Cursor fx:constant="HAND" />

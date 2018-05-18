@@ -10,14 +10,17 @@ import Classes.Item;
 import Classes.Room;
 import Classes.Character;
 
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.InputMethodEvent;
+
+import javax.swing.*;
 
 
 public class EditorController implements Initializable {
-
-
 
     @FXML
     private Button quitButton;
@@ -43,12 +46,29 @@ public class EditorController implements Initializable {
     @FXML
     private Button nextButton;
 
+    /*@FXML
+    private ComboBox<?> characList;
+
     @FXML
-    private ComboBox<?> persoListe;
+    private ComboBox<?> itemList;
+
+    @FXML
+    private Button speak;*/
+
+    @FXML
+    private TextField textField;
+
+    @FXML
+    private Button textFieldOK;
+
+    @FXML
+    private Button backButton;
 
     @FXML
     private TextArea console;
 
+   // private Character perso;
+    private String currentSituation="main";
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -69,6 +89,11 @@ public class EditorController implements Initializable {
         previousButton.setOnAction(e -> managePreviousRoom(Game.rooms, Game.characters, Game.items));
         nextButton.setOnAction(e -> manageNextRoom(Game.rooms, Game.characters, Game.items));
         inventoryButton.setOnAction(e -> Game.characters.get(0).manageInventory(console));
+        textFieldOK.setOnAction(e -> recoverTextField(Game.characters));
+        //backButton.setOnAction(e -> );
+
+        /*speak.setOnAction(e -> perso = Character.getCharacter(characList.get));
+        characList.setOnAction(e -> speak2());*/
     }
 
     /**
@@ -94,31 +119,27 @@ public class EditorController implements Initializable {
 
     public void manageSpeak(ArrayList<Room> rooms, ArrayList<Character> characters, ArrayList<Item> items){
         //Scanner sc = new Scanner(System.in);
+        currentSituation="speak";
         console.appendText("\nAvec qui voulez-vous parler ?\n");
         for(Character perso : characters.get(0).getCurrentRoom().getCharacters()){
             console.appendText("   " + perso.getName() + "\n");
-            persoListe.getItems().add(0, perso).setText(perso.getName());
+            //characList.getItems().add(perso.getName());
         }
-        changeMainButtonVision(false);
-        persoListe.setVisible(true);
-
-        /*String wordRead = sc.nextLine();
-        if (Room.containCharac(wordRead, rooms.get(0).getCharacters())) {
-            if (Room.getCharac(wordRead, rooms.get(0).getCharacters()).isWicked()) {
-                console.appendText(Room.getCharac(wordRead, rooms.get(0).getCharacters()).getName() +
-                        " n'aime pas quand on lui parle..\n" +
-                        "Cela va se régler en combat !");
-                characters.get(0).fight(Room.getCharac(wordRead, rooms.get(0).getCharacters()), 2);
-            } else {
-                console.appendText(Room.getCharac(wordRead, rooms.get(0).getCharacters()).getName() +
-                        " veut vous aider mais ne sait toujours pas comment, revenez plus tard !");
-            }
-        } else {
-            console.appendText("Ce personnage n'est pas dans cette salle.");
+        //persoListe.getItems()..add();
+        /*changeMainButtonVision(false);
+        characList.setVisible(true);
+        if(characList.getSelectionModel().toString()=="Antivira"){
+            console.appendText("success");
         }*/
+        changeMainButtonVision(false);
+        textField.setVisible(true);
+        textFieldOK.setVisible(true);
+        textFieldOK.isPressed();
+
     }
 
     public void manageTake(ArrayList<Room> rooms, ArrayList<Character> characters, ArrayList<Item> items){
+        currentSituation="take";
         Scanner sc = new Scanner(System.in);
         console.appendText("\nQuel objet voulez-vous récupérer ?\n");
         String wordRead = sc.nextLine();
@@ -172,4 +193,45 @@ public class EditorController implements Initializable {
             inventoryButton.setVisible(false);
         }
     }
+
+    public void recoverTextField (ArrayList<Character> characters){
+        switch(currentSituation) {
+            case"speak":
+            String textFieldValue = textField.getText();
+            if (Room.containCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters())) {
+                if (Room.getCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters()).isWicked()) {
+                    console.appendText("\n" + Room.getCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters()).getName() +
+                            " n'aime pas quand on lui parle..\n" +
+                            "\nCela va se régler en combat !");
+                    characters.get(0).fight(Room.getCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters()), 2, console);
+                } else {
+                    console.appendText("\n" + Room.getCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters()).getName() +
+                            " veut vous aider mais ne sait toujours pas comment, revenez plus tard !");
+                }
+            } else {
+                console.appendText("\nCe personnage n'est pas dans cette salle.");
+            }
+            break;
+            case"take":
+                console.appendText("in coming...");
+                break;
+            default:
+                console.appendText("error");
+        }
+    }
+
+    public void setMainButton(){
+        changeMainButtonVision(true);
+
+    }
+
+    /*public void speak2 () {
+        final String okk;
+        characList.getSelectionModel().selectedIndexProperty().addListener(
+                (ObservableValue<? extends Number> obsValue) -> okk = Game.characters.get(((int)obsValue)+1).getName());/*, Number oldValue, Number newValue) ->
+                        console.appendText("\nvs avez cliqué sur " + Game.characters.get(((int)newValue)+1).getName()
+                                + "et avant il y avait " + Game.characters.get(((int)oldValue)+1).getName())
+        );
+    }*/
+
 }
