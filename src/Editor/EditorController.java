@@ -5,11 +5,9 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-import Classes.Game;
-import Classes.Item;
-import Classes.Room;
-import Classes.Character;
+import Classes.*;
 
+import Classes.Character;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -67,8 +65,28 @@ public class EditorController implements Initializable {
     @FXML
     private TextArea console;
 
-   // private Character perso;
+    @FXML
+    private Button attackButton;
+
+    @FXML
+    private Button useButton;
+
+    @FXML
+    private Button runButton;
+
+    @FXML
+    private Button releaseButton;
+
+    @FXML
+    private Button activateButton;
+
+    @FXML
+    private Button knowMoreButton;
+
     private String currentSituation="main";
+
+    int ptsPlayer = 0, ptsIa = 0, rolledPlayer, rolledIA, currentRound = 1, nbRounds;
+    Character opponent;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -81,19 +99,22 @@ public class EditorController implements Initializable {
                 "Vous êtes dans la " + Game.characters.get(0).getCurrentRoom().getName() + ".\n" +
                 "Essayez d'en sortir !\n" +
                 "Pour en savoir plus, cliquez sur \"help\".\n");
-        speakButton.setOnAction(e -> manageSpeak(Game.rooms, Game.characters, Game.items));
+        speakButton.setOnAction(e -> manageSpeak(Game.characters));
         helpButton.setOnAction(e -> help());
         quitButton.setOnAction(e -> quit());
-        takeButton.setOnAction(e -> manageTake(Game.rooms, Game.characters, Game.items));
+        takeButton.setOnAction(e -> manageTake(Game.characters));
         lookButton.setOnAction(e -> Game.characters.get(0).getCurrentRoom().presentRoom(console));
         previousButton.setOnAction(e -> managePreviousRoom(Game.rooms, Game.characters, Game.items));
         nextButton.setOnAction(e -> manageNextRoom(Game.rooms, Game.characters, Game.items));
-        inventoryButton.setOnAction(e -> Game.characters.get(0).manageInventory(console));
+        inventoryButton.setOnAction(e -> manageInventory(console));
         textFieldOK.setOnAction(e -> recoverTextField(Game.characters));
-        //backButton.setOnAction(e -> );
-
-        /*speak.setOnAction(e -> perso = Character.getCharacter(characList.get));
-        characList.setOnAction(e -> speak2());*/
+        backButton.setOnAction(e -> manageBackButton());
+        attackButton.setOnAction(e -> manageAttack(opponent, nbRounds, console));
+        useButton.setOnAction(e -> manageUse());
+        runButton.setOnAction(e ->manageRun());
+        activateButton.setOnAction(e -> manageActivate());
+        releaseButton.setOnAction(e -> manageRelease());
+        knowMoreButton.setOnAction(e -> manageKnowMore());
     }
 
     /**
@@ -117,38 +138,26 @@ public class EditorController implements Initializable {
         System.exit(0);
     }
 
-    public void manageSpeak(ArrayList<Room> rooms, ArrayList<Character> characters, ArrayList<Item> items){
-        //Scanner sc = new Scanner(System.in);
+    public void manageSpeak(ArrayList<Character> characters){
         currentSituation="speak";
         console.appendText("\nAvec qui voulez-vous parler ?\n");
         for(Character perso : characters.get(0).getCurrentRoom().getCharacters()){
             console.appendText("   " + perso.getName() + "\n");
-            //characList.getItems().add(perso.getName());
         }
-        //persoListe.getItems()..add();
-        /*changeMainButtonVision(false);
-        characList.setVisible(true);
-        if(characList.getSelectionModel().toString()=="Antivira"){
-            console.appendText("success");
-        }*/
         changeMainButtonVision(false);
         textField.setVisible(true);
         textFieldOK.setVisible(true);
-        textFieldOK.isPressed();
-
+        backButton.setVisible(true);
     }
 
-    public void manageTake(ArrayList<Room> rooms, ArrayList<Character> characters, ArrayList<Item> items){
+    public void manageTake(ArrayList<Character> characters){
         currentSituation="take";
-        Scanner sc = new Scanner(System.in);
         console.appendText("\nQuel objet voulez-vous récupérer ?\n");
-        String wordRead = sc.nextLine();
-        if (Item.containItem(wordRead, rooms.get(0).getItems())) {
-            characters.get(0).takeItem(Item.getItem(wordRead, rooms.get(0).getItems()), console);
-        } else {
-            console.appendText("Cet item n'est pas dans cette salle.\n");
-
+        for(Item item : characters.get(0).getCurrentRoom().getItems()){
+            console.appendText("   " + item.getName() + "\n");
+            //characList.getItems().add(perso.getName());
         }
+
     }
 
     public void managePreviousRoom(ArrayList<Room> rooms, ArrayList<Character> characters, ArrayList<Item> items){
@@ -163,10 +172,10 @@ public class EditorController implements Initializable {
     public void manageNextRoom(ArrayList<Room> rooms, ArrayList<Character> characters, ArrayList<Item> items){
         if (characters.get(0).getCurrentRoom().isUnlocked()) {
             if (rooms.indexOf(characters.get(0).getCurrentRoom()) == rooms.size()) {
+                console.appendText("\nVous êtes dans la dernière salle,\nil n'y en a pas de suivante !\n");
+            } else {
                 characters.get(0).setCurrentRoom(rooms.get(rooms.indexOf(characters.get(0).getCurrentRoom()) + 1));
                 console.appendText("\nVous venez de changer de salle, observez la bien ...\n");
-            } else {
-                console.appendText("\nVous êtes dans la dernière salle,\nil n'y en a pas de suivante !\n");
             }
         } else {
             console.appendText("\nUn ou plusieurs virus bloquent l'accès à la salle suivante,\n" +
@@ -194,44 +203,239 @@ public class EditorController implements Initializable {
         }
     }
 
+    public void removeSideButtonsVision(){
+        textField.setVisible(false);
+        textFieldOK.setVisible(false);
+        backButton.setVisible(false);
+        attackButton.setVisible(false);
+        useButton.setVisible(false);
+        runButton.setVisible(false);
+        activateButton.setVisible(false);
+        knowMoreButton.setVisible(false);
+        releaseButton.setVisible(false);
+    }
+
     public void recoverTextField (ArrayList<Character> characters){
+        String textFieldValue = textField.getText();
         switch(currentSituation) {
             case"speak":
-            String textFieldValue = textField.getText();
             if (Room.containCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters())) {
                 if (Room.getCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters()).isWicked()) {
                     console.appendText("\n" + Room.getCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters()).getName() +
-                            " n'aime pas quand on lui parle..\n" +
+                            " n'aime pas quand on lui parle.." +
                             "\nCela va se régler en combat !");
-                    characters.get(0).fight(Room.getCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters()), 2, console);
+                    currentSituation="fight";
+                    fight(Room.getCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters()), 2, console);
                 } else {
-                    console.appendText("\n" + Room.getCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters()).getName() +
-                            " veut vous aider mais ne sait toujours pas comment, revenez plus tard !");
+                    console.appendText("\n" + textFieldValue +
+                            " veut vous aider \nmais ne sait toujours pas comment, revenez plus tard !");
                 }
             } else {
                 console.appendText("\nCe personnage n'est pas dans cette salle.");
             }
             break;
             case"take":
-                console.appendText("in coming...");
+                if (Item.containItem(textFieldValue, characters.get(0).getCurrentRoom().getItems())) {
+                    characters.get(0).takeItem(Item.getItem(textFieldValue, characters.get(0).getCurrentRoom().getItems()), console);
+                } else {
+                    console.appendText("\nCet item n'est pas dans cette salle.\n");
+                }
+                break;
+            case "fight":
+                if (Item.containItem(textFieldValue, Game.characters.get(0).getInventory())) {
+                    Game.characters.get(0).activateItem(Item.getItem(textFieldValue, Game.characters.get(0).getInventory()), console);
+                } else {
+                    console.appendText("Vous ne possédez pas cet objet.\n");
+                }
+                removeSideButtonsVision();
+                attackButton.setVisible(true);
+                useButton.setVisible(true);
+                runButton.setVisible(true);
+                break;
+            case "activate":
+                if (Item.containItem(textFieldValue, Game.characters.get(0).getInventory())) {
+                    Game.characters.get(0).activateItem(Item.getItem(textFieldValue, Game.characters.get(0).getInventory()), console);
+                }else {
+                    console.appendText("\nVous ne possédez pas cet item.\n");
+                }
+                removeSideButtonsVision();
+                backButton.setVisible(true);
+                releaseButton.setVisible(true);
+                activateButton.setVisible(true);
+                knowMoreButton.setVisible(true);
+                break;
+            case "knowMore":
+                if (Item.containItem(textFieldValue, Game.characters.get(0).getInventory())) {
+                    console.appendText(textFieldValue + " : " + Item.getItem(textFieldValue, Game.characters.get(0).getInventory()).getDescription());
+                } else {
+                    console.appendText("Vous ne possédez pas cet item.\n");
+                }
+                removeSideButtonsVision();
+                backButton.setVisible(true);
+                releaseButton.setVisible(true);
+                activateButton.setVisible(true);
+                knowMoreButton.setVisible(true);
+                break;
+            case "release":
+                if(Item.containItem(textFieldValue, Game.characters.get(0).getInventory())){
+                    Game.characters.get(0).getInventory().remove(Item.getItem(textFieldValue, Game.characters.get(0).getInventory()));
+                    Game.characters.get(0).getCurrentRoom().getItems().add(Item.getItem(textFieldValue, Game.characters.get(0).getInventory()));
+                    console.appendText("Vous venez de relâcher l'objet dans " + Game.characters.get(0).getCurrentRoom().getName() + "\n");
+                }else{
+                    console.appendText("Vous ne possédez pas cet item\n");
+                }
+                removeSideButtonsVision();
+                backButton.setVisible(true);
+                releaseButton.setVisible(true);
+                activateButton.setVisible(true);
+                knowMoreButton.setVisible(true);
                 break;
             default:
                 console.appendText("error");
         }
     }
 
-    public void setMainButton(){
+    public void manageBackButton(){
+        removeSideButtonsVision();
         changeMainButtonVision(true);
-
     }
 
-    /*public void speak2 () {
-        final String okk;
-        characList.getSelectionModel().selectedIndexProperty().addListener(
-                (ObservableValue<? extends Number> obsValue) -> okk = Game.characters.get(((int)obsValue)+1).getName());/*, Number oldValue, Number newValue) ->
-                        console.appendText("\nvs avez cliqué sur " + Game.characters.get(((int)newValue)+1).getName()
-                                + "et avant il y avait " + Game.characters.get(((int)oldValue)+1).getName())
-        );
-    }*/
+    /**
+     * Manage a fight
+     * @param opponent The opponent
+     * @param nbRounds The number of rounds needed to win
+     */
+    public void fight(Character opponent, int nbRounds, TextArea console) {
+        this.opponent=opponent;
+        this.nbRounds=nbRounds;
+        ptsPlayer = 0; ptsIa = 0; currentRound = 1;
+        console.appendText("\nCombat entre " +
+                Game.characters.get(0).getName() + " et " + opponent.getName() + " en " + nbRounds + " manches !\n");
+            console.appendText("Manche " + currentRound + "\n");
+            console.appendText(Game.characters.get(0).getName() + " : " + ptsPlayer + " - " + ptsIa + " : " + opponent.getName() + "\n");
+            console.appendText("Que voulez vous faire ?\n" +
+                    "   Attaquer (Attack)\n   Utiliser objet (Use)\n   Fuir (Run Away)\n");
+        manageBackButton();
+        changeMainButtonVision(false);
+        attackButton.setVisible(true);
+        useButton.setVisible(true);
+        runButton.setVisible(true);
+    }
+
+    public void manageAttack(Character opponent, int nbRounds, TextArea console){
+        rolledPlayer = Generator.generateScore(Game.characters.get(0).getLowerDice(), Game.characters.get(0).getUpperDice());
+        rolledIA = Generator.generateScore(opponent.getLowerDice(), opponent.getUpperDice());
+        console.appendText("Vous avez obtenu " + rolledPlayer + "\n");
+        console.appendText(opponent.getName() + " a obtenu " + rolledIA + "\n");
+        if (rolledPlayer < rolledIA) {
+            console.appendText(opponent.getName() + " gagne cette manche\n");
+            ptsIa++;
+            currentRound++;
+        } else if (rolledPlayer > rolledIA) {
+            console.appendText("Vous gagnez cette manche\n");
+            ptsPlayer++;
+            currentRound++;
+        } else {
+            console.appendText("Egalité, la défense gagne, " + opponent.getName() + " remporte la manche\n");
+            ptsIa++;
+            currentRound++;
+        }
+        console.appendText(Game.characters.get(0).getName() + " : " + ptsPlayer + " - " + ptsIa + " : " + opponent.getName() + "\n");
+
+        if (ptsPlayer > nbRounds / 2) {
+            console.appendText("Bravo " + Game.characters.get(0).getName() + ", vous avez gagné !\n");
+            if(Game.characters.get(0).getCurrentRoom().containCharac(opponent.getName(), Game.characters.get(0).getCurrentRoom().getCharacters())){
+                Game.characters.get(0).getCurrentRoom().removeCharac(opponent.getName(), Game.characters.get(0).getCurrentRoom().getLockedCharacters());
+                Game.characters.get(0).getCurrentRoom().getLockedCharacters().remove(opponent);
+                console.appendText("Bonne nouvelle ! Vous venez de battre un virus gardien de la salle!\n");
+            }else{
+                console.appendText("Félicitation, mais " + opponent.getName() +
+                        " n'était pas un gardien de la salle.\n");
+            }
+            if(Game.characters.get(0).getCurrentRoom().getLockedCharacters().isEmpty() && Game.characters.get(0).getCurrentRoom().getLockedItems().isEmpty()){
+                Game.characters.get(0).getCurrentRoom().setUnlocked(true);
+            }
+            manageBackButton();
+        } else if( ptsIa > nbRounds/2){
+            console.appendText(opponent.getName() + " a gagné ! Vous avez perdu.\n");
+            manageBackButton();
+        }
+    }
+
+    public void manageUse() {
+        if (Game.characters.get(0).getInventory().size() != 0) {
+            console.appendText("Quel item voulez vous activer ?\n");
+
+            for (Item items : Game.characters.get(0).getInventory()) {
+                console.appendText("   " + items.getName() + "\n");
+            }
+            removeSideButtonsVision();
+            textField.setVisible(true);
+            textFieldOK.setVisible(true);
+            backButton.setVisible(true);
+        } else {
+            console.appendText("Vous n'avez aucun item.\n");
+            removeSideButtonsVision();
+            attackButton.setVisible(true);
+            useButton.setVisible(true);
+            runButton.setVisible(true);
+        }
+    }
+
+    public void manageRun(){
+        console.appendText("Vous avez fuit, combat terminé.\n");
+        manageBackButton();
+    }
+
+    /**
+     * Management of the inventory by the player
+     */
+    public void manageInventory(TextArea console) {
+        if (Game.characters.get(0).getInventory().size() == 0) {
+            console.appendText("\nVotre inventaire est vide, récupérez des items !\n");
+        } else {
+            console.appendText("\nVoici les différents objets présents dans votre inventaire :\n");
+            for (Item item : Game.characters.get(0).getInventory()) {
+                console.appendText("   " + item.getName() + "\n");
+            }
+            console.appendText("Vous pouvez :\n" +
+                    "   Relâcher un item (release)\n" +
+                    "   Activer un item (activate)\n" +
+                    "   En savoir plus sur cet objet (know more)\n");
+        }
+        changeMainButtonVision(false);
+        removeSideButtonsVision();
+        backButton.setVisible(true);
+        releaseButton.setVisible(true);
+        activateButton.setVisible(true);
+        knowMoreButton.setVisible(true);
+    }
+
+    public void manageRelease(){
+        currentSituation="release";
+        console.appendText("\nQuel item voulez-vous relâcher ?\n");
+        removeSideButtonsVision();
+        textFieldOK.setVisible(true);
+        textField.setVisible(true);
+        backButton.setVisible(true);
+    }
+
+    public void manageActivate(){
+        currentSituation="activate";
+        console.appendText("\nEntrez le nom de l'objet concerné :\n");
+        removeSideButtonsVision();
+        textFieldOK.setVisible(true);
+        textField.setVisible(true);
+        backButton.setVisible(true);
+    }
+
+    public void manageKnowMore(){
+        currentSituation="knowMore";
+        console.appendText("\nEntrez le nom de l'objet concerné :\n");
+        removeSideButtonsVision();
+        textFieldOK.setVisible(true);
+        textField.setVisible(true);
+        backButton.setVisible(true);
+    }
 
 }

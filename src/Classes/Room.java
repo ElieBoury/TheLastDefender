@@ -162,7 +162,7 @@ public class Room extends GameObject {
     public static void removeCharac(String name, ArrayList<Character> persos){
         for (Character perso : persos) {
             if (name.equals(perso.getName())) {
-                persos.remove(perso);
+                Game.characters.get(0).getCurrentRoom().getCharacters().remove(perso);
             }
         }
     }

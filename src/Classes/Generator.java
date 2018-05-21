@@ -8,7 +8,7 @@ public class Generator {
      * @param max the upper bound
      * @return the score obtained
      */
-    static int generateScore(int min, int max) {
+    public static int generateScore(int min, int max) {
         return (int) ((Math.random() * (max + 1 - min)) + min);
     }
 
