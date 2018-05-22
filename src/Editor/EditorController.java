@@ -3,19 +3,14 @@ package Editor;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 import Classes.*;
-
 import Classes.Character;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.InputMethodEvent;
 
-import javax.swing.*;
 
 
 public class EditorController implements Initializable {
@@ -43,15 +38,6 @@ public class EditorController implements Initializable {
 
     @FXML
     private Button nextButton;
-
-    /*@FXML
-    private ComboBox<?> characList;
-
-    @FXML
-    private ComboBox<?> itemList;
-
-    @FXML
-    private Button speak;*/
 
     @FXML
     private TextField textField;
@@ -91,14 +77,7 @@ public class EditorController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Game.initializeObjects(Game.rooms, Game.characters, Game.items);
-        console.appendText("\nERREUR ERREUR, VOTRE ORDINATEUR A ETE INFECTE !\n" +
-                "Passez de salle en salle et \n" +
-                "tuez les virus grâce à des combats de dés !\n" +
-                "Bon courage, mais faites vite !\n" +
-                "-------------------------------------\n" +
-                "Vous êtes dans la " + Game.characters.get(0).getCurrentRoom().getName() + ".\n" +
-                "Essayez d'en sortir !\n" +
-                "Pour en savoir plus, cliquez sur \"help\".\n");
+        startMessage();
         speakButton.setOnAction(e -> manageSpeak(Game.characters));
         helpButton.setOnAction(e -> help());
         quitButton.setOnAction(e -> quit());
@@ -157,6 +136,10 @@ public class EditorController implements Initializable {
             console.appendText("   " + item.getName() + "\n");
             //characList.getItems().add(perso.getName());
         }
+        changeMainButtonVision(false);
+        textField.setVisible(true);
+        textFieldOK.setVisible(true);
+        backButton.setVisible(true);
 
     }
 
@@ -240,6 +223,8 @@ public class EditorController implements Initializable {
                 } else {
                     console.appendText("\nCet item n'est pas dans cette salle.\n");
                 }
+                removeSideButtonsVision();
+                changeMainButtonVision(true);
                 break;
             case "fight":
                 if (Item.containItem(textFieldValue, Game.characters.get(0).getInventory())) {
@@ -436,6 +421,17 @@ public class EditorController implements Initializable {
         textFieldOK.setVisible(true);
         textField.setVisible(true);
         backButton.setVisible(true);
+    }
+
+    public void startMessage(){
+        console.appendText("\nERREUR ERREUR, VOTRE ORDINATEUR A ETE INFECTE !\n" +
+                "Passez de salle en salle et \n" +
+                "tuez les virus grâce à des combats de dés !\n" +
+                "Bon courage, mais faites vite !\n" +
+                "-------------------------------------\n" +
+                "Vous êtes dans la " + Game.characters.get(0).getCurrentRoom().getName() + ".\n" +
+                "Essayez d'en sortir !\n" +
+                "Pour en savoir plus, cliquez sur \"help\".\n");
     }
 
 }
