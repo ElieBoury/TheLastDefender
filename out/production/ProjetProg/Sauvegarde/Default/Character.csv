@@ -1,0 +1,4 @@
+Name;Wicked;Description;Player;LowerDice;UpperDice;nbDice;Items;
+AVAST;false;C'est vous !;true;1;6;1;null;
+Antivira;false;Antivira est un anti virus;false;1;6;1;null;
+JigSaw;true;JigSaw est un virus méchant;false;1;4;1;null;

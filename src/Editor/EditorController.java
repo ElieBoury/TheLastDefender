@@ -76,7 +76,6 @@ public class EditorController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Game.initializeObjects(Game.rooms, Game.characters, Game.items);
         startMessage();
         speakButton.setOnAction(e -> manageSpeak(Game.characters));
         helpButton.setOnAction(e -> help());
@@ -202,21 +201,21 @@ public class EditorController implements Initializable {
         String textFieldValue = textField.getText();
         switch(currentSituation) {
             case"speak":
-            if (Room.containCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters())) {
-                if (Room.getCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters()).isWicked()) {
-                    console.appendText("\n" + Room.getCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters()).getName() +
-                            " n'aime pas quand on lui parle.." +
-                            "\nCela va se régler en combat !");
-                    currentSituation="fight";
-                    fight(Room.getCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters()), 2, console);
+                if (Room.containCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters())) {
+                    if (Room.getCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters()).isWicked()) {
+                        console.appendText("\n" + Room.getCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters()).getName() +
+                                " n'aime pas quand on lui parle.." +
+                                "\nCela va se régler en combat !");
+                        currentSituation="fight";
+                        fight(Room.getCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters()), 2, console);
+                    } else {
+                        console.appendText("\n" + textFieldValue +
+                                " veut vous aider \nmais ne sait toujours pas comment, revenez plus tard !");
+                    }
                 } else {
-                    console.appendText("\n" + textFieldValue +
-                            " veut vous aider \nmais ne sait toujours pas comment, revenez plus tard !");
+                    console.appendText("\nCe personnage n'est pas dans cette salle.");
                 }
-            } else {
-                console.appendText("\nCe personnage n'est pas dans cette salle.");
-            }
-            break;
+                break;
             case"take":
                 if (Item.containItem(textFieldValue, characters.get(0).getCurrentRoom().getItems())) {
                     characters.get(0).takeItem(Item.getItem(textFieldValue, characters.get(0).getCurrentRoom().getItems()), console);
@@ -296,10 +295,10 @@ public class EditorController implements Initializable {
         ptsPlayer = 0; ptsIa = 0; currentRound = 1;
         console.appendText("\nCombat entre " +
                 Game.characters.get(0).getName() + " et " + opponent.getName() + " en " + nbRounds + " manches !\n");
-            console.appendText("Manche " + currentRound + "\n");
-            console.appendText(Game.characters.get(0).getName() + " : " + ptsPlayer + " - " + ptsIa + " : " + opponent.getName() + "\n");
-            console.appendText("Que voulez vous faire ?\n" +
-                    "   Attaquer (Attack)\n   Utiliser objet (Use)\n   Fuir (Run Away)\n");
+        console.appendText("Manche " + currentRound + "\n");
+        console.appendText(Game.characters.get(0).getName() + " : " + ptsPlayer + " - " + ptsIa + " : " + opponent.getName() + "\n");
+        console.appendText("Que voulez vous faire ?\n" +
+                "   Attaquer (Attack)\n   Utiliser objet (Use)\n   Fuir (Run Away)\n");
         manageBackButton();
         changeMainButtonVision(false);
         attackButton.setVisible(true);

@@ -24,7 +24,7 @@ public class Item extends GameObject {
         this.malus = malus;
         this.toActivate = toActivate;
         this.taken = taken;
-    }
+}
 
     /**
      * Bonus getter
