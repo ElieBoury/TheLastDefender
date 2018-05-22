@@ -4,13 +4,9 @@ import java.io.*;
 
 public class Sauvegarde {
 
-    final static String DefaultPathCharacter = "src/Sauvegarde/Default/Character.csv";
-    final static String DefaultPathItem = "src/Sauvegarde/Default/Item.csv";
-    final static String DefaultPathRoom = "src/Sauvegarde/Default/Room.csv";
-
-    final static String PathCharacter = "src/Sauvegarde/Character.csv";
-    final static String PathItem = "src/Sauvegarde/Item.csv";
-    final static String PathRoom = "src/Sauvegarde/Room.csv";
+    final static String DefaultPathCharacter = "src/Sauvegarde/Default/Classes.Character.csv";
+    final static String DefaultPathItem = "src/Sauvegarde/Default/Classes.Item.csv";
+    final static String DefaultPathRoom = "src/Sauvegarde/Default/Classes.Room.csv";
 
     static void gestionSauvegarde(){
         importItem();
