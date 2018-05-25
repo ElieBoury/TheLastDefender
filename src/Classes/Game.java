@@ -3,6 +3,7 @@ package Classes;
 import Editor.EditorController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -14,7 +15,7 @@ public class Game extends Application {
 
     private static EditorController editorController;
 
-    private static Stage STAGE;
+    //private static Stage STAGE;
 
     public static ArrayList<Room> rooms = new ArrayList<>();
     public static ArrayList<Character> characters = new ArrayList<>();
@@ -40,16 +41,30 @@ public class Game extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        Game.STAGE = stage;
+
+        Stage STAGE=stage;
+        //Game.STAGE = stage;
         // Get the Editor Scene and its Controller from the FXML file
         FXMLLoader loader = new FXMLLoader();
         URL resource = getClass().getResource("/Editor/InterfaceProjet.fxml");
         loader.setLocation(resource);
         Scene editorScene = new Scene(loader.load());
-        editorController = loader.getController();
+        //EditorController editorController  = loader.getController();
         STAGE.setScene(editorScene);
         STAGE.setTitle("Try to Escape");
         STAGE.show();
+            /**
+             *FXMLLoader loader = new FXMLLoader();
+             *         URL resource = getClass().getResource("/Editor/Main.fxml");
+             *         loader.setLocation(resource);
+             *         Scene editorScene = new Scene(loader.load());
+             *         Scene scene = new Scene(loader.load());
+             *         stage.setScene(scene);
+             *         stage.show();
+
+
+         */
+
     }
 
     public static void initializeObjects(ArrayList<Room> rooms, ArrayList<Character> characters, ArrayList<Item> items) {

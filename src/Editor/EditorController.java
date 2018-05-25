@@ -95,6 +95,7 @@ public class EditorController implements Initializable {
         knowMoreButton.setOnAction(e -> manageKnowMore());
     }
 
+
     /**
      * Manage an ask of help
      */
@@ -167,7 +168,7 @@ public class EditorController implements Initializable {
 
     public void changeMainButtonVision(boolean a){
         if(a){
-            speakButton.setVisible(true);
+            speakButton.setVisible(true);;
             helpButton.setVisible(true);
             takeButton.setVisible(true);
             lookButton.setVisible(true);
