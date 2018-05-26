@@ -1,7 +1,6 @@
 package Editor;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Classes.*;
@@ -69,6 +68,9 @@ public class EditorController implements Initializable {
     @FXML
     private Button knowMoreButton;
 
+    @FXML
+    private Button sauvegardeButton;
+
     private String currentSituation="main";
 
     int ptsPlayer = 0, ptsIa = 0, rolledPlayer, rolledIA, currentRound = 1, nbRounds;
@@ -77,22 +79,11 @@ public class EditorController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         startMessage();
-        speakButton.setOnAction(e -> manageSpeak(Game.characters));
-        helpButton.setOnAction(e -> help());
-        quitButton.setOnAction(e -> quit());
-        takeButton.setOnAction(e -> manageTake(Game.characters));
-        lookButton.setOnAction(e -> Game.characters.get(0).getCurrentRoom().presentRoom(console));
-        previousButton.setOnAction(e -> managePreviousRoom(Game.rooms, Game.characters, Game.items));
-        nextButton.setOnAction(e -> manageNextRoom(Game.rooms, Game.characters, Game.items));
-        inventoryButton.setOnAction(e -> manageInventory(console));
-        textFieldOK.setOnAction(e -> recoverTextField(Game.characters));
-        backButton.setOnAction(e -> manageBackButton());
-        attackButton.setOnAction(e -> manageAttack(opponent, nbRounds, console));
-        useButton.setOnAction(e -> manageUse());
-        runButton.setOnAction(e ->manageRun());
-        activateButton.setOnAction(e -> manageActivate());
-        releaseButton.setOnAction(e -> manageRelease());
-        knowMoreButton.setOnAction(e -> manageKnowMore());
+    }
+
+    public void sauvegardeButtonPush(){
+        Sauvegarde.saveGame();
+        console.appendText("Sauvegarde éffectué");
     }
 
 
@@ -100,7 +91,6 @@ public class EditorController implements Initializable {
      * Manage an ask of help
      */
     public void help() {
-
         console.appendText("\nBut : sortir de cette salle.\n" +
                 "Actions possibles :\n" +
                 "   \"quit\" : quit le jeu sans sauvegarder\n" +
@@ -117,47 +107,51 @@ public class EditorController implements Initializable {
         System.exit(0);
     }
 
-    public void manageSpeak(ArrayList<Character> characters){
+    public void lookRoom(){
+        Game.characters.get(0).getCurrentRoom().presentRoom(console);
+    }
+
+    public void manageSpeak(){
         currentSituation="speak";
         console.appendText("\nAvec qui voulez-vous parler ?\n");
-        for(Character perso : characters.get(0).getCurrentRoom().getCharacters()){
+        for(Character perso : Game.characters.get(0).getCurrentRoom().getCharacters()){
             console.appendText("   " + perso.getName() + "\n");
         }
-        changeMainButtonVision(false);
+        changeMainButtonVision();
         textField.setVisible(true);
         textFieldOK.setVisible(true);
         backButton.setVisible(true);
     }
 
-    public void manageTake(ArrayList<Character> characters){
+    public void manageTake(){
         currentSituation="take";
         console.appendText("\nQuel objet voulez-vous récupérer ?\n");
-        for(Item item : characters.get(0).getCurrentRoom().getItems()){
+        for(Item item : Game.characters.get(0).getCurrentRoom().getItems()){
             console.appendText("   " + item.getName() + "\n");
             //characList.getItems().add(perso.getName());
         }
-        changeMainButtonVision(false);
+        changeMainButtonVision();
         textField.setVisible(true);
         textFieldOK.setVisible(true);
         backButton.setVisible(true);
 
     }
 
-    public void managePreviousRoom(ArrayList<Room> rooms, ArrayList<Character> characters, ArrayList<Item> items){
-        if (rooms.indexOf(characters.get(0).getCurrentRoom()) != 0) {
-            characters.get(0).setCurrentRoom(rooms.get(rooms.indexOf(characters.get(0).getCurrentRoom()) - 1));
+    public void managePreviousRoom(){
+        if (Game.rooms.indexOf(Game.characters.get(0).getCurrentRoom()) != 0) {
+            Game.characters.get(0).setCurrentRoom(Game.rooms.get(Game.rooms.indexOf(Game.characters.get(0).getCurrentRoom()) - 1));
             console.appendText("\nVous venez de changer de salle, observez la bien ...\n");
         } else {
             console.appendText("\nVous êtes dans la première salle,\nil n'y en a pas de précédente !\n");
         }
     }
 
-    public void manageNextRoom(ArrayList<Room> rooms, ArrayList<Character> characters, ArrayList<Item> items){
-        if (characters.get(0).getCurrentRoom().isUnlocked()) {
-            if (rooms.indexOf(characters.get(0).getCurrentRoom()) == rooms.size()) {
+    public void manageNextRoom(){
+        if (Game.characters.get(0).getCurrentRoom().isUnlocked()) {
+            if (Game.rooms.indexOf(Game.characters.get(0).getCurrentRoom()) == Game.rooms.size()) {
                 console.appendText("\nVous êtes dans la dernière salle,\nil n'y en a pas de suivante !\n");
             } else {
-                characters.get(0).setCurrentRoom(rooms.get(rooms.indexOf(characters.get(0).getCurrentRoom()) + 1));
+                Game.characters.get(0).setCurrentRoom(Game.rooms.get(Game.rooms.indexOf(Game.characters.get(0).getCurrentRoom()) + 1));
                 console.appendText("\nVous venez de changer de salle, observez la bien ...\n");
             }
         } else {
@@ -166,24 +160,15 @@ public class EditorController implements Initializable {
         }
     }
 
-    public void changeMainButtonVision(boolean a){
-        if(a){
-            speakButton.setVisible(true);;
-            helpButton.setVisible(true);
-            takeButton.setVisible(true);
-            lookButton.setVisible(true);
-            previousButton.setVisible(true);
-            nextButton.setVisible(true);
-            inventoryButton.setVisible(true);
-        }else {
-            speakButton.setVisible(false);
-            helpButton.setVisible(false);
-            takeButton.setVisible(false);
-            lookButton.setVisible(false);
-            previousButton.setVisible(false);
-            nextButton.setVisible(false);
-            inventoryButton.setVisible(false);
-        }
+    public void changeMainButtonVision(){
+        speakButton.setVisible(!speakButton.isVisible());;
+        helpButton.setVisible(!helpButton.isVisible());
+        takeButton.setVisible(!takeButton.isVisible());
+        lookButton.setVisible(!lookButton.isVisible());
+        previousButton.setVisible(!previousButton.isVisible());
+        nextButton.setVisible(!nextButton.isVisible());
+        inventoryButton.setVisible(!inventoryButton.isVisible());
+        sauvegardeButton.setVisible(!sauvegardeButton.isVisible());
     }
 
     public void removeSideButtonsVision(){
@@ -198,17 +183,17 @@ public class EditorController implements Initializable {
         releaseButton.setVisible(false);
     }
 
-    public void recoverTextField (ArrayList<Character> characters){
+    public void recoverTextField (){
         String textFieldValue = textField.getText();
         switch(currentSituation) {
             case"speak":
-                if (Room.containCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters())) {
-                    if (Room.getCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters()).isWicked()) {
-                        console.appendText("\n" + Room.getCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters()).getName() +
+                if (Room.containCharac(textFieldValue, Game.characters.get(0).getCurrentRoom().getCharacters())) {
+                    if (Room.getCharac(textFieldValue, Game.characters.get(0).getCurrentRoom().getCharacters()).isWicked()) {
+                        console.appendText("\n" + Room.getCharac(textFieldValue, Game.characters.get(0).getCurrentRoom().getCharacters()).getName() +
                                 " n'aime pas quand on lui parle.." +
                                 "\nCela va se régler en combat !");
                         currentSituation="fight";
-                        fight(Room.getCharac(textFieldValue, characters.get(0).getCurrentRoom().getCharacters()), 2, console);
+                        fight(Room.getCharac(textFieldValue, Game.characters.get(0).getCurrentRoom().getCharacters()), 2, console);
                     } else {
                         console.appendText("\n" + textFieldValue +
                                 " veut vous aider \nmais ne sait toujours pas comment, revenez plus tard !");
@@ -218,13 +203,13 @@ public class EditorController implements Initializable {
                 }
                 break;
             case"take":
-                if (Item.containItem(textFieldValue, characters.get(0).getCurrentRoom().getItems())) {
-                    characters.get(0).takeItem(Item.getItem(textFieldValue, characters.get(0).getCurrentRoom().getItems()), console);
+                if (Item.containItem(textFieldValue, Game.characters.get(0).getCurrentRoom().getItems())) {
+                    Game.characters.get(0).takeItem(Item.getItem(textFieldValue, Game.characters.get(0).getCurrentRoom().getItems()), console);
                 } else {
                     console.appendText("\nCet item n'est pas dans cette salle.\n");
                 }
                 removeSideButtonsVision();
-                changeMainButtonVision(true);
+                changeMainButtonVision();
                 break;
             case "fight":
                 if (Item.containItem(textFieldValue, Game.characters.get(0).getInventory())) {
@@ -282,7 +267,7 @@ public class EditorController implements Initializable {
 
     public void manageBackButton(){
         removeSideButtonsVision();
-        changeMainButtonVision(true);
+        changeMainButtonVision();
     }
 
     /**
@@ -301,13 +286,13 @@ public class EditorController implements Initializable {
         console.appendText("Que voulez vous faire ?\n" +
                 "   Attaquer (Attack)\n   Utiliser objet (Use)\n   Fuir (Run Away)\n");
         manageBackButton();
-        changeMainButtonVision(false);
+        changeMainButtonVision();
         attackButton.setVisible(true);
         useButton.setVisible(true);
         runButton.setVisible(true);
     }
 
-    public void manageAttack(Character opponent, int nbRounds, TextArea console){
+    public void manageAttack(){
         rolledPlayer = Generator.generateScore(Game.characters.get(0).getLowerDice(), Game.characters.get(0).getUpperDice());
         rolledIA = Generator.generateScore(opponent.getLowerDice(), opponent.getUpperDice());
         console.appendText("Vous avez obtenu " + rolledPlayer + "\n");
@@ -375,7 +360,7 @@ public class EditorController implements Initializable {
     /**
      * Management of the inventory by the player
      */
-    public void manageInventory(TextArea console) {
+    public void manageInventory() {
         if (Game.characters.get(0).getInventory().size() == 0) {
             console.appendText("\nVotre inventaire est vide, récupérez des items !\n");
         } else {
@@ -388,7 +373,7 @@ public class EditorController implements Initializable {
                     "   Activer un item (activate)\n" +
                     "   En savoir plus sur cet objet (know more)\n");
         }
-        changeMainButtonVision(false);
+        changeMainButtonVision();
         removeSideButtonsVision();
         backButton.setVisible(true);
         releaseButton.setVisible(true);

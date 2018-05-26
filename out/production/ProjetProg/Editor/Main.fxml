@@ -5,10 +5,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="390.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="390.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Editor.MainController">
     <bottom>
         <AnchorPane prefHeight="25.0" prefWidth="600.0" style="-fx-background-color: green;" BorderPane.alignment="CENTER">
             <children>
@@ -18,33 +20,46 @@
         </AnchorPane>
     </bottom>
     <top>
-        <Label prefHeight="47.0" prefWidth="293.0" text="The Last Defender" textFill="#fc0a0a" BorderPane.alignment="CENTER">
+        <Label fx:id="title" prefHeight="47.0" prefWidth="293.0" text="The Last Defender" textFill="#fc0a0a" BorderPane.alignment="CENTER">
             <font>
                 <Font name="System Bold Italic" size="32.0" />
             </font>
+         <BorderPane.margin>
+            <Insets top="25.0" />
+         </BorderPane.margin>
         </Label>
     </top>
-    <center>
-        <VBox prefHeight="228.0" prefWidth="509.0" BorderPane.alignment="CENTER_RIGHT">
-            <children>
-                <Button mnemonicParsing="false" prefHeight="150.0" prefWidth="410.0" text="Nouvelle Partie ">
-                    <VBox.margin>
-                        <Insets bottom="25.0" />
-                    </VBox.margin>
-                </Button>
-                <Button mnemonicParsing="false" prefHeight="150.0" prefWidth="410.0" text="Charger Partie">
-                    <VBox.margin>
-                        <Insets bottom="25.0" />
-                    </VBox.margin>
-                </Button>
-                <Button mnemonicParsing="false" prefHeight="150.0" prefWidth="410.0" text="Quitter" />
-            </children>
-            <padding>
-                <Insets left="75.0" right="75.0" />
-            </padding>
-            <BorderPane.margin>
-                <Insets bottom="50.0" top="50.0" />
-            </BorderPane.margin>
-        </VBox>
-    </center>
+   <center>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Region prefHeight="243.0" prefWidth="110.0" HBox.hgrow="ALWAYS" />
+              <VBox prefHeight="243.0" prefWidth="375.0" HBox.hgrow="SOMETIMES">
+                  <children>
+                      <Button fx:id="newGameButton" mnemonicParsing="false" onAction="#newGameButtonPush" prefHeight="150.0" prefWidth="410.0" text="Nouvelle Partie ">
+                          <VBox.margin>
+                              <Insets bottom="50.0" />
+                          </VBox.margin>
+                      </Button>
+                      <Button fx:id="loadGameButton" mnemonicParsing="false" onAction="#loadGameButtonPush" prefHeight="150.0" prefWidth="410.0" text="Charger Partie">
+                          <VBox.margin>
+                              <Insets bottom="50.0" />
+                          </VBox.margin>
+                      </Button>
+                      <Button fx:id="quitButton" mnemonicParsing="false" onAction="#quitButtonPush" prefHeight="150.0" prefWidth="410.0" text="Quitter" />
+                  </children>
+                  <padding>
+                      <Insets bottom="50.0" left="75.0" right="75.0" top="50.0" />
+                  </padding>
+              </VBox>
+            <Region prefHeight="243.0" prefWidth="110.0" HBox.hgrow="ALWAYS">
+               <padding>
+                  <Insets bottom="5.0" left="10.0" right="10.0" />
+               </padding>
+            </Region>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="25.0" top="25.0" />
+         </BorderPane.margin>
+      </HBox>
+   </center>
 </BorderPane>

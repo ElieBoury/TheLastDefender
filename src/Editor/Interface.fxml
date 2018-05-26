@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="568.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Editor.MainController">
+    <bottom>
+        <AnchorPane prefHeight="25.0" prefWidth="812.0" style="-fx-background-color: green;" BorderPane.alignment="CENTER">
+            <children>
+                <Label alignment="BOTTOM_LEFT" layoutY="32.0" prefHeight="17.0" prefWidth="217.0" text="© Studio IUT • Tous droits réservés" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" />
+                <Label alignment="BOTTOM_RIGHT" layoutX="543.0" layoutY="32.0" text="2017/2018" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="10.0" />
+            </children>
+        </AnchorPane>
+    </bottom>
+    <top>
+        <Label fx:id="title" prefHeight="0.0" prefWidth="293.0" text="The Last Defender" textFill="#fc0a0a" BorderPane.alignment="CENTER">
+            <font>
+                <Font name="System Bold Italic" size="32.0" />
+            </font>
+         <BorderPane.margin>
+            <Insets top="25.0" />
+         </BorderPane.margin>
+        </Label>
+    </top>
+   <center>
+      <TextField prefHeight="452.0" prefWidth="569.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets right="10.0" />
+         </BorderPane.margin>
+      </TextField>
+   </center>
+   <left>
+      <AnchorPane prefHeight="519.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </left>
+   <right>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </right>
+</BorderPane>

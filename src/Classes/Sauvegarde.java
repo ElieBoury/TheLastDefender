@@ -4,22 +4,39 @@ import java.io.*;
 
 public class Sauvegarde {
 
-    final static String DefaultPathCharacter = "src/Sauvegarde/Default/Classes.Character.csv";
-    final static String DefaultPathItem = "src/Sauvegarde/Default/Classes.Item.csv";
-    final static String DefaultPathRoom = "src/Sauvegarde/Default/Classes.Room.csv";
+    final static String DefaultPathCharacter = "src/Sauvegarde/Default/Character.csv";
+    final static String DefaultPathItem = "src/Sauvegarde/Default/Item.csv";
+    final static String DefaultPathRoom = "src/Sauvegarde/Default/Room.csv";
 
-    static void gestionSauvegarde(){
-        importItem();
-        importCharacter();
-        importRoom();
-        sauvegardeItems();
-        sauvegardeCharacter();
-        sauvegardeRoom();
+    final static String PathCharacter = "src/Sauvegarde/Character.csv";
+    final static String PathItem = "src/Sauvegarde/Item.csv";
+    final static String PathRoom = "src/Sauvegarde/Room.csv";
+
+
+
+    public static void saveGame(){
+        sauvegardeItems(PathItem);
+        sauvegardeCharacter(PathCharacter);
+        sauvegardeRoom(PathRoom);
     }
-    static void sauvegardeCharacter() {
+
+    public static void importNewGame(){
+        importItem(DefaultPathItem);
+        importCharacter(DefaultPathCharacter);
+        importRoom(DefaultPathRoom);
+        Game.characters.get(0).setCurrentRoom(Game.rooms.get(0));
+    }
+
+    public static void importGame(){
+        importItem(PathItem);
+        importCharacter(PathCharacter);
+        importRoom(PathRoom);
+    }
+
+    public static void sauvegardeCharacter(String path) {
         BufferedWriter myFile = null;
         try {
-            myFile = new BufferedWriter(new FileWriter(new File(DefaultPathCharacter)));
+            myFile = new BufferedWriter(new FileWriter(new File(path)));
             myFile.write("Name;Wicked;Description;Player;LowerDice;UpperDice;nbDice;Items;");
             myFile.newLine();
             for (Character myCharacter: Game.characters) {
@@ -35,10 +52,10 @@ public class Sauvegarde {
         }
     }
 
-    static void sauvegardeItems() {
+    public static void sauvegardeItems(String path) {
         BufferedWriter myFile = null;
         try {
-            myFile = new BufferedWriter(new FileWriter(new File(DefaultPathItem)));
+            myFile = new BufferedWriter(new FileWriter(new File(path)));
 
             myFile.write("Name;Bonus;Malus;toActivate;Taken;Description;");
             myFile.newLine();
@@ -55,10 +72,10 @@ public class Sauvegarde {
         }
     }
 
-    static void sauvegardeRoom() {
+    public static void sauvegardeRoom(String path) {
         BufferedWriter myFile = null;
         try {
-            myFile = new BufferedWriter(new FileWriter(new File(DefaultPathRoom)));
+            myFile = new BufferedWriter(new FileWriter(new File(path)));
             myFile.write("ID;Name; Description;IsUnlocked; Items; Characters; LockedCharacters; lockedItems;");
             myFile.newLine();
             for (Room myRoom: Game.rooms) {
@@ -75,10 +92,10 @@ public class Sauvegarde {
         }
     }
 
-    static void importCharacter() {
+    public static void importCharacter(String path) {
         BufferedReader myFile = null;
         try {
-            myFile = new BufferedReader(new FileReader(DefaultPathCharacter));
+            myFile = new BufferedReader(new FileReader(path));
             String line = myFile.readLine();
             while ((line = myFile.readLine()) != null) {
                 Character.CSVToCharacter(line);
@@ -91,10 +108,10 @@ public class Sauvegarde {
         }
     }
 
-    static void importItem() {
+    public static void importItem(String path) {
         BufferedReader myFile = null;
         try {
-            myFile = new BufferedReader(new FileReader(DefaultPathItem));
+            myFile = new BufferedReader(new FileReader(path));
             String line = myFile.readLine();
             while ((line = myFile.readLine()) != null) {
                 Item.CSVToItem(line);
@@ -107,10 +124,10 @@ public class Sauvegarde {
         }
     }
 
-    static void importRoom() {
+    public static void importRoom(String path) {
         BufferedReader myFile = null;
         try {
-            myFile = new BufferedReader(new FileReader(DefaultPathRoom));
+            myFile = new BufferedReader(new FileReader(path));
             String line = myFile.readLine();
             while ((line = myFile.readLine()) != null) {
                 Room.CSVToRoom(line);

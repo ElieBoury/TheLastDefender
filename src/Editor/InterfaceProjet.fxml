@@ -4,11 +4,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -21,67 +17,29 @@
 
 <VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Editor.EditorController">
   <children>
-    <MenuBar VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
     <SplitPane dividerPositions="0.19710467706013363" focusTraversable="true" prefHeight="552.0" prefWidth="999.0" VBox.vgrow="ALWAYS">
       <items>
         <AnchorPane prefHeight="539.0" prefWidth="230.0">
           <children>
-                  <Button fx:id="useButton" layoutX="43.0" layoutY="367.0" mnemonicParsing="false" text="Use" visible="false" />
-                  <Button fx:id="quitButton" layoutX="22.0" layoutY="468.0" mnemonicParsing="false" text="Quitter" />
-                  <Button fx:id="helpButton" layoutX="30.0" layoutY="427.0" mnemonicParsing="false" text="Help" />
-                  <Button fx:id="inventoryButton" layoutX="22.0" layoutY="110.0" mnemonicParsing="false" text="Inventory" />
-                  <Button fx:id="speakButton" layoutX="33.0" layoutY="31.0" mnemonicParsing="false" text="Speak" />
-                  <Button fx:id="takeButton" layoutX="37.0" layoutY="70.0" mnemonicParsing="false" text="Take" />
-                  <Button fx:id="lookButton" layoutX="16.0" layoutY="150.0" mnemonicParsing="false" text="Look Room" />
-                  <Button fx:id="previousButton" layoutX="3.0" layoutY="192.0" mnemonicParsing="false" text="Previous Room" />
-                  <Button fx:id="nextButton" layoutX="17.0" layoutY="232.0" mnemonicParsing="false" text="Next Room" />
+                  <Button fx:id="useButton" layoutX="43.0" layoutY="367.0" mnemonicParsing="false" onAction="#manageUse" text="Use" visible="false" />
+                  <Button fx:id="quitButton" layoutX="22.0" layoutY="468.0" mnemonicParsing="false" onAction="#quit" text="Quitter" />
+                  <Button fx:id="helpButton" layoutX="30.0" layoutY="427.0" mnemonicParsing="false" onAction="#help" text="Help" />
+                  <Button fx:id="inventoryButton" layoutX="22.0" layoutY="110.0" mnemonicParsing="false" onAction="#manageInventory" text="Inventory" />
+                  <Button fx:id="speakButton" layoutX="33.0" layoutY="31.0" mnemonicParsing="false" onAction="#manageSpeak" text="Speak" />
+                  <Button fx:id="takeButton" layoutX="37.0" layoutY="70.0" mnemonicParsing="false" onAction="#manageTake" text="Take" />
+                  <Button fx:id="lookButton" layoutX="16.0" layoutY="150.0" mnemonicParsing="false" onAction="#lookRoom" text="Look Room" />
+                  <Button fx:id="previousButton" layoutX="3.0" layoutY="192.0" mnemonicParsing="false" onAction="#managePreviousRoom" text="Previous Room" />
+                  <Button fx:id="nextButton" layoutX="17.0" layoutY="232.0" mnemonicParsing="false" onAction="#manageNextRoom" text="Next Room" />
                   <Button fx:id="speak" layoutX="32.0" layoutY="324.0" mnemonicParsing="false" text="Action" visible="false" />
                   <TextField fx:id="textField" layoutY="150.0" promptText="Entrez votre choix" visible="false" />
-                  <Button fx:id="textFieldOK" layoutX="103.0" layoutY="232.0" mnemonicParsing="false" text="OK" visible="false" />
-                  <Button fx:id="backButton" layoutX="22.0" layoutY="232.0" mnemonicParsing="false" text="Back" visible="false" />
-                  <Button fx:id="attackButton" layoutX="43.0" layoutY="324.0" mnemonicParsing="false" text="Attack" visible="false" />
-                  <Button fx:id="runButton" layoutX="43.0" layoutY="412.0" mnemonicParsing="false" text="Run Away" visible="false" />
-                  <Button fx:id="releaseButton" layoutX="54.0" layoutY="70.0" mnemonicParsing="false" text="Release" visible="false" />
-                  <Button fx:id="activateButton" layoutX="54.0" layoutY="111.0" mnemonicParsing="false" text="Activate" visible="false" />
-                  <Button fx:id="knowMoreButton" layoutX="54.0" layoutY="150.0" mnemonicParsing="false" text="Know More" visible="false" />
+                  <Button fx:id="textFieldOK" layoutX="103.0" layoutY="232.0" mnemonicParsing="false" onAction="#recoverTextField" text="OK" visible="false" />
+                  <Button fx:id="backButton" layoutX="22.0" layoutY="232.0" mnemonicParsing="false" onAction="#manageBackButton" text="Back" visible="false" />
+                  <Button fx:id="attackButton" layoutX="43.0" layoutY="324.0" mnemonicParsing="false" onAction="#manageAttack" text="Attack" visible="false" />
+                  <Button fx:id="runButton" layoutX="43.0" layoutY="412.0" mnemonicParsing="false" onAction="#manageRun" text="Run Away" visible="false" />
+                  <Button fx:id="releaseButton" layoutX="54.0" layoutY="70.0" mnemonicParsing="false" onAction="#manageRelease" text="Release" visible="false" />
+                  <Button fx:id="activateButton" layoutX="54.0" layoutY="111.0" mnemonicParsing="false" onAction="#manageActivate" text="Activate" visible="false" />
+                  <Button fx:id="knowMoreButton" layoutX="54.0" layoutY="150.0" mnemonicParsing="false" onAction="#manageKnowMore" text="Know More" visible="false" />
+                  <Button fx:id="sauvegardeButton" layoutX="30.0" layoutY="392.0" mnemonicParsing="false" onAction="#sauvegardeButtonPush" text="Sauvegarder" />
           </children>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -89,7 +47,7 @@
         </AnchorPane>
         <ScrollPane prefHeight="539.0" prefWidth="666.0">
                <content>
-                  <TextArea fx:id="console" prefHeight="539.0" prefWidth="449.0" />
+                  <TextArea fx:id="console" prefHeight="578.0" prefWidth="449.0" />
                </content>
         </ScrollPane>
       </items>
