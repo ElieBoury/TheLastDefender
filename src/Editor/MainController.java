@@ -37,7 +37,7 @@ public class MainController implements Initializable {
 
     public void newGameButtonPush(ActionEvent event) throws IOException {
         Sauvegarde.importNewGame();
-        Parent tableViewParent = FXMLLoader.load(getClass().getResource("InterfaceProjet.fxml"));
+        Parent tableViewParent = FXMLLoader.load(getClass().getResource("Interface.fxml"));
         Scene tableViewScene = new Scene(tableViewParent);
 
         //This line gets the Stage information

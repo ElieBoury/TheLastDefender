@@ -14,20 +14,21 @@ import javafx.scene.control.*;
 
 public class EditorController implements Initializable {
 
-    @FXML
-    private Button quitButton;
 
     @FXML
-    private Button helpButton;
+    private ComboBox comboBoxInventory;
 
     @FXML
-    private Button inventoryButton;
+    private ButtonBar ButtonBar;
 
     @FXML
     private Button speakButton;
 
     @FXML
     private Button takeButton;
+
+    @FXML
+    private Button inventoryButton;
 
     @FXML
     private Button lookButton;
@@ -39,37 +40,52 @@ public class EditorController implements Initializable {
     private Button nextButton;
 
     @FXML
-    private TextField textField;
-
-    @FXML
-    private Button textFieldOK;
-
-    @FXML
-    private Button backButton;
-
-    @FXML
-    private TextArea console;
-
-    @FXML
-    private Button attackButton;
-
-    @FXML
-    private Button useButton;
-
-    @FXML
-    private Button runButton;
+    private ComboBox comboBox;
 
     @FXML
     private Button releaseButton;
 
     @FXML
-    private Button activateButton;
+    private Button attackButton;
 
     @FXML
     private Button knowMoreButton;
 
     @FXML
-    private Button sauvegardeButton;
+    private Button useButton;
+
+    @FXML
+    private Button activateButton;
+
+    @FXML
+    private Button backButton;
+
+    @FXML
+    private Button comboxOK;
+
+    @FXML
+    private Button runButton;
+
+    @FXML
+    private Button saveButton;
+
+    @FXML
+    private Button helpButton;
+
+    @FXML
+    private Button quitButton;
+
+    @FXML
+    private Label roomText;
+
+    @FXML
+    private Label characterText;
+
+    @FXML
+    private Label objetText;
+
+    @FXML
+    private TextArea console;
 
     private String currentSituation="main";
 
@@ -79,7 +95,10 @@ public class EditorController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         startMessage();
-    }
+        comboBox.setVisibleRowCount(3);
+        comboBox.setEditable(true);
+        comboBox.setPromptText("Choose");
+        }
 
     public void sauvegardeButtonPush(){
         Sauvegarde.saveGame();
@@ -112,15 +131,15 @@ public class EditorController implements Initializable {
     }
 
     public void manageSpeak(){
+        loadCharacter();
         currentSituation="speak";
         console.appendText("\nAvec qui voulez-vous parler ?\n");
         for(Character perso : Game.characters.get(0).getCurrentRoom().getCharacters()){
             console.appendText("   " + perso.getName() + "\n");
         }
         changeMainButtonVision();
-        textField.setVisible(true);
-        textFieldOK.setVisible(true);
-        backButton.setVisible(true);
+        comboBox.setVisible(true);
+        ButtonBar.setVisible(true);
     }
 
     public void manageTake(){
@@ -131,9 +150,8 @@ public class EditorController implements Initializable {
             //characList.getItems().add(perso.getName());
         }
         changeMainButtonVision();
-        textField.setVisible(true);
-        textFieldOK.setVisible(true);
-        backButton.setVisible(true);
+        comboBox.setVisible(true);
+        ButtonBar.setVisible(true);
 
     }
 
@@ -168,13 +186,14 @@ public class EditorController implements Initializable {
         previousButton.setVisible(!previousButton.isVisible());
         nextButton.setVisible(!nextButton.isVisible());
         inventoryButton.setVisible(!inventoryButton.isVisible());
-        sauvegardeButton.setVisible(!sauvegardeButton.isVisible());
+        saveButton.setVisible(!saveButton.isVisible());
     }
 
     public void removeSideButtonsVision(){
-        textField.setVisible(false);
-        textFieldOK.setVisible(false);
-        backButton.setVisible(false);
+        comboBox.setVisible(false);
+        comboxOK.setDisable(false);
+        comboBoxInventory.setVisible(false);
+        ButtonBar.setVisible(false);
         attackButton.setVisible(false);
         useButton.setVisible(false);
         runButton.setVisible(false);
@@ -184,7 +203,10 @@ public class EditorController implements Initializable {
     }
 
     public void recoverTextField (){
-        String textFieldValue = textField.getText();
+        String textFieldValue = "";
+        /*
+        PENSER A METTRE LA COMBOBOX
+         */
         switch(currentSituation) {
             case"speak":
                 if (Room.containCharac(textFieldValue, Game.characters.get(0).getCurrentRoom().getCharacters())) {
@@ -340,9 +362,8 @@ public class EditorController implements Initializable {
                 console.appendText("   " + items.getName() + "\n");
             }
             removeSideButtonsVision();
-            textField.setVisible(true);
-            textFieldOK.setVisible(true);
-            backButton.setVisible(true);
+            ButtonBar.setVisible(true);
+            comboBoxInventory.setVisible(true);
         } else {
             console.appendText("Vous n'avez aucun item.\n");
             removeSideButtonsVision();
@@ -363,7 +384,13 @@ public class EditorController implements Initializable {
     public void manageInventory() {
         if (Game.characters.get(0).getInventory().size() == 0) {
             console.appendText("\nVotre inventaire est vide, récupérez des items !\n");
+            releaseButton.setDisable(true);
+            activateButton.setDisable(true);
+            knowMoreButton.setDisable(true);
         } else {
+            releaseButton.setDisable(false);
+            activateButton.setDisable(false);
+            knowMoreButton.setDisable(false);
             console.appendText("\nVoici les différents objets présents dans votre inventaire :\n");
             for (Item item : Game.characters.get(0).getInventory()) {
                 console.appendText("   " + item.getName() + "\n");
@@ -375,37 +402,38 @@ public class EditorController implements Initializable {
         }
         changeMainButtonVision();
         removeSideButtonsVision();
-        backButton.setVisible(true);
+        ButtonBar.setVisible(true);
+        comboxOK.setDisable(true);
         releaseButton.setVisible(true);
         activateButton.setVisible(true);
         knowMoreButton.setVisible(true);
     }
 
     public void manageRelease(){
+        loadInventory();
         currentSituation="release";
         console.appendText("\nQuel item voulez-vous relâcher ?\n");
         removeSideButtonsVision();
-        textFieldOK.setVisible(true);
-        textField.setVisible(true);
-        backButton.setVisible(true);
+        ButtonBar.setVisible(true);
+        comboBoxInventory.setVisible(true);
     }
 
     public void manageActivate(){
+        loadInventory();
         currentSituation="activate";
         console.appendText("\nEntrez le nom de l'objet concerné :\n");
         removeSideButtonsVision();
-        textFieldOK.setVisible(true);
-        textField.setVisible(true);
-        backButton.setVisible(true);
+        comboBoxInventory.setVisible(true);
+        ButtonBar.setVisible(true);
     }
 
     public void manageKnowMore(){
+        loadInventory();
         currentSituation="knowMore";
         console.appendText("\nEntrez le nom de l'objet concerné :\n");
         removeSideButtonsVision();
-        textFieldOK.setVisible(true);
-        textField.setVisible(true);
-        backButton.setVisible(true);
+        comboBoxInventory.setVisible(true);
+        ButtonBar.setVisible(true);
     }
 
     public void startMessage(){
@@ -419,4 +447,21 @@ public class EditorController implements Initializable {
                 "Pour en savoir plus, cliquez sur \"help\".\n");
     }
 
+    public void loadInventory(){
+        for (Item c : Game.characters.get(0).getInventory()){
+            comboBox.getItems().add(c.getName());
+        }
+    }
+
+    public void loadItem(){
+        for (Item c : Game.characters.get(0).getCurrentRoom().getItems()){
+            comboBox.getItems().add(c.getName());
+        }
+    }
+
+    public void loadCharacter(){
+        for (Character c : Game.characters.get(0).getCurrentRoom().getCharacters()){
+            comboBox.getItems().add(c.getName());
+        }
+    }
 }
