@@ -39,7 +39,7 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </BorderPane.margin>
          <children>
-            <ComboBox fx:id="comboBoxInventory" prefWidth="150.0" visible="false">
+            <ComboBox fx:id="comboBoxInventory" onAction="#comboBoxUdapte" prefWidth="150.0" visible="false">
                <VBox.margin>
                   <Insets left="10.0" />
                </VBox.margin>
@@ -79,7 +79,7 @@
                   <Insets left="10.0" />
                </VBox.margin>
             </Button>
-            <ComboBox fx:id="comboBox" prefHeight="25.0" prefWidth="166.0" visible="false">
+            <ComboBox fx:id="comboBox" onAction="#comboBoxUdapte" prefHeight="25.0" prefWidth="166.0" visible="false">
                <VBox.margin>
                   <Insets left="10.0" />
                </VBox.margin>
@@ -127,7 +127,7 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <TextArea fx:id="console" prefHeight="148.0" prefWidth="139.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <TextArea fx:id="console" prefHeight="148.0" prefWidth="139.0" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
          <BorderPane.margin>
             <Insets bottom="10.0" right="10.0" />
