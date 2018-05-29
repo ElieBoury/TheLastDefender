@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="568.0" prefWidth="810.0" style="-fx-background-color: green;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Editor.EditorController">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="568.0" prefWidth="810.0" style="-fx-background-color: #00b359;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Editor.EditorController">
     <bottom>
         <AnchorPane prefHeight="25.0" prefWidth="810.0" BorderPane.alignment="CENTER">
             <children>
@@ -39,42 +39,42 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </BorderPane.margin>
          <children>
-            <ComboBox fx:id="comboBoxInventory" onAction="#comboBoxUdapte" prefWidth="150.0" visible="false">
+            <ComboBox fx:id="comboBoxInventory" onAction="#comboBoxUdapte" prefWidth="150.0" promptText="Choice" visible="false">
                <VBox.margin>
                   <Insets left="10.0" />
                </VBox.margin>
             </ComboBox>
-            <Button id="button" fx:id="speakButton" layoutX="10.0" layoutY="35.0" mnemonicParsing="false" onAction="#manageSpeak" prefHeight="300.0" prefWidth="167.0" text="Speak">
+            <Button id="button2" fx:id="speakButton" layoutX="10.0" layoutY="35.0" mnemonicParsing="false" onAction="#manageSpeak" prefHeight="300.0" prefWidth="167.0" stylesheets="@styleSheet.css" text="Speak">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="takeButton" mnemonicParsing="false" onAction="#manageTake" prefHeight="300.0" prefWidth="167.0" text="Take">
+            <Button id="button2" fx:id="takeButton" mnemonicParsing="false" onAction="#manageTake" prefHeight="300.0" prefWidth="167.0" stylesheets="@styleSheet.css" text="Take">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="inventoryButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#manageInventory" prefHeight="300.0" prefWidth="167.0" text="Inventory">
+            <Button id="button2" fx:id="inventoryButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#manageInventory" prefHeight="300.0" prefWidth="167.0" stylesheets="@styleSheet.css" text="Inventory">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="lookButton" layoutX="10.0" layoutY="35.0" mnemonicParsing="false" onAction="#lookRoom" prefHeight="300.0" prefWidth="167.0" text="Look Room">
+            <Button id="button2" fx:id="lookButton" layoutX="10.0" layoutY="35.0" mnemonicParsing="false" onAction="#lookRoom" prefHeight="300.0" prefWidth="167.0" stylesheets="@styleSheet.css" text="Look Room">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="previousButton" layoutX="10.0" layoutY="135.0" mnemonicParsing="false" onAction="#managePreviousRoom" prefHeight="300.0" prefWidth="167.0" text="Previous Room">
+            <Button id="button2" fx:id="previousButton" layoutX="10.0" layoutY="135.0" mnemonicParsing="false" onAction="#managePreviousRoom" prefHeight="300.0" prefWidth="167.0" stylesheets="@styleSheet.css" text="Previous Room">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="nextButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#manageNextRoom" prefHeight="300.0" prefWidth="167.0" text="Next Room">
+            <Button id="button2" fx:id="nextButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#manageNextRoom" prefHeight="300.0" prefWidth="167.0" stylesheets="@styleSheet.css" text="Next Room">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="releaseButton" mnemonicParsing="false" onAction="#manageRelease" prefHeight="25.0" prefWidth="157.0" text="Release" visible="false">
+            <Button id="button2" fx:id="releaseButton" mnemonicParsing="false" onAction="#manageRelease" prefHeight="25.0" prefWidth="157.0" stylesheets="@styleSheet.css" text="Release" visible="false">
                <VBox.margin>
                   <Insets left="10.0" />
                </VBox.margin>
@@ -84,39 +84,39 @@
                   <Insets left="10.0" />
                </VBox.margin>
             </ComboBox>
-            <Button fx:id="knowMoreButton" layoutX="10.0" layoutY="625.0" mnemonicParsing="false" onAction="#manageKnowMore" prefHeight="46.0" prefWidth="157.0" text="Know more" visible="false">
+            <Button id="button2" fx:id="knowMoreButton" layoutX="10.0" layoutY="625.0" mnemonicParsing="false" onAction="#manageKnowMore" prefHeight="46.0" prefWidth="157.0" stylesheets="@styleSheet.css" text="Know more" visible="false">
                <VBox.margin>
                   <Insets left="10.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="attackButton" layoutX="10.0" layoutY="310.0" mnemonicParsing="false" onAction="#manageAttack" prefHeight="25.0" prefWidth="157.0" text="Attack" visible="false" />
-            <Button fx:id="activateButton" layoutX="20.0" layoutY="50.0" mnemonicParsing="false" onAction="#manageActivate" prefHeight="25.0" prefWidth="157.0" text="Activate" visible="false">
+            <Button id="button2" fx:id="attackButton" layoutX="10.0" layoutY="310.0" mnemonicParsing="false" onAction="#manageAttack" prefHeight="25.0" prefWidth="157.0" stylesheets="@styleSheet.css" text="Attack" visible="false" />
+            <Button id="button2" fx:id="activateButton" layoutX="20.0" layoutY="50.0" mnemonicParsing="false" onAction="#manageActivate" prefHeight="25.0" prefWidth="157.0" stylesheets="@styleSheet.css" text="Activate" visible="false">
                <VBox.margin>
                   <Insets left="10.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="useButton" layoutX="10.0" layoutY="385.0" mnemonicParsing="false" onAction="#manageUse" prefHeight="33.0" prefWidth="157.0" text="Use" visible="false" />
+            <Button id="button2" fx:id="useButton" layoutX="10.0" layoutY="385.0" mnemonicParsing="false" onAction="#manageUse" prefHeight="33.0" prefWidth="157.0" stylesheets="@styleSheet.css" text="Use" visible="false" />
             <ButtonBar fx:id="ButtonBar" prefHeight="25.0" prefWidth="118.0" visible="false">
               <buttons>
-                <Button fx:id="backButton" minWidth="39.0" mnemonicParsing="false" onAction="#manageBackButton" prefHeight="25.0" text="Back" />
-                  <Button fx:id="comboxOK" minWidth="19.0" mnemonicParsing="false" onAction="#recoverTextField" prefHeight="25.0" prefWidth="85.0" text="Ok" />
+                <Button id="button2" fx:id="backButton" minWidth="39.0" mnemonicParsing="false" onAction="#manageBackButton" prefHeight="25.0" stylesheets="@styleSheet.css" text="Back" />
+                  <Button id="button2" fx:id="comboxOK" minWidth="19.0" mnemonicParsing="false" onAction="#recoverTextField" prefHeight="25.0" prefWidth="85.0" stylesheets="@styleSheet.css" text="Ok" />
               </buttons>
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </ButtonBar>
-            <Button fx:id="runButton" layoutX="20.0" layoutY="180.0" mnemonicParsing="false" onAction="#manageRun" prefHeight="25.0" prefWidth="157.0" text="Run Away" visible="false" />
-            <Button fx:id="saveButton" layoutX="10.0" layoutY="60.0" mnemonicParsing="false" onAction="#sauvegardeButtonPush" prefHeight="300.0" prefWidth="167.0" text="Save">
+            <Button id="button2" fx:id="runButton" layoutX="20.0" layoutY="180.0" mnemonicParsing="false" onAction="#manageRun" prefHeight="25.0" prefWidth="157.0" stylesheets="@styleSheet.css" text="Run Away" visible="false" />
+            <Button id="button2" fx:id="saveButton" layoutX="10.0" layoutY="60.0" mnemonicParsing="false" onAction="#sauvegardeButtonPush" prefHeight="300.0" prefWidth="167.0" stylesheets="@styleSheet.css" text="Save">
                <VBox.margin>
                   <Insets bottom="25.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="helpButton" layoutX="10.0" layoutY="85.0" mnemonicParsing="false" onAction="#help" prefHeight="300.0" prefWidth="167.0" text="Help">
+            <Button id="button2" fx:id="helpButton" layoutX="10.0" layoutY="85.0" mnemonicParsing="false" onAction="#help" prefHeight="300.0" prefWidth="167.0" stylesheets="@styleSheet.css" text="Help">
                <VBox.margin>
                   <Insets bottom="25.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="quitButton" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" onAction="#quit" prefHeight="300.0" prefWidth="167.0" text="Leave">
+            <Button id="button2" fx:id="quitButton" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" onAction="#quit" prefHeight="300.0" prefWidth="167.0" stylesheets="@styleSheet.css" text="Leave">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -127,7 +127,7 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <TextArea fx:id="console" editable="false" prefHeight="148.0" prefWidth="139.0" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <TextArea id="textArea" fx:id="console" editable="false" prefHeight="148.0" prefWidth="139.0" style="-fx-background-color: #f2f2f2;" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
          <BorderPane.margin>
             <Insets bottom="10.0" right="10.0" />

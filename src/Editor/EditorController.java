@@ -457,6 +457,7 @@ public class EditorController implements Initializable {
 
     public void loadInventory(){
         comboBoxInventory.getItems().clear();
+        comboBoxInventory.setEditable(false);
         for (Item c : Game.characters.get(0).getInventory()){
             comboBox.getItems().add(c.getName());
         }
@@ -464,6 +465,8 @@ public class EditorController implements Initializable {
 
     public void loadItem(){
         comboBox.getItems().clear();
+        comboBox.setEditable(false);
+        comboBox.setPromptText("Choose Item");
         for (Item c : Game.characters.get(0).getCurrentRoom().getItems()){
             comboBox.getItems().add(c.getName());
         }
@@ -471,6 +474,8 @@ public class EditorController implements Initializable {
 
     public void loadCharacter(){
         comboBox.getItems().clear();
+        comboBox.setEditable(false);
+        comboBox.setPromptText("Choose character");
         for (Character c : Game.characters.get(0).getCurrentRoom().getCharacters()){
             comboBox.getItems().add(c.getName());
         }

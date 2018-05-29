@@ -82,6 +82,8 @@ public class MainController implements Initializable {
             Parent secondView;
             secondView = (BorderPane) FXMLLoader.load(getClass().getResource("/Editor/Interface.fxml"));
             Scene scene2 = new Scene(secondView);
+            String css = "/Editor/styleSheet.css";
+            scene2.getStylesheets().add(css);
             Stage currentStage = (Stage) rootPane.getScene().getWindow();
             currentStage.setScene(scene2);
         } catch (IOException e) {
