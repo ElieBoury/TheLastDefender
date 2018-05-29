@@ -63,3 +63,17 @@
 #textArea{
     -fx-background-color: black;
 }
+
+#comboBox{
+    -fx-background-color:  #2196f3;
+    -fx-background-radius: 22;
+    -fx-text-fill: white;
+}
+#comboBox:hover{
+    -fx-background-color: white;
+    -fx-background-radius: 22;
+    -fx-text-fill: #2196f3;
+    -fx-border-color: #2196f3;
+    -fx-border-radius: 22;
+    -fx-border-width: 3;
+}

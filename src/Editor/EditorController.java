@@ -93,7 +93,7 @@ public class EditorController implements Initializable {
 
     private String currentSituation="main";
 
-    private String choixUtilisateur;
+    private String choixUtilisateur="";
 
     int ptsPlayer = 0, ptsIa = 0, rolledPlayer, rolledIA, currentRound = 1, nbRounds;
     Character opponent;
@@ -257,8 +257,8 @@ public class EditorController implements Initializable {
                 }else {
                     console.appendText("\nVous ne possédez pas cet item.\n");
                 }
+                ButtonBar.setVisible(true);
                 removeSideButtonsVision();
-                backButton.setVisible(true);
                 releaseButton.setVisible(true);
                 activateButton.setVisible(true);
                 knowMoreButton.setVisible(true);
@@ -270,7 +270,7 @@ public class EditorController implements Initializable {
                     console.appendText("Vous ne possédez pas cet item.\n");
                 }
                 removeSideButtonsVision();
-                backButton.setVisible(true);
+                ButtonBar.setVisible(true);
                 releaseButton.setVisible(true);
                 activateButton.setVisible(true);
                 knowMoreButton.setVisible(true);
@@ -284,7 +284,7 @@ public class EditorController implements Initializable {
                     console.appendText("Vous ne possédez pas cet item\n");
                 }
                 removeSideButtonsVision();
-                backButton.setVisible(true);
+                ButtonBar.setVisible(true);
                 releaseButton.setVisible(true);
                 activateButton.setVisible(true);
                 knowMoreButton.setVisible(true);
@@ -458,8 +458,9 @@ public class EditorController implements Initializable {
     public void loadInventory(){
         comboBoxInventory.getItems().clear();
         comboBoxInventory.setEditable(false);
+        comboBoxInventory.setPromptText("Choose Item");
         for (Item c : Game.characters.get(0).getInventory()){
-            comboBox.getItems().add(c.getName());
+            comboBoxInventory.getItems().add(c.getName());
         }
     }
 

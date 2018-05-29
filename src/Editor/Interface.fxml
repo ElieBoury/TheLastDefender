@@ -21,7 +21,7 @@
         </AnchorPane>
     </bottom>
     <top>
-        <Label fx:id="title" prefHeight="35.0" prefWidth="293.0" text="The Last Defender" textFill="#fc0a0a" BorderPane.alignment="CENTER">
+        <Label fx:id="title" prefHeight="35.0" prefWidth="293.0" text="The Last Defender" textFill="#f10505" BorderPane.alignment="CENTER">
             <font>
                 <Font name="System Bold Italic" size="32.0" />
             </font>
@@ -39,7 +39,7 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </BorderPane.margin>
          <children>
-            <ComboBox fx:id="comboBoxInventory" onAction="#comboBoxUdapte" prefWidth="150.0" promptText="Choice" visible="false">
+            <ComboBox id="comboBox" fx:id="comboBoxInventory" onAction="#comboBoxUdapte" prefWidth="150.0" promptText="Choice" visible="false">
                <VBox.margin>
                   <Insets left="10.0" />
                </VBox.margin>
@@ -79,7 +79,7 @@
                   <Insets left="10.0" />
                </VBox.margin>
             </Button>
-            <ComboBox fx:id="comboBox" onAction="#comboBoxUdapte" prefHeight="25.0" prefWidth="166.0" visible="false">
+            <ComboBox id="comboBox" fx:id="comboBox" onAction="#comboBoxUdapte" prefHeight="25.0" prefWidth="166.0" visible="false">
                <VBox.margin>
                   <Insets left="10.0" />
                </VBox.margin>
@@ -127,7 +127,10 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <TextArea id="textArea" fx:id="console" editable="false" prefHeight="148.0" prefWidth="139.0" style="-fx-background-color: #f2f2f2;" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <TextArea id="textArea" fx:id="console" editable="false" layoutY="82.0" prefHeight="488.0" prefWidth="434.0" style="-fx-background-color: #f2f2f2;" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <font>
+                  <Font size="14.0" />
+               </font></TextArea>
          </children>
          <BorderPane.margin>
             <Insets bottom="10.0" right="10.0" />
