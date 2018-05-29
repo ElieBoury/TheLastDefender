@@ -29,8 +29,14 @@ public class Game extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+
         Parent root = FXMLLoader.load(getClass().getResource("/Editor/Main.fxml"));
+
         Scene scene = new Scene(root);
+
+        String css = "/Editor/styleSheet.css";
+        scene.getStylesheets().add(css);
+
         stage.setScene(scene);
         stage.show();
     }

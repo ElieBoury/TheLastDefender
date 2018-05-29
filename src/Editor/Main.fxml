@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="390.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Editor.MainController">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="390.0" prefWidth="590.0" style="-fx-background-color: #cceeff;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Editor.MainController">
     <bottom>
-        <AnchorPane prefHeight="25.0" prefWidth="600.0" style="-fx-background-color: green;" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="25.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <children>
                 <Label alignment="BOTTOM_LEFT" layoutY="32.0" prefHeight="17.0" prefWidth="217.0" text="© Studio IUT • Tous droits réservés" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" />
                 <Label alignment="BOTTOM_RIGHT" layoutX="543.0" layoutY="32.0" text="2017/2018" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="10.0" />
@@ -20,12 +20,12 @@
         </AnchorPane>
     </bottom>
     <top>
-        <Label fx:id="title" prefHeight="47.0" prefWidth="293.0" text="The Last Defender" textFill="#fc0a0a" BorderPane.alignment="CENTER">
+        <Label fx:id="title" prefHeight="47.0" prefWidth="293.0" text="The Last Defender" textFill="#3915ae" BorderPane.alignment="CENTER">
             <font>
-                <Font name="System Bold Italic" size="32.0" />
+                <Font name="Microsoft Tai Le" size="32.0" />
             </font>
          <BorderPane.margin>
-            <Insets top="25.0" />
+            <Insets left="25.0" top="25.0" />
          </BorderPane.margin>
         </Label>
     </top>
@@ -35,17 +35,17 @@
             <Region prefHeight="243.0" prefWidth="110.0" HBox.hgrow="ALWAYS" />
               <VBox prefHeight="243.0" prefWidth="375.0" HBox.hgrow="SOMETIMES">
                   <children>
-                      <Button fx:id="newGameButton" mnemonicParsing="false" onAction="#newGameButtonPush" prefHeight="150.0" prefWidth="410.0" text="Nouvelle Partie ">
+                      <Button id="button" fx:id="newGameButton" mnemonicParsing="false" onAction="#newGameButtonPush" prefHeight="150.0" prefWidth="410.0" styleClass="newGameButton" stylesheets="@styleSheet.css" text="Nouvelle Partie ">
                           <VBox.margin>
                               <Insets bottom="50.0" />
                           </VBox.margin>
                       </Button>
-                      <Button fx:id="loadGameButton" mnemonicParsing="false" onAction="#loadGameButtonPush" prefHeight="150.0" prefWidth="410.0" text="Charger Partie">
+                      <Button id="button" fx:id="loadGameButton" mnemonicParsing="false" onAction="#loadGameButtonPush" prefHeight="150.0" prefWidth="410.0" stylesheets="@styleSheet.css" text="Charger Partie">
                           <VBox.margin>
                               <Insets bottom="50.0" />
                           </VBox.margin>
                       </Button>
-                      <Button fx:id="quitButton" mnemonicParsing="false" onAction="#quitButtonPush" prefHeight="150.0" prefWidth="410.0" text="Quitter" />
+                      <Button id="button" fx:id="quitButton" mnemonicParsing="false" onAction="#quitButtonPush" prefHeight="150.0" prefWidth="410.0" stylesheets="@styleSheet.css" text="Quitter" />
                   </children>
                   <padding>
                       <Insets bottom="50.0" left="75.0" right="75.0" top="50.0" />

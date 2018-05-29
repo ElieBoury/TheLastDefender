@@ -6,14 +6,18 @@ import java.util.ResourceBundle;
 import Classes.*;
 import Classes.Character;
 
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-
+import javafx.scene.layout.BorderPane;
+import javafx.util.Duration;
 
 
 public class EditorController implements Initializable {
 
+    @FXML
+    private BorderPane rootPane;
 
     @FXML
     private ComboBox comboBoxInventory;
@@ -96,11 +100,12 @@ public class EditorController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        transitionScene();
         startMessage();
         comboBox.setVisibleRowCount(3);
         comboBox.setEditable(true);
         comboBox.setPromptText("Choose");
-        }
+    }
 
     public void sauvegardeButtonPush(){
         Sauvegarde.saveGame();
@@ -471,7 +476,17 @@ public class EditorController implements Initializable {
         }
     }
 
+    private void transitionScene(){
+        FadeTransition transition = new FadeTransition();
+        transition.setDuration(Duration.millis(1000));
+        transition.setNode(rootPane);
+        transition.setFromValue(0);
+        transition.setToValue(1);
+        transition.play();
+    }
+
     public void comboBoxUdapte(){
         choixUtilisateur = comboBox.getValue().toString();
     }
+
 }
