@@ -378,7 +378,6 @@ public class EditorController implements Initializable {
             attackButton.setVisible(true);
             useButton.setVisible(true);
             runButton.setVisible(true);
-            ButtonBar.setVisible(true);
         }
     }
 
