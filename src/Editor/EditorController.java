@@ -332,8 +332,8 @@ public class EditorController implements Initializable {
     }
 
     public void manageAttack(){
-        rolledPlayer = Generator.generateScore(Game.characters.get(0).getLowerDice(), Game.characters.get(0).getUpperDice());
-        rolledIA = Generator.generateScore(opponent.getLowerDice(), opponent.getUpperDice());
+        rolledPlayer = Generator.generateScore(Game.characters.get(0).getLowerDice(), Game.characters.get(0).getUpperDice(), Game.characters.get(0).getNbDice());
+        rolledIA = Generator.generateScore(opponent.getLowerDice(), opponent.getUpperDice(), opponent.getNbDice());
         console.appendText("Vous avez obtenu " + rolledPlayer + "\n");
         console.appendText(opponent.getName() + " a obtenu " + rolledIA + "\n");
         if (rolledPlayer < rolledIA) {

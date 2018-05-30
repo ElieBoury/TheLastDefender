@@ -4,42 +4,53 @@ import java.util.ArrayList;
 
 public class Item extends GameObject {
 
-    private int bonus; // - signifie une augmentation de la borne max, + signifie une augmentation du namebre de dès
-    private int malus; // - signifie une diminution de la borne max, + signifie une diminution du namebre de dès
+    private int changeMinBound;
+    private int changeMaxBound;
+    private int changeDice;
     private boolean toActivate;
     private boolean taken;
 
     /**
      * Constructor
      * @param name Name of the item
-     * @param bonus Bonus given by the item
-     * @param malus Malus given by the item
+     * @param changeMinBound Change the minimum bound
+     * @param changeMaxBound Change the maximum bound
+     * @param changeDice Change the number of dices
      * @param toActivate Classes.Item is to activate or not
      * @param taken Classes.Item is taken or not
      * @param description Description of the item
      */
-    public Item(String name, int bonus, int malus, boolean toActivate, boolean taken, String description) {
+    public Item(String name, int changeMinBound, int changeMaxBound, int changeDice, boolean toActivate, boolean taken, String description) {
         super(name, description);
-        this.bonus = bonus;
-        this.malus = malus;
+        this.changeMinBound = changeMinBound;
+        this.changeMaxBound = changeMaxBound;
+        this.changeDice = changeDice;
         this.toActivate = toActivate;
         this.taken = taken;
-}
-
-    /**
-     * Bonus getter
-     * @return Bonus given by the item
-     */
-    public int getBonus() {
-        return bonus;
     }
 
     /**
-     * Malus getter
-     * @return Malus given by the item
+     * changeMinBound getter
+     * @return the influence on the minimum bound
      */
-    public int getMalus() {
-        return malus;
+    public int getChangeMinBound() {
+        return changeMinBound;
+    }
+
+    /**
+     * changeMaxBound getter
+     * @return the influence on the maximum bound
+     */
+    public int getChangeMaxBound() {
+        return changeMaxBound;
+    }
+
+    /**
+     * changeDice getter
+     * @return the influence on the number of dice
+     */
+    public int getChangeDice() {
+        return changeDice;
     }
 
     /**
@@ -68,7 +79,10 @@ public class Item extends GameObject {
 
     @Override
     public String toString(){
-        return( getName()+" have a bonus :" + getBonus()+", have a malus :"+getMalus()+", is an activate item :"+isToActivate()+", is taken :"+isTaken()+", his description : "+getDescription());
+        return( getName()+" change minimum bound :" + getChangeMinBound()+", change maximum bound :"+
+                getChangeMaxBound()+" change number of dice :" + getChangeDice()+
+                ", is an activate item :"+isToActivate()+", is taken :"+isTaken()+
+                ", his description : "+getDescription());
     }
 
     /**
@@ -102,13 +116,14 @@ public class Item extends GameObject {
     }
 
     public String itemToCSV(){
-        //Name;Bonus;Malus;toActivate;Taken;Description;
-        String line =(getName()+";"+ getBonus()+";"+getMalus()+";"+isToActivate()+";"+isTaken()+";"+getDescription()+";");
+        //Name;changeMinBound;changeMaxBound;changeDice;toActivate;Taken;Description;
+        String line =(getName()+";"+getChangeMinBound()+";"+ getChangeMaxBound()+";"+getChangeDice()+
+                ";"+isToActivate()+";"+isTaken()+";"+getDescription()+";");
         return line;
     }
 
     public static void CSVToItem(String line){
-        //Name;Bonus;Malus;toActivate;Taken;Description;
+        //Name;changeMinBound;changeMaxBound;changeDice;toActivate;Taken;Description;
         String[]values = line.split(";");
         Boolean activate =false;
         Boolean take=false;
@@ -118,7 +133,8 @@ public class Item extends GameObject {
         if(values[4].equals("true")){
             take=true;
         }
-        Game.items.add(new Item(values[0],Integer.parseInt(values[1]),Integer.parseInt(values[2]),activate, take, values[5]));
+        Game.items.add(new Item(values[0],Integer.parseInt(values[1]),
+                Integer.parseInt(values[2]),Integer.parseInt(values[3]),activate, take, values[6]));
     }
 
 }

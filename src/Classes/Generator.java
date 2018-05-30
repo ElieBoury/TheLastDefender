@@ -8,8 +8,15 @@ public class Generator {
      * @param max the upper bound
      * @return the score obtained
      */
-    public static int generateScore(int min, int max) {
-        return (int) ((Math.random() * (max + 1 - min)) + min);
+    public static int generateScore(int min, int max, int nbDice) {
+        int bestScore = 0, a;
+        for(int i=0; i<nbDice; i++){
+            a = (int) (Math.random() * (max + 1 - min)) + min;
+            if(a>bestScore){
+                bestScore=a;
+            }
+        }
+        return bestScore;
     }
 
 }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class CharacterTest {
 
     Room testRoom = new Room(0, "testRoom", "test");
-    Item testItem = new Item("testItem", 1,-2, true, false, "test");
+    Item testItem = new Item("testItem", 0,1,2, true, false, "test");
     ArrayList<Item> testInventory = new ArrayList<>();
     Character testCharac = new Character("testCharac", false, "test",
             true, 1, 6, 1, testInventory);
@@ -25,24 +25,15 @@ public class CharacterTest {
 
     @org.junit.Test
     public void activateItem() {
-        if (testItem.getBonus() != 0) {
-            if (testItem.getBonus() > 0) {
-                testCharac.setNbDice(testCharac.getNbDice()+testItem.getBonus());
-            } else {
-                testCharac.setUpperDice(testCharac.getUpperDice()+(testItem.getBonus() * -1));
-            }
-        }
-        if (testItem.getMalus() != 0) {
-            if (testItem.getMalus() > 0) {
-                testCharac.setNbDice(testCharac.getNbDice() - testItem.getMalus());
-            } else {
-                testCharac.setUpperDice(testCharac.getUpperDice()-(testItem.getMalus() * -1));
-            }
-        }
+        testCharac.setLowerDice(testCharac.getLowerDice()+testItem.getChangeMinBound());
+        testCharac.setUpperDice(testCharac.getNbDice() + testItem.getChangeMaxBound());
+        testCharac.setNbDice(testCharac.getNbDice() + testItem.getChangeDice());
+
         testCharac.getInventory().remove(testItem);
 
-        assertEquals(2, testCharac.getNbDice());
-        assertEquals(4, testCharac.getUpperDice());
+        assertEquals(1, testCharac.getLowerDice());
+        assertEquals(7, testCharac.getUpperDice());
+        assertEquals(3, testCharac.getNbDice());
     }
 
     @org.junit.Test
