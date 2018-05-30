@@ -278,7 +278,7 @@ public class EditorController implements Initializable {
             case "release":
                 if(Item.containItem(choixUtilisateur, Game.characters.get(0).getInventory())){
                     Game.characters.get(0).getInventory().remove(Item.getItem(choixUtilisateur, Game.characters.get(0).getInventory()));
-                    Game.characters.get(0).getCurrentRoom().getItems().add(Item.getItem(choixUtilisateur, Game.characters.get(0).getInventory()));
+                    Game.characters.get(0).getCurrentRoom().getItems().add(Item.getItem(choixUtilisateur, Game.items));
                     console.appendText("Vous venez de relâcher l'objet dans " + Game.characters.get(0).getCurrentRoom().getName() + "\n");
                 }else{
                     console.appendText("Vous ne possédez pas cet item\n");
