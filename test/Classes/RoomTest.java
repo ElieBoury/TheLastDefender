@@ -64,5 +64,22 @@ public class RoomTest {
         t.forEach(testList::remove);
 
         assertFalse(testList.contains(testCharac));
-}
+    }
+
+    @Test
+    public void removeItem() {
+        Item testItem = new Item("testItem", 1,-2, true, false, "test");
+        ArrayList<Item> testList = new ArrayList<>();
+        testList.add(testItem);
+
+        assertTrue(testList.contains(testItem));
+
+        List<Item> t = testList.stream()
+                .filter(c -> testItem.getName().equals(c.getName()))
+                .collect(Collectors.toList());
+
+        t.forEach(testList::remove);
+
+        assertFalse(testList.contains(testItem));
+    }
 }
