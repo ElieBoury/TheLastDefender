@@ -103,8 +103,6 @@ public class EditorController implements Initializable {
         transitionScene();
         startMessage();
         comboBox.setVisibleRowCount(3);
-        comboBox.setEditable(true);
-        comboBox.setPromptText("Choose");
     }
 
     public void sauvegardeButtonPush(){
