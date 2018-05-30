@@ -234,6 +234,7 @@ public class Room extends GameObject {
 
     public static void CSVToRoom(String line){
         //ID;Name; Description;IsUnlocked; Items; Characters; LockedCharacters; lockedItems;
+        System.out.println(line);
         String[]values = line.split(";");
         Boolean isUnlocked =false;
         ArrayList<Item> items = new ArrayList<>();
@@ -265,11 +266,13 @@ public class Room extends GameObject {
             maRoom.setCharacters(characters);
         }
         if (!values[6].equals("null")) {
-            String[] oneCharacter = values[5].split("/");
+            String[] oneCharacter = values[6].split("/");
+            System.out.println(oneCharacter);
             for (String myCharacter:oneCharacter) {
                 lockedCharacters.add(Character.getCharacter(myCharacter, Game.characters));
             }
             maRoom.setLockedCharacters(lockedCharacters);
+            System.out.println(lockedCharacters);
         }
         if (!values[4].equals("null")) {
             String[] oneItem = values[4].split("/");
