@@ -4,6 +4,7 @@ import Editor.EditorController;
 
 import javafx.scene.control.TextArea;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Room extends GameObject {
 
@@ -160,11 +161,24 @@ public class Room extends GameObject {
      * @param persos the ArrayList in which we are looking for
      */
     public static void removeCharac(String name, ArrayList<Character> persos){
-        for (Character perso : persos) {
-            if (name.equals(perso.getName())) {
-                Game.characters.get(0).getCurrentRoom().getCharacters().remove(perso);
-            }
-        }
+        List<Character> t = persos.stream()
+                .filter(c -> name.equals(c.getName()))
+                .collect(Collectors.toList());
+
+        t.forEach(persos::remove);
+    }
+
+    /**
+     * Remove an item, given by his name, in an ArrayList
+     * @param name the name of the character
+     * @param items the ArrayList in which we are looking for
+     */
+    public static void removeItem(String name, ArrayList<Item> items){
+        List<Item> t = items.stream()
+                .filter(c -> name.equals(c.getName()))
+                .collect(Collectors.toList());
+
+        t.forEach(items::remove);
     }
 
     public String roomToCSV(){

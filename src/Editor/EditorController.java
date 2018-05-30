@@ -234,6 +234,15 @@ public class EditorController implements Initializable {
             case"take":
                 if (Item.containItem(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getItems())) {
                     Game.characters.get(0).takeItem(Item.getItem(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getItems()), console);
+                    if(Item.containItem(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getLockedItems())) {
+                        Game.characters.get(0).getCurrentRoom().removeItem(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getItems());
+                        Game.characters.get(0).getCurrentRoom().getLockedItems().remove(Item.getItem(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getItems()));
+                        console.appendText("Bonne nouvelle ! Vous venez de déposer un objet nécessaire au débloquage de la salle !\n");
+                    }
+                    if(Game.characters.get(0).getCurrentRoom().getLockedCharacters().isEmpty() && Game.characters.get(0).getCurrentRoom().getLockedItems().isEmpty()){
+                        Game.characters.get(0).getCurrentRoom().setUnlocked(true);
+                    }
+
                 } else {
                     console.appendText("\nCet item n'est pas dans cette salle.\n");
                 }
@@ -280,6 +289,7 @@ public class EditorController implements Initializable {
                     Game.characters.get(0).getInventory().remove(Item.getItem(choixUtilisateur, Game.characters.get(0).getInventory()));
                     Game.characters.get(0).getCurrentRoom().getItems().add(Item.getItem(choixUtilisateur, Game.items));
                     console.appendText("Vous venez de relâcher l'objet dans " + Game.characters.get(0).getCurrentRoom().getName() + "\n");
+
                 }else{
                     console.appendText("Vous ne possédez pas cet item\n");
                 }
@@ -343,8 +353,8 @@ public class EditorController implements Initializable {
 
         if (ptsPlayer > nbRounds / 2) {
             console.appendText("Bravo " + Game.characters.get(0).getName() + ", vous avez gagné !\n");
-            if(Game.characters.get(0).getCurrentRoom().containCharac(opponent.getName(), Game.characters.get(0).getCurrentRoom().getCharacters())){
-                Game.characters.get(0).getCurrentRoom().removeCharac(opponent.getName(), Game.characters.get(0).getCurrentRoom().getLockedCharacters());
+            if(Game.characters.get(0).getCurrentRoom().containCharac(opponent.getName(), Game.characters.get(0).getCurrentRoom().getLockedCharacters())){
+                Game.characters.get(0).getCurrentRoom().removeCharac(opponent.getName(), Game.characters.get(0).getCurrentRoom().getCharacters());
                 Game.characters.get(0).getCurrentRoom().getLockedCharacters().remove(opponent);
                 console.appendText("Bonne nouvelle ! Vous venez de battre un virus gardien de la salle!\n");
             }else{
