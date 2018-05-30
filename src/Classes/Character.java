@@ -197,10 +197,10 @@ public class Character extends GameObject {
         if (item.getMalus() != 0) {
             if (item.getMalus() > 0) {
                 this.nbDice -= item.getMalus();
-                console.appendText("\nVotre namebre de dés vient de diminuer de " + item.getMalus() + " !\n" +
+                console.appendText("\nVotre nombre de dés vient de diminuer de " + item.getMalus() + " !\n" +
                         "Il est maintenant de " + this.nbDice + ".\n");
             } else {
-                this.upperDice += (item.getMalus() * -1);
+                this.upperDice -= (item.getMalus() * -1);
                 console.appendText("\nLa borne maximale de vos dés vient de diminuer de " + item.getMalus() * -1 + " !\n" +
                         "Elle est maintenant de " + this.upperDice + ".\n");
             }
