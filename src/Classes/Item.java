@@ -127,10 +127,10 @@ public class Item extends GameObject {
         String[]values = line.split(";");
         Boolean activate =false;
         Boolean take=false;
-        if(values[3].equals("true")){
+        if(values[4].equals("true")){
             activate = true;
         }
-        if(values[4].equals("true")){
+        if(values[5].equals("true")){
             take=true;
         }
         Game.items.add(new Item(values[0],Integer.parseInt(values[1]),
