@@ -337,8 +337,8 @@ public class Character extends GameObject {
             isPlayer=true;
         }
         if (!values[8].equals("null")) {
-            String[] OneItem = values[7].split("/");
-            for (String myItem:OneItem) {
+            String[] oneItem = values[8].split("/");
+            for (String myItem:oneItem) {
                 myInventory.add(Item.getItem(myItem,Game.items));
             }
         }

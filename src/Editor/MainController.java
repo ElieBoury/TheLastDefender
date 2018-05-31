@@ -50,7 +50,7 @@ public class MainController implements Initializable {
 
 
     public void loadGameButtonPush(){
-        //Sauvegarde.importGame();
+        Sauvegarde.importGame();
         transitionScene();
     }
 

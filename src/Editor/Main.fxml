@@ -20,7 +20,7 @@
         </AnchorPane>
     </bottom>
     <top>
-        <Label fx:id="title" prefHeight="47.0" prefWidth="293.0" text="The Last Defender" textFill="#f10505" BorderPane.alignment="CENTER">
+        <Label fx:id="title" prefHeight="47.0" prefWidth="293.0" text="The Last Defender" textFill="#105183" BorderPane.alignment="CENTER">
             <font>
                 <Font name="System Bold Italic" size="32.0" />
             </font>

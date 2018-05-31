@@ -101,13 +101,16 @@ public class EditorController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         transitionScene();
+        roomText.setText(Game.characters.get(0).getCurrentRoom().getName());
+        characterText.setText(Game.characters.get(0).getCurrentRoom().getCharacters().toString());
+        objetText.setText(Game.characters.get(0).getCurrentRoom().getItems().toString());
         startMessage();
         comboBox.setVisibleRowCount(3);
     }
 
     public void sauvegardeButtonPush(){
         Sauvegarde.saveGame();
-        console.appendText("Sauvegarde effectuée");
+        console.appendText("Sauvegarde effectuée\n");
     }
 
 
@@ -209,9 +212,7 @@ public class EditorController implements Initializable {
     }
 
     public void recoverTextField (){
-        /*
-        PENSER A METTRE LA COMBOBOX
-         */
+        comboBoxUdapte();
         switch(currentSituation) {
             case"speak":
                 if (Room.containCharac(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getCharacters())) {

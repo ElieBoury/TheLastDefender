@@ -1,4 +1,5 @@
-Name;Wicked;Dialogue;Description;Player;LowerDice;UpperDice;nbDice;Items;
+Name;Wicked;Description;Player;LowerDice;UpperDice;nbDice;Items;
+AVAST;false;-;C'est vous !;true;1;3;1;Bleuvrage/Cleaner Dice;
 Antivira;false;Tu dois absolument nous aider à nettoyer tous ces virus!;Antivira est un anti virus;false;0;0;0;null;
-Trojan;true;Tu ne passeras pas, nous allons détruire cet ordinateur!;Un Trojan(cheval de Troie) est un logiciel en apparence légitime, mais qui contient une fonctionnalité malveillante : son rôle est de faire entrer ce parasite sur l'ordinateur et de l'y installer à l'insu de l'utilisateur.;false;1;2;1;itemTrojan
+Trojan;true;Tu ne passeras pas, nous allons détruire cet ordinateur!;Un Trojan(cheval de Troie) est un logiciel en apparence légitime, mais qui contient une fonctionnalité malveillante : son rôle est de faire entrer ce parasite sur l'ordinateur et de l'y installer à l'insu de l'utilisateur.;false;1;2;1;itemTrojan;
 JigSaw;true;Je crois que tu ne sais pas à qui tu te mesures ...;JigSaw est un virus méchant;false;1;4;1;itemJigSaw;

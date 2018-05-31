@@ -31,6 +31,7 @@ public class Sauvegarde {
         importItem(PathItem);
         importCharacter(PathCharacter);
         importRoom(PathRoom);
+        Game.characters.get(0).setCurrentRoom(Game.rooms.get(0));
     }
 
     public static void sauvegardeCharacter(String path) {
