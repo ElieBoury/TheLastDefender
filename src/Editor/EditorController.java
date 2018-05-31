@@ -101,6 +101,7 @@ public class EditorController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         transitionScene();
+        console.appendText(String.valueOf(Game.items));
         startMessage();
         comboBox.setVisibleRowCount(3);
     }

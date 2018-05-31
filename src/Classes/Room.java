@@ -11,7 +11,6 @@ public class Room extends GameObject {
     private ArrayList<Item> items;
     private ArrayList<Character> characters;
     private boolean unlocked = false;
-    private int id;
     private ArrayList<Item> lockedItems;
     private ArrayList<Character> lockedCharacters;
 
@@ -36,22 +35,14 @@ public class Room extends GameObject {
      * @param name the name of the room
      * @param description the description of the room
      */
-    public Room(int id, String name, String description) {
+    public Room(String name, String description) {
         super(name, description);
-        this.id = id;
         this.items = new ArrayList<>();
         this.characters = new ArrayList<>();
         this.lockedItems = new ArrayList<>();
         this.lockedCharacters = new ArrayList<>();
     }
 
-    /**
-     * id getter
-     * @return the id of the room
-     */
-    public int getId() {
-        return id;
-    }
 
     /**
      * unlocked getter
@@ -182,9 +173,9 @@ public class Room extends GameObject {
     }
 
     public String roomToCSV(){
-        //ID;Name; Description;IsUnlocked; Items; Characters; LockedCharacters; lockedItems;
+        //Name; Description;IsUnlocked; Items; Characters; LockedCharacters; lockedItems;
         StringBuilder line =  new StringBuilder();
-        line.append(getId()+";"+getName()+";"+ getDescription()+";"+isUnlocked()+";");
+        line.append(getName()+";"+ getDescription()+";"+isUnlocked()+";");
         for (Item myItem: items) {
             if (items.get(items.size()-1)==myItem){
                 line.append(myItem.getName());
@@ -233,49 +224,41 @@ public class Room extends GameObject {
     }
 
     public static void CSVToRoom(String line){
-        //ID;Name; Description;IsUnlocked; Items; Characters; LockedCharacters; lockedItems;
-        System.out.println(line);
+        //Name; Description;IsUnlocked; Items; Characters; LockedCharacters; lockedItems;
         String[]values = line.split(";");
         Boolean isUnlocked =false;
         ArrayList<Item> items = new ArrayList<>();
         ArrayList<Character> characters = new ArrayList<>();
         ArrayList<Character> lockedCharacters = new ArrayList<>();
         ArrayList<Item> lockedItems = new ArrayList<>();
-        Room maRoom = new Room(Integer.parseInt(values[0]),values[1],values[2]);
-        if(values[3].equals("true")){
+        Room maRoom = new Room(values[0],values[1]);
+        if(values[2].equals("true")){
             isUnlocked=true;
             maRoom.setUnlocked(isUnlocked);
         }
-        if (!values[4].equals("null")) {
+        if (!values[3].equals("null")) {
             String[] oneItem = values[4].split("/");
             for (String myItem:oneItem) {
                 items.add(Item.getItem(myItem,Game.items));
             }
             maRoom.setItems(items);
         }
-        if (!values[5].equals("null")) {
-            String[] oneCharacter = values[5].split("/");
+        if (!values[4].equals("null")) {
+            String[] oneCharacter = values[4].split("/");
             for (String myCharacter:oneCharacter) {
                 characters.add(Character.getCharacter(myCharacter, Game.characters));
-                for (Character character:Game.characters){
-                    if(myCharacter==character.getName()){
-                        character.setCurrentRoom(maRoom);
-                    }
-                }
             }
             maRoom.setCharacters(characters);
         }
-        if (!values[6].equals("null")) {
-            String[] oneCharacter = values[6].split("/");
-            System.out.println(oneCharacter);
+        if (!values[5].equals("null")) {
+            String[] oneCharacter = values[5].split("/");
             for (String myCharacter:oneCharacter) {
                 lockedCharacters.add(Character.getCharacter(myCharacter, Game.characters));
             }
             maRoom.setLockedCharacters(lockedCharacters);
-            System.out.println(lockedCharacters);
         }
-        if (!values[4].equals("null")) {
-            String[] oneItem = values[4].split("/");
+        if (!values[6].equals("null")) {
+            String[] oneItem = values[6].split("/");
             for (String myItem:oneItem) {
                 lockedItems.add(Item.getItem(myItem,Game.items));
             }

@@ -43,22 +43,15 @@ public class MainController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
     }
 
-    public void newGameButtonPush(ActionEvent event) throws IOException {
+    public void newGameButtonPush(){
         Sauvegarde.importNewGame();
         transitionScene();
     }
 
 
-    public void loadGameButtonPush(ActionEvent event) throws IOException {
+    public void loadGameButtonPush(){
         //Sauvegarde.importGame();
-        Parent tableViewParent = FXMLLoader.load(getClass().getResource("InterfaceProjet.fxml"));
-        Scene tableViewScene = new Scene(tableViewParent);
-
-        //This line gets the Stage information
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-
-        window.setScene(tableViewScene);
-        window.show();
+        transitionScene();
     }
 
     public void quitButtonPush(){
