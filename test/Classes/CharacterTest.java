@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 public class CharacterTest {
 
-    Room testRoom = new Room(0, "testRoom", "test");
+    Room testRoom = new Room("testRoom", "test");
     Item testItem = new Item("testItem", 0,1,2, true, "test");
     ArrayList<Item> testInventory = new ArrayList<>();
-    Character testCharac = new Character("testCharac", false, "test",
+    Character testCharac = new Character("testCharac", false, "testDialogue", "test",
             true, 1, 6, 1, testInventory);
 
     @org.junit.Test

@@ -101,14 +101,13 @@ public class EditorController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         transitionScene();
-        console.appendText(String.valueOf(Game.items));
         startMessage();
         comboBox.setVisibleRowCount(3);
     }
 
     public void sauvegardeButtonPush(){
         Sauvegarde.saveGame();
-        console.appendText("Sauvegarde éffectué");
+        console.appendText("Sauvegarde effectuée");
     }
 
 
@@ -217,14 +216,12 @@ public class EditorController implements Initializable {
             case"speak":
                 if (Room.containCharac(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getCharacters())) {
                     if (Room.getCharac(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getCharacters()).isWicked()) {
-                        console.appendText("\n" + Room.getCharac(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getCharacters()).getName() +
-                                " n'aime pas quand on lui parle.." +
+                        console.appendText("\n" + Room.getCharac(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getCharacters()).getDialogue() +
                                 "\nCela va se régler en combat !");
                         currentSituation="fight";
                         fight(Room.getCharac(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getCharacters()), 2, console);
                     } else {
-                        console.appendText("\n" + choixUtilisateur +
-                                " veut vous aider \nmais ne sait toujours pas comment, revenez plus tard !");
+                        console.appendText("\n" + Room.getCharac(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getCharacters()).getDialogue());
                     }
                 } else {
                     console.appendText("\nCe personnage n'est pas dans cette salle.");
@@ -250,7 +247,7 @@ public class EditorController implements Initializable {
                 break;
             case "fight":
                 if (Item.containItem(choixUtilisateur, Game.characters.get(0).getInventory())) {
-                    Game.characters.get(0).activateItem(Item.getItem(choixUtilisateur, Game.characters.get(0).getInventory()), console);
+                    Game.characters.get(0).activateItem(Item.getItem(choixUtilisateur, Game.characters.get(0).getInventory()), console, "all");
                 } else {
                     console.appendText("Vous ne possédez pas cet objet.\n");
                 }
@@ -261,7 +258,7 @@ public class EditorController implements Initializable {
                 break;
             case "activate":
                 if (Item.containItem(choixUtilisateur, Game.characters.get(0).getInventory())) {
-                    Game.characters.get(0).activateItem(Item.getItem(choixUtilisateur, Game.characters.get(0).getInventory()), console);
+                    Game.characters.get(0).activateItem(Item.getItem(choixUtilisateur, Game.characters.get(0).getInventory()), console, "all");
                 }else {
                     console.appendText("\nVous ne possédez pas cet item.\n");
                 }
@@ -352,6 +349,9 @@ public class EditorController implements Initializable {
 
         if (ptsPlayer > nbRounds / 2) {
             console.appendText("Bravo " + Game.characters.get(0).getName() + ", vous avez gagné !\n");
+            console.appendText(opponent.getDescription());
+            console.appendText("\nGrâce à ce combat :");
+            Game.characters.get(0).activateItem(opponent.getInventory().get(0), console, "bonus");
             if(Game.characters.get(0).getCurrentRoom().containCharac(opponent.getName(), Game.characters.get(0).getCurrentRoom().getLockedCharacters())){
                 Game.characters.get(0).getCurrentRoom().removeCharac(opponent.getName(), Game.characters.get(0).getCurrentRoom().getCharacters());
                 Game.characters.get(0).getCurrentRoom().getLockedCharacters().remove(opponent);
@@ -366,6 +366,8 @@ public class EditorController implements Initializable {
             manageBackButton();
         } else if( ptsIa > nbRounds/2){
             console.appendText(opponent.getName() + " a gagné ! Vous avez perdu.\n");
+            console.appendText("\nA cause de ce combat :");
+            Game.characters.get(0).activateItem(opponent.getInventory().get(0), console, "malus");
             manageBackButton();
         }
     }
@@ -392,6 +394,8 @@ public class EditorController implements Initializable {
 
     public void manageRun(){
         console.appendText("Vous avez fuit, combat terminé.\n");
+        console.appendText("\nA cause de ce combat :");
+        Game.characters.get(0).activateItem(opponent.getInventory().get(0), console, "malus");
         manageBackButton();
     }
 
@@ -464,6 +468,11 @@ public class EditorController implements Initializable {
                 "Pour en savoir plus, cliquez sur \"help\".\n");
     }
 
+    public void manageGameOver(){
+        removeSideButtonsVision();
+        console.appendText("---GAME OVER---");
+    }
+
     public void loadInventory(){
         comboBoxInventory.getItems().clear();
         comboBoxInventory.setEditable(false);
@@ -501,7 +510,11 @@ public class EditorController implements Initializable {
     }
 
     public void comboBoxUdapte(){
-        choixUtilisateur = comboBox.getValue().toString();
+        try {
+            choixUtilisateur = comboBox.getValue().toString();
+        }catch (Exception e){
+            System.out.println("Choose a value");
+        }
     }
 
 }

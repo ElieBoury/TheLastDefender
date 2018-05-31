@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class RoomTest {
 
     ArrayList<Item> testInventory = new ArrayList<>();
-    Character testCharac = new Character("testCharac", false, "test",
+    Character testCharac = new Character("testCharac", false, "testDialogue", "test",
             true, 1, 6, 1, testInventory);
 
     @Test

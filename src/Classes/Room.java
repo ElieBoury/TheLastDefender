@@ -235,7 +235,7 @@ public class Room extends GameObject {
             maRoom.setUnlocked(true);
         }
         if (!values[3].equals("null")) {
-            String[] oneItem = values[4].split("/");
+            String[] oneItem = values[3].split("/");
             for (String myItem:oneItem) {
                 items.add(Item.getItem(myItem,Game.items));
             }
