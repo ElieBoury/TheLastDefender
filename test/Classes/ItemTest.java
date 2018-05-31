@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class ItemTest {
 
-    Item testItem = new Item("testItem", 0, 1,2, true, false, "test");
+    Item testItem = new Item("testItem", 0, 1,2, true, "test");
 
     @Test
     public void containItem() {

@@ -183,37 +183,41 @@ public class Character extends GameObject {
      * @param item the item activated
      */
     public void activateItem(Item item, TextArea console) {
-        //Manage minimum bound
-        this.lowerDice += item.getChangeMinBound();
-        if (item.getChangeMinBound() > 0) {
+        if(item.isToActivate()) {
+            //Manage minimum bound
+            this.lowerDice += item.getChangeMinBound();
+            if (item.getChangeMinBound() > 0) {
                 console.appendText("\nVotre borne inférieure vient d'augmenter de " +
                         item.getChangeMinBound() + " !\n" + "Il est maintenant de " + this.lowerDice + ".\n");
-        } else if(item.getChangeMinBound() < 0) {
+            } else if (item.getChangeMinBound() < 0) {
                 console.appendText("\nLa borne inférieure de vos dés vient de diminuer de " +
                         item.getChangeMinBound() * -1 + " !\n" + "Elle est maintenant de " + this.lowerDice + ".\n");
-        }
-        //Manage maximum bound
-        this.upperDice += item.getChangeMaxBound();
-        if (item.getChangeMaxBound() > 0) {
-            console.appendText("\nVotre borne supérieure vient d'augmenter de " +
-                    item.getChangeMaxBound() + " !\n" + "Il est maintenant de " + this.upperDice + ".\n");
-        } else if(item.getChangeMaxBound() < 0) {
-            console.appendText("\nLa borne supérieure de vos dés vient de diminuer de " +
-                    item.getChangeMinBound() * -1 + " !\n" + "Elle est maintenant de " + this.upperDice + ".\n");
-        }
-        //Manage minimum bound
-        this.nbDice += item.getChangeDice();
-        if (item.getChangeDice() > 0) {
-            console.appendText("\nVotre nombre de dés vient d'augmenter de " +
-                    item.getChangeDice() + " !\n" +
-                    "Votre kit de dés est maintenant au nombre de " + this.nbDice + ".\n");
-        } else if(item.getChangeDice() < 0) {
-            console.appendText("\nVotre nombre de dés vient de diminuer de  " +
-                    item.getChangeDice() * -1 + " !\n" +
-                    "Votre kit de dés est maintenant au nombre de " + this.nbDice + ".\n");
-        }
+            }
+            //Manage maximum bound
+            this.upperDice += item.getChangeMaxBound();
+            if (item.getChangeMaxBound() > 0) {
+                console.appendText("\nVotre borne supérieure vient d'augmenter de " +
+                        item.getChangeMaxBound() + " !\n" + "Il est maintenant de " + this.upperDice + ".\n");
+            } else if (item.getChangeMaxBound() < 0) {
+                console.appendText("\nLa borne supérieure de vos dés vient de diminuer de " +
+                        item.getChangeMinBound() * -1 + " !\n" + "Elle est maintenant de " + this.upperDice + ".\n");
+            }
+            //Manage minimum bound
+            this.nbDice += item.getChangeDice();
+            if (item.getChangeDice() > 0) {
+                console.appendText("\nVotre nombre de dés vient d'augmenter de " +
+                        item.getChangeDice() + " !\n" +
+                        "Votre kit de dés est maintenant au nombre de " + this.nbDice + ".\n");
+            } else if (item.getChangeDice() < 0) {
+                console.appendText("\nVotre nombre de dés vient de diminuer de  " +
+                        item.getChangeDice() * -1 + " !\n" +
+                        "Votre kit de dés est maintenant au nombre de " + this.nbDice + ".\n");
+            }
 
-        this.inventory.remove(item);
+            this.inventory.remove(item);
+        }else{
+            console.appendText("\nCet item ne peut pas être activé.");
+        }
     }
 
    public static Character getCharacter(String name, ArrayList<Character> characters) {

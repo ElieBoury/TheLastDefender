@@ -8,7 +8,6 @@ public class Item extends GameObject {
     private int changeMaxBound;
     private int changeDice;
     private boolean toActivate;
-    private boolean taken;
 
     /**
      * Constructor
@@ -17,16 +16,14 @@ public class Item extends GameObject {
      * @param changeMaxBound Change the maximum bound
      * @param changeDice Change the number of dices
      * @param toActivate Classes.Item is to activate or not
-     * @param taken Classes.Item is taken or not
      * @param description Description of the item
      */
-    public Item(String name, int changeMinBound, int changeMaxBound, int changeDice, boolean toActivate, boolean taken, String description) {
+    public Item(String name, int changeMinBound, int changeMaxBound, int changeDice, boolean toActivate, String description) {
         super(name, description);
         this.changeMinBound = changeMinBound;
         this.changeMaxBound = changeMaxBound;
         this.changeDice = changeDice;
         this.toActivate = toActivate;
-        this.taken = taken;
     }
 
     /**
@@ -61,27 +58,11 @@ public class Item extends GameObject {
         return toActivate;
     }
 
-    /**
-     * taken getter
-     * @return if the item is taken or not
-     */
-    public boolean isTaken() {
-        return taken;
-    }
-
-    /**
-     * taken setter
-     * @param taken
-     */
-    public void setTaken(boolean taken) {
-        this.taken = taken;
-    }
-
     @Override
     public String toString(){
         return( getName()+" change minimum bound :" + getChangeMinBound()+", change maximum bound :"+
                 getChangeMaxBound()+" change number of dice :" + getChangeDice()+
-                ", is an activate item :"+isToActivate()+", is taken :"+isTaken()+
+                ", is an activate item :"+isToActivate()+
                 ", his description : "+getDescription());
     }
 
@@ -116,25 +97,21 @@ public class Item extends GameObject {
     }
 
     public String itemToCSV(){
-        //Name;changeMinBound;changeMaxBound;changeDice;toActivate;Taken;Description;
+        //Name;changeMinBound;changeMaxBound;changeDice;toActivate;Description;
         String line =(getName()+";"+getChangeMinBound()+";"+ getChangeMaxBound()+";"+getChangeDice()+
-                ";"+isToActivate()+";"+isTaken()+";"+getDescription()+";");
+                ";"+isToActivate()+";"+getDescription()+";");
         return line;
     }
 
     public static void CSVToItem(String line){
-        //Name;changeMinBound;changeMaxBound;changeDice;toActivate;Taken;Description;
+        //Name;changeMinBound;changeMaxBound;changeDice;toActivate;Description;
         String[]values = line.split(";");
         Boolean activate =false;
-        Boolean take=false;
         if(values[4].equals("true")){
             activate = true;
         }
-        if(values[5].equals("true")){
-            take=true;
-        }
         Game.items.add(new Item(values[0],Integer.parseInt(values[1]),
-                Integer.parseInt(values[2]),Integer.parseInt(values[3]),activate, take, values[6]));
+                Integer.parseInt(values[2]),Integer.parseInt(values[3]),activate, values[5]));
     }
 
 }

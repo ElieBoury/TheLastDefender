@@ -1,3 +1,3 @@
 ID;Name; Description;IsUnlocked; Items; Characters; LockedCharacters; lockedItems;
-0;Salle initiale;Salle de préparation;true;Bleuvrage/Gourde mystère;Antivira/JigSaw;JigSaw;null;
+0;Salle initiale;Salle de préparation;false;Bleuvrage/Gourde mystère;Antivira/JigSaw;JigSaw;null;
 1;Salle infernale;Description salle infernale;false;null;null;null;null;

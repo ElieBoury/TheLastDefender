@@ -68,7 +68,7 @@ public class RoomTest {
 
     @Test
     public void removeItem() {
-        Item testItem = new Item("testItem", 0, 1,-2, true, false, "test");
+        Item testItem = new Item("testItem", 0, 1,-2, true, "test");
         ArrayList<Item> testList = new ArrayList<>();
         testList.add(testItem);
 

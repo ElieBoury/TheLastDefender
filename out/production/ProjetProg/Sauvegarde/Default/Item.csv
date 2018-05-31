@@ -1,3 +1,4 @@
-Name;Bonus;Malus;toActivate;Taken;Description;
-Bleuvrage;-2;0;true;false;Cet objet augmente la limite max des dès de 2 pour toujours !;
-Gourde mystère;0;-2;true;false;Cet objet diminue la limite max des dès de 2 pour toujours !;
+Name;changeMinBound;changeMaxBound;changeDice;toActivate;Description;
+Bleuvrage;0;2;0;true;Cet objet augmente la limite max des dès de 2 pour toujours !;
+Gourde mystère;0;-2;0;true;Cet objet diminue la limite max des dès de 2 pour toujours !;
+Clé de cryptage;0;0;0;false;Gardez cette clé précieusement, elle peut vous être utile...;
