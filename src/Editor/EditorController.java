@@ -182,7 +182,7 @@ public class EditorController implements Initializable {
                 console.appendText("\nVous venez de changer de salle, observez la bien ...\n");
             }
         } else {
-            console.appendText("\nUn ou plusieurs virus bloquent l'accès à la salle suivante,\n" +
+            console.appendText("\nDes virus (ou peut-être autre chose) bloquent l'accès à la salle suivante,\n" +
                     "faites preuve d'assurance !\n");
         }
     }
@@ -286,7 +286,15 @@ public class EditorController implements Initializable {
                     Game.characters.get(0).getInventory().remove(Item.getItem(choixUtilisateur, Game.characters.get(0).getInventory()));
                     Game.characters.get(0).getCurrentRoom().getItems().add(Item.getItem(choixUtilisateur, Game.items));
                     console.appendText("Vous venez de relâcher l'objet dans " + Game.characters.get(0).getCurrentRoom().getName() + "\n");
-
+                    if(Item.containItem(choixUtilisateur,Game.characters.get(0).getCurrentRoom().getLockedItems())){
+                        Game.characters.get(0).getCurrentRoom().getItems().add(Item.getItem(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getItems()));
+                        Game.characters.get(0).getCurrentRoom().getLockedItems().remove(choixUtilisateur);
+                        console.appendText("Bonne nouvelle ! Vous venez de déposer un objet déverrouillant la salle !\n");
+                        if(Game.characters.get(0).getCurrentRoom().getLockedCharacters().isEmpty() && Game.characters.get(0).getCurrentRoom().getLockedItems().isEmpty()){
+                            Game.characters.get(0).getCurrentRoom().setUnlocked(true);
+                            console.appendText("\nBravo ! Vous avez nettoyé la salle, plus rien n'en bloque la sortie !");
+                        }
+                    }
                 }else{
                     console.appendText("Vous ne possédez pas cet item\n");
                 }
@@ -363,6 +371,7 @@ public class EditorController implements Initializable {
             }
             if(Game.characters.get(0).getCurrentRoom().getLockedCharacters().isEmpty() && Game.characters.get(0).getCurrentRoom().getLockedItems().isEmpty()){
                 Game.characters.get(0).getCurrentRoom().setUnlocked(true);
+                console.appendText("\nBravo ! Vous avez nettoyé la salle, plus rien n'en bloque la sortie !");
             }
             manageBackButton();
         } else if( ptsIa > nbRounds/2){

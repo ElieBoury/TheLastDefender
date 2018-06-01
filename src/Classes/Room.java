@@ -97,7 +97,7 @@ public class Room extends GameObject {
      */
     public void presentRoom(TextArea console) {
         console.appendText("\nVous êtes dans la " + this.getName() + "\n");
-        console.appendText("Description : " + this.getDescription() + "\n");
+        console.appendText(this.getDescription() + "\n");
         if(this.getItems().size()!=0) {
             console.appendText("Dans cette salle sont présents ces items: \n");
             for (Item item : this.items) {

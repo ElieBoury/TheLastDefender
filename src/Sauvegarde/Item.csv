@@ -1,5 +1,5 @@
-Name;Bonus;Malus;toActivate;Taken;Description;
-itemTrojan;-1;1;0;true;item de Trojan;
+Name;changeMinBound;changeMaxBound;changeDice;toActivate;Description;
+temTrojan;-1;1;0;true;item de Trojan;
 itemJigSaw;-2;2;-1;true;item de JigSaw;
 Cleaner Dice;0;0;1;true;Cet objet augmente votre kit de dés de 1 !;
 Bleuvrage;0;2;0;true;Cet objet augmente la limite max des dès de 2 pour toujours !;
