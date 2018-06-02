@@ -316,7 +316,7 @@ public class Character extends GameObject {
             isWicked = true;
         }
         if (!values[7].equals("null")) {
-            String[] oneItem = values[6].split("/");
+            String[] oneItem = values[7].split("/");
             for (String myItem:oneItem) {
                 myInventory.add(Item.getItem(myItem,Game.items));
             }
