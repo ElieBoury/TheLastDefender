@@ -1,6 +1,10 @@
 Name;Wicked;Dialogue;Description;LowerDice;UpperDice;nbDice;Items;
-AVAST;false;-;C'est vous !;true;1;3;1;null;
+AVAST;false;-;C'est vous !;1;2;1;null;
 Antivira;false;Tu dois absolument nous aider à nettoyer tous ces virus!;Antivira est un anti virus;0;0;0;null;
 VeraCrypt;false;La sortie de la mémoire ROM est cryptée, il faut absolument trouver un moyen de la déchiffrer...;VeryCrypt est un anti virus;0;0;0;null;
+Malware;false;Zeus est un virus extrêmement puissant avec ses ordinateurs zombies, bon courage ...;Anti virus;0;0;0;Cleaner Dice;
 Trojan;true;Tu ne passeras pas, nous allons détruire cet ordinateur!;Un Trojan(cheval de Troie) est un logiciel en apparence légitime, mais qui contient une fonctionnalité malveillante : son rôle est de faire entrer ce parasite sur l'ordinateur et de l'y installer à l'insu de l'utilisateur.;1;2;1;itemTrojan;
-JigSaw;true;Je crois que tu ne sais pas à qui tu te mesures ...;JigSaw est un virus méchant;1;4;1;itemJigSaw;
+Jack Ripper;true;Nous occupons 100% de la RAM, cet ordinateur est totalement bloqué et nous ne délogerons pas.;JAck Ripepr est un virus système.Le virus est chargé dans la mémoire vive à la mise sous tension de la machine et y demeure jusqu'à son arrêt. Pour infecter un ordinateur, il suffit de le démarrer avec une clé USB ou un CD-Rom contenant le virus.;1;4;1;itemJackRipper;
+RansomWare;true;Nous avons crypté toutes les données de ce disque dur, 1M € et nous te les rendons :);Le RansomWare est un logiciel malveillant qui prend en otage des données personnelles. Pour ce faire, un rançongiciel chiffre des données personnelles puis demande à leur propriétaire d'envoyer de l'argent en échange de la clé qui permettra de les déchiffrer.;1;6;1;itemRansomWare;
+MeltDown;true;Nous nous sommes introduit et contrôlons l'ensemble du processeur avec une facilité enfantine ahahah !;Meltdown utilise une faille permettant d’accéder à des informations normalement inaccessibles, notamment les mots de passe saisis par l’utilisateur.;1;5;2;itemMeltdown;
+Zeus;true;J'ai contaminé des millions d'ordinateurs, ce sont maintenant des zombies, ce n'est pas un petit antivirus comme toi qui me fera reculer.;Zeus est devenu l'un des botnets les plus efficaces au monde, infectant des millions de machines et engendrant de nombreux programmes malveillants similaires développés à partir de son code.;1;6;3;itemZeus;

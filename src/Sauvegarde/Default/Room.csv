@@ -1,6 +1,7 @@
 Name; Description;IsUnlocked; Items; Characters; LockedCharacters; lockedItems;
-Salle Port USB;Les virus sont entrés par ici.;false;Cleaner Dice/Clé de cryptage;Antivira/Trojan;Trojan;null;
-Salle RAM;La mémoire RAM est infectée, l'ordinateur est inutilisable.;false;null;null;null;null;
-Salle ROM;Des virus ont l'emprise sur la mémoire morte, il y a un risque de perte de tous les fichiers !;false;null;VeraCrypt;null;Clé de cryptage;
-Salle Microprocesseur;Le microprocesseur tourne au ralenti, il faut y jeter un coup d'oeil.;false;null;null;null;null;
-Salle Ecran;L'écran est incontrolable, il faut absolument le nettoyer!\nCourage! C'est le dernier composant !;false;null;null;null;null;
+Salle Port USB;Les virus sont entrés par ici.;false;E-Mail mystère/Pare-Feu/Clé de cryptage;Antivira/Trojan;Trojan;null;
+Salle RAM;La mémoire RAM est infectée, l'ordinateur est inutilisable.;false;UpdatePotion/Antidote;Jack Ripper;Jack Ripper;null;
+Salle ROM;Des virus ont l'emprise sur la mémoire morte, il y a un risque de perte de tous les fichiers !;false;Cleaner Potion/Vista;RansomWare/VeraCrypt;RansomWare;Clé de cryptage;
+Salle Microprocesseur;Le microprocesseur tourne au ralenti, il faut y jeter un coup d'oeil.;false;PubBlock/E-mail mystèrieux;Meltdown;Meltdown;null;
+Salle Ecran;L'écran est incontrolable, il faut absolument le nettoyer!\nCourage! C'est le dernier composant !;false;Cleaner Dice;Malware/Zeus;Zeus;Antidote;
+Salle de fin;Bravo, vous avez nettoyé l'ordinateur de tous les virus, vous avez gagné la partie !;true;Trophée;null;null;null;
