@@ -13,13 +13,18 @@ public class Sauvegarde {
     final private static String PathRoom = "src/Sauvegarde/Room.csv";
 
 
-
+    /**
+     * To save a game
+     */
     public static void saveGame(){
         sauvegardeItems(PathItem);
         sauvegardeCharacter(PathCharacter);
         sauvegardeRoom(PathRoom);
     }
 
+    /**
+     * To import a new game from default CSV
+     */
     public static void importNewGame(){
         importItem(DefaultPathItem);
         importCharacter(DefaultPathCharacter);
@@ -27,6 +32,9 @@ public class Sauvegarde {
         Game.characters.get(0).setCurrentRoom(Game.rooms.get(0));
     }
 
+    /**
+     * To import a game from CSV
+     */
     public static void importGame(){
         importItem(PathItem);
         importCharacter(PathCharacter);
@@ -34,6 +42,10 @@ public class Sauvegarde {
         Game.characters.get(0).setCurrentRoom(Game.rooms.get(0));
     }
 
+    /**
+     * create the CSV with game's characters to implement Character.csv
+     * @param path where is the CSV
+     */
     public static void sauvegardeCharacter(String path) {
         BufferedWriter myFile = null;
         try {
@@ -53,6 +65,10 @@ public class Sauvegarde {
         }
     }
 
+    /**
+     * create the CSV with game's items to implement item.csv
+     * @param path where is the CSV
+     */
     public static void sauvegardeItems(String path) {
         BufferedWriter myFile = null;
         try {
@@ -73,6 +89,10 @@ public class Sauvegarde {
         }
     }
 
+    /**
+     * create the CSV with game's room to implement room.csv
+     * @param path where is the CSV
+     */
     public static void sauvegardeRoom(String path) {
         BufferedWriter myFile = null;
         try {
@@ -93,6 +113,10 @@ public class Sauvegarde {
         }
     }
 
+    /**
+     * import CSV for character
+     * @param path where is the CSV
+     */
     public static void importCharacter(String path) {
         BufferedReader myFile = null;
         try {
@@ -109,6 +133,10 @@ public class Sauvegarde {
         }
     }
 
+    /**
+     * import CSV for item
+     * @param path where is the CSV
+     */
     public static void importItem(String path) {
         BufferedReader myFile = null;
         try {
@@ -125,6 +153,10 @@ public class Sauvegarde {
         }
     }
 
+    /**
+     * import CSV for room
+     * @param path where is the CSV
+     */
     public static void importRoom(String path) {
         BufferedReader myFile = null;
         try {

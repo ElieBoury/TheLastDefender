@@ -293,6 +293,10 @@ public class Room extends GameObject {
         Game.rooms.add(maRoom);
     }
 
+    /**
+     *
+     * @return StringBuilder all characters'name in this room
+     */
     public StringBuilder characterRoom(){
         StringBuilder line =  new StringBuilder();
         for (Character charac: characters){
@@ -301,6 +305,10 @@ public class Room extends GameObject {
         return line;
     }
 
+    /**
+     *
+     * @return StringBuilder all items'name in this room
+     */
     public StringBuilder itemRoom(){
         StringBuilder line =  new StringBuilder();
         for (Item item: items){

@@ -2,7 +2,6 @@ package Classes;
 
 import java.util.ArrayList;
 
-import Editor.EditorController;
 import javafx.scene.control.TextArea;
 
 public class Character extends GameObject {

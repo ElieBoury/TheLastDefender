@@ -1,15 +1,11 @@
 package Classes;
 
-import Editor.EditorController;
-import Editor.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.*;
-import java.net.URL;
 import java.util.*;
 
 public class Game extends Application {

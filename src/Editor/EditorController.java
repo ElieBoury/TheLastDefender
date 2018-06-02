@@ -58,9 +58,6 @@ public class EditorController implements Initializable {
     private Button activateButton;
 
     @FXML
-    private Button backButton;
-
-    @FXML
     private Button comboxOK;
 
     @FXML
@@ -597,6 +594,9 @@ public class EditorController implements Initializable {
         }
     }
 
+    /**
+     * Disable all button in the main
+     */
     public void disableMainButton(){
         speakButton.setDisable(true);
         takeButton.setDisable(true);
@@ -608,6 +608,9 @@ public class EditorController implements Initializable {
         saveButton.setDisable(true);
     }
 
+    /**
+     * load the comboBox with AVAST's item
+     */
     public void loadInventory(){
         comboBox.getItems().clear();
         comboBox.setEditable(false);
@@ -617,6 +620,9 @@ public class EditorController implements Initializable {
         }
     }
 
+    /**
+     * load the comboBox with room's item
+     */
     public void loadItem(){
         comboBox.getItems().clear();
         comboBox.setEditable(false);
@@ -626,6 +632,9 @@ public class EditorController implements Initializable {
         }
     }
 
+    /**
+     * load the comboBox with room's character
+     */
     public void loadCharacter(){
         comboBox.getItems().clear();
         comboBox.setEditable(false);
@@ -635,6 +644,9 @@ public class EditorController implements Initializable {
         }
     }
 
+    /**
+     * transition
+     */
     private void transitionScene(){
         FadeTransition transition = new FadeTransition();
         transition.setDuration(Duration.millis(1000));
@@ -644,6 +656,9 @@ public class EditorController implements Initializable {
         transition.play();
     }
 
+    /**
+     * udapte the user choice throught the comboBox
+     */
     public void comboBoxUdapte(){
         try {
             choixUtilisateur = comboBox.getValue().toString();
