@@ -1,8 +1,18 @@
 Name;changeMinBound;changeMaxBound;changeDice;toActivate;Description;
 itemTrojan;-1;1;0;true;item de Trojan;
-itemJigSaw;-2;2;-1;true;item de JigSaw;
+itemJackRipper;1;-1;0;true;item de JackRipper;
+itemRansomWare;-2;2;1;true;item de RansomWare;
+itemMeltdown;1;-2;1;true;item de Meltdown;
+itemZeus;-2;0;-1;true;item de Zeus;
 Cleaner Dice;0;0;1;true;Cet objet augmente votre kit de dés de 1 !;
-Bleuvrage;0;2;0;true;Cet objet augmente la limite max des dès de 2 pour toujours !;
-Gourde mystère;0;-2;0;true;Cet objet diminue la limite max des dès de 2 pour toujours !;
-Cleaner Potion;-2;0;0;true;Cet objet diminue la limite minimum de vos dés de 2 pour toujours !;
+Pare-Feu;0;2;0;true;Cet objet augmente la limite max des dès de 2 !;
+E-Mail mystère;0;-2;0;true;Cet e-mail perdu semble contenir quelque chose ...;
+E-mail mystèrieux;-1;1;0;true;Cet e-mail perdu semble contenir quelque chose ...;
+Cleaner Potion;1;1;0;true;Cet objet augmente la limite minimum et maximum de vos dés de 1 !;
+PubBlock;1;0;0;true;Cet objet augmente la limite minimum de vos dés de 1 !;
+UpdatePotion;0;2;0;true;Cet objet augmente la limite maximum de vos dés de 2 !;
 Clé de cryptage;0;0;0;false;Gardez cette clé précieusement, elle peut vous être utile...;
+Vista;-1;-1;0;true;Cet environnement semble plutôt intéressant !;
+Trophée;10;10;2;true;Félicitation, il n'y a plus de virus, plus rien ne peut vous arrêter dans cet ordinateur !!!;
+Antidote;0;0;0;false;Un antidote pour ordinateur ?;
+
