@@ -263,6 +263,17 @@ public class EditorController implements Initializable {
                     } else {
                         console.appendText("\n" + Room.getCharac(choixUtilisateur,
                                 Game.characters.get(0).getCurrentRoom().getCharacters()).getDialogue());
+                        if(!Room.getCharac(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getCharacters())
+                                .getInventory().isEmpty()){
+                            console.appendText("\nVoilà de quoi t'aider pour ta mission !\n" +
+                                    "Vous venez d'obtenir un " +
+                                    Room.getCharac(choixUtilisateur, Game.characters.get(0).getCurrentRoom().
+                                            getCharacters()).getInventory().get(0).getName());
+                            Game.characters.get(0).getInventory().add(Room.getCharac(choixUtilisateur,
+                                    Game.characters.get(0).getCurrentRoom().getCharacters()).getInventory().get(0));
+                            Room.getCharac(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getCharacters()).
+                                    getInventory().remove(0);
+                        }
                     }
                 } else {
                     console.appendText("\nCe personnage n'est pas dans cette salle.");
