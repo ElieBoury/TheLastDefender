@@ -14,22 +14,6 @@ public class Room extends GameObject {
     private ArrayList<Item> lockedItems;
     private ArrayList<Character> lockedCharacters;
 
-    public ArrayList<Item> getLockedItems() {
-        return lockedItems;
-    }
-
-    public void setLockedItems(ArrayList<Item> lockedItems) {
-        this.lockedItems = lockedItems;
-    }
-
-    public ArrayList<Character> getLockedCharacters() {
-        return lockedCharacters;
-    }
-
-    public void setLockedCharacters(ArrayList<Character> lockedCharacters) {
-        this.lockedCharacters = lockedCharacters;
-    }
-
     /**
      * Constructor
      * @param name the name of the room
@@ -93,7 +77,41 @@ public class Room extends GameObject {
     }
 
     /**
+     * lockedItem getter
+     * @return The list of items which lock the room
+     */
+    public ArrayList<Item> getLockedItems() {
+        return lockedItems;
+    }
+
+    /**
+     * lockedItems setter
+     * @param lockedItems
+     */
+    public void setLockedItems(ArrayList<Item> lockedItems) {
+        this.lockedItems = lockedItems;
+    }
+
+    /**
+     * lockedCharacters getter
+     * @return The list of characters which lock the room
+     */
+    public ArrayList<Character> getLockedCharacters() {
+        return lockedCharacters;
+    }
+
+
+    /**
+     * lockedCharacters setter
+     * @param lockedCharacters
+     */
+    public void setLockedCharacters(ArrayList<Character> lockedCharacters) {
+        this.lockedCharacters = lockedCharacters;
+    }
+
+    /**
      * Present the room : tell what is in it
+     * @param console where text is showed
      */
     public void presentRoom(TextArea console) {
         console.appendText("\nVous êtes dans la " + this.getName() + "\n");
@@ -172,6 +190,10 @@ public class Room extends GameObject {
         t.forEach(items::remove);
     }
 
+    /**
+     * Translate properties of a room in .csv
+     * @return the line .csv corresponding to this room
+     */
     public String roomToCSV(){
         //Name; Description;IsUnlocked; Items; Characters; LockedCharacters; lockedItems;
         StringBuilder line =  new StringBuilder();
@@ -223,6 +245,10 @@ public class Room extends GameObject {
         return line.toString();
     }
 
+    /**
+     * Create a room from a .csv
+     * @param line the line .csv of the room
+     */
     public static void CSVToRoom(String line){
         //Name; Description;IsUnlocked; Items; Characters; LockedCharacters; lockedItems;
         String[]values = line.split(";");

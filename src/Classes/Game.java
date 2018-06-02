@@ -20,7 +20,6 @@ public class Game extends Application {
 
     /**
      * Main loop
-     *
      * @param args
      */
     public static void main(String[] args) {

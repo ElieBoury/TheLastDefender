@@ -6,7 +6,6 @@ import Editor.EditorController;
 import javafx.scene.control.TextArea;
 
 public class Character extends GameObject {
-    private boolean player;
     private boolean wicked;
     private int lowerDice;
     private int upperDice;
@@ -19,39 +18,22 @@ public class Character extends GameObject {
     /**
      * Constructor
      * @param name Name of the character
-     * @param wicked Classes.Character is wicked or not
+     * @param wicked haracter is wicked or not
      * @param description Description of the character
-     * @param player Classes.Character is the player or not
      * @param lowerDice Lower bound of the dice
      * @param upperDice Upper bound of the dice
      * @param nbDice Number of dice owned
      * @param inventory Inventory of the character
      */
-    public Character(String name, boolean wicked, String dialogue, String description, boolean player, int lowerDice, int upperDice, int nbDice, ArrayList<Item> inventory) {
+    public Character(String name, boolean wicked, String dialogue, String description,
+                     int lowerDice, int upperDice, int nbDice, ArrayList<Item> inventory) {
         super(name, description);
-        this.player = player;
         this.wicked = wicked;
         this.dialogue = dialogue;
         this.lowerDice = lowerDice;
         this.upperDice = upperDice;
         this.nbDice = nbDice;
         this.inventory = inventory;
-    }
-
-    /**
-     * player getter
-     * @return If the character is a player or not
-     */
-    public boolean isPlayer() {
-        return player;
-    }
-
-    /**
-     * player setter
-     * @param player
-     */
-    public void setPlayer(boolean player) {
-        this.player = player;
     }
 
     /**
@@ -63,13 +45,9 @@ public class Character extends GameObject {
     }
 
     /**
-     * wicked setter
-     * @param wicked
+     * dialogue getter
+     * @return  the dialogue of the character
      */
-    public void setWicked(boolean wicked) {
-        this.wicked = wicked;
-    }
-
     public String getDialogue() {
         return dialogue;
     }
@@ -80,14 +58,6 @@ public class Character extends GameObject {
      */
     public ArrayList<Item> getInventory() {
         return inventory;
-    }
-
-    /**
-     * inventory setter
-     * @param inventory
-     */
-    public void setInventory(ArrayList<Item> inventory) {
-        this.inventory = inventory;
     }
 
     /**
@@ -157,6 +127,7 @@ public class Character extends GameObject {
     /**
      * Classes.Item recovery action from the character
      * @param item The item taken
+     * @param console where text is showed
      */
     public void takeItem(Item item, TextArea console) {
         if (item == null) {
@@ -172,23 +143,16 @@ public class Character extends GameObject {
 
     @Override
     public String toString(){
-        return (getName()+" is a player:"+isPlayer()+", is wicked:"+isWicked()+", his lowerDice is:"+getLowerDice()+
+        return (getName()+"is wicked:"+isWicked()+", his lowerDice is:"+getLowerDice()+
                 ", his upperDice is:"+getUpperDice()+", his number of Dice is:"+getNbDice()+", his inventory is" +
                 getInventory()+", and his current room is:"+getCurrentRoom());
     }
-    /**
-     *   private boolean player;
-     *     private boolean wicked;
-     *     private int lowerDice;
-     *     private int upperDice;
-     *     private int nbDice;
-     *     private ArrayList<Classes.Item> inventory;
-     *     private Classes.Room currentRoom;
-     */
 
     /**
      * Activation of an item owned by the character
      * @param item the item activated
+     * @param console where the text is showed
+     * @param bonusmalus if the item has to be activate as a bonus, a malus, or both
      */
     public void activateItem(Item item, TextArea console, String bonusmalus) {
         if (item.isToActivate()) {
@@ -201,12 +165,12 @@ public class Character extends GameObject {
                             this.lowerDice += item.getChangeMinBound();
                         }
                         console.appendText("\nVotre borne inférieure vient d'augmenter de " +
-                                item.getChangeMinBound() + " !\n" + "Il est maintenant de " + this.lowerDice + ".\n");
+                                item.getChangeMinBound() + " !\n" + "Elle est maintenant de " + this.lowerDice + ".\n");
                     }
-                    if (item.getChangeMinBound() > 0) {
+                    if (item.getChangeMaxBound() > 0) {
                         this.upperDice += item.getChangeMaxBound();
-                        console.appendText("\nVotre borne inférieure vient d'augmenter de " +
-                                item.getChangeMinBound() + " !\n" + "Il est maintenant de " + this.lowerDice + ".\n");
+                        console.appendText("\nVotre borne supérieure vient d'augmenter de " +
+                                item.getChangeMaxBound() + " !\n" + "Elle est maintenant de " + this.upperDice + ".\n");
                     }
                     if (item.getChangeDice() > 0) {
                         this.nbDice += item.getChangeDice();
@@ -219,7 +183,8 @@ public class Character extends GameObject {
                     if (item.getChangeMinBound() < 0) {
                         this.lowerDice += item.getChangeMinBound();
                         console.appendText("\nLa borne inférieure de vos dés vient de diminuer de " +
-                                item.getChangeMinBound() * -1 + " !\n" + "Elle est maintenant de " + this.lowerDice + ".\n");
+                                item.getChangeMinBound() * -1 + " !\n" + "Elle est maintenant de " +
+                                this.lowerDice + ".\n");
                     }
                     if (item.getChangeMaxBound() < 0) {
                         if (this.getLowerDice() > this.getUpperDice() + item.getChangeMaxBound()) {
@@ -228,7 +193,8 @@ public class Character extends GameObject {
                             this.upperDice += item.getChangeMaxBound();
                         }
                         console.appendText("\nLa borne supérieure de vos dés vient de diminuer de " +
-                                item.getChangeMinBound() * -1 + " !\n" + "Elle est maintenant de " + this.upperDice + ".\n");
+                                item.getChangeMinBound() * -1 + " !\n" + "Elle est maintenant de " +
+                                this.upperDice + ".\n");
                     }
                     if (item.getChangeDice() < 0) {
                         if (1 > this.getNbDice() + item.getChangeDice()) {
@@ -254,7 +220,8 @@ public class Character extends GameObject {
                                 item.getChangeMinBound() + " !\n" + "Il est maintenant de " + this.lowerDice + ".\n");
                     } else if (item.getChangeMinBound() < 0) {
                         console.appendText("\nLa borne inférieure de vos dés vient de diminuer de " +
-                                item.getChangeMinBound() * -1 + " !\n" + "Elle est maintenant de " + this.lowerDice + ".\n");
+                                item.getChangeMinBound() * -1 + " !\n" + "Elle est maintenant de " +
+                                this.lowerDice + ".\n");
                     }
                     //Manage maximum bound
                     if (this.getLowerDice() > this.getUpperDice() + item.getChangeMaxBound()) {
@@ -267,7 +234,8 @@ public class Character extends GameObject {
                                 item.getChangeMaxBound() + " !\n" + "Il est maintenant de " + this.upperDice + ".\n");
                     } else if (item.getChangeMaxBound() < 0) {
                         console.appendText("\nLa borne supérieure de vos dés vient de diminuer de " +
-                                item.getChangeMinBound() * -1 + " !\n" + "Elle est maintenant de " + this.upperDice + ".\n");
+                                item.getChangeMinBound() * -1 + " !\n" + "Elle est maintenant de " +
+                                this.upperDice + ".\n");
                     }
                     //Manage number of dices
                     if (1 > this.getNbDice() + item.getChangeDice()) {
@@ -296,6 +264,12 @@ public class Character extends GameObject {
         }
     }
 
+    /**
+     * Get a character from an arraylist from his name
+     * @param name the name of the character
+     * @param characters the arraylist
+     * @return the character
+     */
    public static Character getCharacter(String name, ArrayList<Character> characters) {
         for (Character myCharacter : characters) {
             if (name.equals(myCharacter.getName())) {
@@ -305,10 +279,15 @@ public class Character extends GameObject {
         return null;
     }
 
+    /**
+     * Translate properties of a character in .csv
+     * @return the line .csv corresponding to this character
+     */
     public String characterToCSV(){
-        //Name;Wicked;Dialogue;Description;Player;LowerDice;UpperDice;nbDice;Items;
+        //Name;Wicked;Dialogue;Description;LowerDice;UpperDice;nbDice;Items;
         StringBuilder line =  new StringBuilder();
-        line.append(getName()+";"+ isWicked()+";"+getDialogue()+";"+getDescription()+";"+isPlayer()+";"+getLowerDice()+";"+getUpperDice()+";"+getNbDice()+";");
+        line.append(getName()+";"+ isWicked()+";"+getDialogue()+";"+getDescription()+";"+getLowerDice()+";"+
+                getUpperDice()+";"+getNbDice()+";");
         if (this.inventory.isEmpty()){
             line.append("null;");
         }else{
@@ -324,25 +303,25 @@ public class Character extends GameObject {
         return line.toString();
     }
 
+    /**
+     * Create a character from a .csv
+     * @param line the line .csv of the character
+     */
     public static void CSVToCharacter(String line){
-        //Name;Wicked;Dialogue;Description;Player;LowerDice;UpperDice;nbDice;Items;
+        //Name;Wicked;Dialogue;Description;LowerDice;UpperDice;nbDice;Items;
         String[]values = line.split(";");
         ArrayList<Item> myInventory = new ArrayList<>();
         Boolean isWicked =false;
-        Boolean isPlayer=false;
         if(values[1].equals("true")){
             isWicked = true;
         }
-        if(values[4].equals("true")){
-            isPlayer=true;
-        }
-        if (!values[8].equals("null")) {
-            String[] oneItem = values[8].split("/");
+        if (!values[7].equals("null")) {
+            String[] oneItem = values[6].split("/");
             for (String myItem:oneItem) {
                 myInventory.add(Item.getItem(myItem,Game.items));
             }
         }
-        Game.characters.add(new Character(values[0],isWicked,values[2],values[3],isPlayer,
-                Integer.parseInt(values[5]),Integer.parseInt(values[6]),Integer.parseInt(values[7]),myInventory));
+        Game.characters.add(new Character(values[0],isWicked,values[2],values[3],
+                Integer.parseInt(values[4]),Integer.parseInt(values[5]),Integer.parseInt(values[6]),myInventory));
     }
 }

@@ -18,7 +18,8 @@ public class Item extends GameObject {
      * @param toActivate Classes.Item is to activate or not
      * @param description Description of the item
      */
-    public Item(String name, int changeMinBound, int changeMaxBound, int changeDice, boolean toActivate, String description) {
+    public Item(String name, int changeMinBound, int changeMaxBound, int changeDice, boolean toActivate,
+                String description) {
         super(name, description);
         this.changeMinBound = changeMinBound;
         this.changeMaxBound = changeMaxBound;
@@ -96,6 +97,10 @@ public class Item extends GameObject {
         return null;
     }
 
+    /**
+     * Translate properties of an item in .csv
+     * @return the line .csv corresponding to this item
+     */
     public String itemToCSV(){
         //Name;changeMinBound;changeMaxBound;changeDice;toActivate;Description;
         String line =(getName()+";"+getChangeMinBound()+";"+ getChangeMaxBound()+";"+getChangeDice()+
@@ -103,6 +108,10 @@ public class Item extends GameObject {
         return line;
     }
 
+    /**
+     * Create an item from a .csv
+     * @param line the line .csv of the item
+     */
     public static void CSVToItem(String line){
         //Name;changeMinBound;changeMaxBound;changeDice;toActivate;Description;
         String[]values = line.split(";");

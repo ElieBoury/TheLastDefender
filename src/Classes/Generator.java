@@ -3,10 +3,11 @@ package Classes;
 public class Generator {
 
     /**
-     * simulates a roll of dice between 2 bounds
+     * simulates a roll of dice between 2 bounds and a number of dices
      * @param min the lower bound
      * @param max the upper bound
-     * @return the score obtained
+     * @param nbDice number of dices
+     * @return the best score obtained
      */
     public static int generateScore(int min, int max, int nbDice) {
         int bestScore = 0, a;

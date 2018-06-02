@@ -108,6 +108,9 @@ public class EditorController implements Initializable {
         comboBox.setVisibleRowCount(3);
     }
 
+    /**
+     * Manage saving
+     */
     public void sauvegardeButtonPush(){
         Sauvegarde.saveGame();
         console.appendText("Sauvegarde effectuée\n");
@@ -129,15 +132,24 @@ public class EditorController implements Initializable {
                 "   \"next room\" : aller à la salle suivante\n");
     }
 
+    /**
+     * Manage leaving the game
+     */
     public void quit() {
         console.appendText("\nAu revoir !");
         System.exit(0);
     }
 
+    /**
+     * Manage looking a room
+     */
     public void lookRoom(){
         Game.characters.get(0).getCurrentRoom().presentRoom(console);
     }
 
+    /**
+     * Manage first step of speaking with a character
+     */
     public void manageSpeak(){
         loadCharacter();
         currentSituation="speak";
@@ -150,6 +162,9 @@ public class EditorController implements Initializable {
         ButtonBar.setVisible(true);
     }
 
+    /**
+     * Manage first step of taking an item
+     */
     public void manageTake(){
         loadItem();
         currentSituation="take";
@@ -164,21 +179,29 @@ public class EditorController implements Initializable {
 
     }
 
+    /**
+     * Manage an ask of going to the previous room
+     */
     public void managePreviousRoom(){
         if (Game.rooms.indexOf(Game.characters.get(0).getCurrentRoom()) != 0) {
-            Game.characters.get(0).setCurrentRoom(Game.rooms.get(Game.rooms.indexOf(Game.characters.get(0).getCurrentRoom()) - 1));
+            Game.characters.get(0).setCurrentRoom(Game.rooms.get(Game.rooms.indexOf(
+                    Game.characters.get(0).getCurrentRoom()) - 1));
             console.appendText("\nVous venez de changer de salle, observez la bien ...\n");
         } else {
             console.appendText("\nVous êtes dans la première salle,\nil n'y en a pas de précédente !\n");
         }
     }
 
+    /**
+     * Manage an ask of going to the next room
+     */
     public void manageNextRoom(){
         if (Game.characters.get(0).getCurrentRoom().isUnlocked()) {
             if (Game.rooms.indexOf(Game.characters.get(0).getCurrentRoom()) == Game.rooms.size()) {
                 console.appendText("\nVous êtes dans la dernière salle,\nil n'y en a pas de suivante !\n");
             } else {
-                Game.characters.get(0).setCurrentRoom(Game.rooms.get(Game.rooms.indexOf(Game.characters.get(0).getCurrentRoom()) + 1));
+                Game.characters.get(0).setCurrentRoom(Game.rooms.get(Game.rooms.indexOf(
+                        Game.characters.get(0).getCurrentRoom()) + 1));
                 console.appendText("\nVous venez de changer de salle, observez la bien ...\n");
             }
         } else {
@@ -187,6 +210,9 @@ public class EditorController implements Initializable {
         }
     }
 
+    /**
+     * Change main buttons vision
+     */
     public void changeMainButtonVision(){
         speakButton.setVisible(!speakButton.isVisible());;
         helpButton.setVisible(!helpButton.isVisible());
@@ -198,6 +224,9 @@ public class EditorController implements Initializable {
         saveButton.setVisible(!saveButton.isVisible());
     }
 
+    /**
+     * Make side buttons unvisible
+     */
     public void removeSideButtonsVision(){
         comboBox.setVisible(false);
         comboxOK.setDisable(false);
@@ -211,18 +240,25 @@ public class EditorController implements Initializable {
         releaseButton.setVisible(false);
     }
 
+    /**
+     * Recover the value of the textField according to the currentSituatuion and manage in consequence
+     */
     public void recoverTextField (){
         comboBoxUdapte();
         switch(currentSituation) {
             case"speak":
                 if (Room.containCharac(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getCharacters())) {
-                    if (Room.getCharac(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getCharacters()).isWicked()) {
-                        console.appendText("\n" + Room.getCharac(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getCharacters()).getDialogue() +
+                    if (Room.getCharac(choixUtilisateur, Game.characters.get(0).getCurrentRoom().
+                            getCharacters()).isWicked()) {
+                        console.appendText("\n" + Room.getCharac(choixUtilisateur,
+                                Game.characters.get(0).getCurrentRoom().getCharacters()).getDialogue() +
                                 "\nCela va se régler en combat !");
                         currentSituation="fight";
-                        fight(Room.getCharac(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getCharacters()), 2, console);
+                        fight(Room.getCharac(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getCharacters()),
+                                2, console);
                     } else {
-                        console.appendText("\n" + Room.getCharac(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getCharacters()).getDialogue());
+                        console.appendText("\n" + Room.getCharac(choixUtilisateur,
+                                Game.characters.get(0).getCurrentRoom().getCharacters()).getDialogue());
                     }
                 } else {
                     console.appendText("\nCe personnage n'est pas dans cette salle.");
@@ -230,13 +266,18 @@ public class EditorController implements Initializable {
                 break;
             case"take":
                 if (Item.containItem(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getItems())) {
-                    Game.characters.get(0).takeItem(Item.getItem(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getItems()), console);
+                    Game.characters.get(0).takeItem(Item.getItem(choixUtilisateur,
+                            Game.characters.get(0).getCurrentRoom().getItems()), console);
                     if(Item.containItem(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getLockedItems())) {
-                        Game.characters.get(0).getCurrentRoom().removeItem(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getItems());
-                        Game.characters.get(0).getCurrentRoom().getLockedItems().remove(Item.getItem(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getItems()));
-                        console.appendText("Bonne nouvelle ! Vous venez de déposer un objet nécessaire au débloquage de la salle !\n");
+                        Game.characters.get(0).getCurrentRoom().removeItem(choixUtilisateur,
+                                Game.characters.get(0).getCurrentRoom().getItems());
+                        Game.characters.get(0).getCurrentRoom().getLockedItems().remove(
+                                Item.getItem(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getItems()));
+                        console.appendText("Bonne nouvelle ! " +
+                                "Vous venez de déposer un objet nécessaire au débloquage de la salle !\n");
                     }
-                    if(Game.characters.get(0).getCurrentRoom().getLockedCharacters().isEmpty() && Game.characters.get(0).getCurrentRoom().getLockedItems().isEmpty()){
+                    if(Game.characters.get(0).getCurrentRoom().getLockedCharacters().isEmpty() &&
+                            Game.characters.get(0).getCurrentRoom().getLockedItems().isEmpty()){
                         Game.characters.get(0).getCurrentRoom().setUnlocked(true);
                     }
 
@@ -248,7 +289,8 @@ public class EditorController implements Initializable {
                 break;
             case "fight":
                 if (Item.containItem(choixUtilisateur, Game.characters.get(0).getInventory())) {
-                    Game.characters.get(0).activateItem(Item.getItem(choixUtilisateur, Game.characters.get(0).getInventory()), console, "all");
+                    Game.characters.get(0).activateItem(Item.getItem(choixUtilisateur,
+                            Game.characters.get(0).getInventory()), console, "all");
                 } else {
                     console.appendText("Vous ne possédez pas cet objet.\n");
                 }
@@ -259,7 +301,8 @@ public class EditorController implements Initializable {
                 break;
             case "activate":
                 if (Item.containItem(choixUtilisateur, Game.characters.get(0).getInventory())) {
-                    Game.characters.get(0).activateItem(Item.getItem(choixUtilisateur, Game.characters.get(0).getInventory()), console, "all");
+                    Game.characters.get(0).activateItem(Item.getItem(choixUtilisateur,
+                            Game.characters.get(0).getInventory()), console, "all");
                 }else {
                     console.appendText("\nVous ne possédez pas cet item.\n");
                 }
@@ -271,7 +314,8 @@ public class EditorController implements Initializable {
                 break;
             case "knowMore":
                 if (Item.containItem(choixUtilisateur, Game.characters.get(0).getInventory())) {
-                    console.appendText(choixUtilisateur + " : " + Item.getItem(choixUtilisateur, Game.characters.get(0).getInventory()).getDescription());
+                    console.appendText(choixUtilisateur + " : " + Item.getItem(choixUtilisateur,
+                            Game.characters.get(0).getInventory()).getDescription());
                 } else {
                     console.appendText("Vous ne possédez pas cet item.\n");
                 }
@@ -283,16 +327,22 @@ public class EditorController implements Initializable {
                 break;
             case "release":
                 if(Item.containItem(choixUtilisateur, Game.characters.get(0).getInventory())){
-                    Game.characters.get(0).getInventory().remove(Item.getItem(choixUtilisateur, Game.characters.get(0).getInventory()));
+                    Game.characters.get(0).getInventory().remove(Item.getItem(choixUtilisateur,
+                            Game.characters.get(0).getInventory()));
                     Game.characters.get(0).getCurrentRoom().getItems().add(Item.getItem(choixUtilisateur, Game.items));
-                    console.appendText("Vous venez de relâcher l'objet dans " + Game.characters.get(0).getCurrentRoom().getName() + "\n");
+                    console.appendText("Vous venez de relâcher l'objet dans " +
+                            Game.characters.get(0).getCurrentRoom().getName() + "\n");
                     if(Item.containItem(choixUtilisateur,Game.characters.get(0).getCurrentRoom().getLockedItems())){
-                        Game.characters.get(0).getCurrentRoom().getItems().add(Item.getItem(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getItems()));
+                        Game.characters.get(0).getCurrentRoom().getItems().add(Item.getItem(
+                                choixUtilisateur, Game.characters.get(0).getCurrentRoom().getItems()));
                         Game.characters.get(0).getCurrentRoom().getLockedItems().remove(choixUtilisateur);
-                        console.appendText("Bonne nouvelle ! Vous venez de déposer un objet déverrouillant la salle !\n");
-                        if(Game.characters.get(0).getCurrentRoom().getLockedCharacters().isEmpty() && Game.characters.get(0).getCurrentRoom().getLockedItems().isEmpty()){
+                        console.appendText("Bonne nouvelle ! " +
+                                "Vous venez de déposer un objet déverrouillant la salle !\n");
+                        if(Game.characters.get(0).getCurrentRoom().getLockedCharacters().isEmpty() &&
+                                Game.characters.get(0).getCurrentRoom().getLockedItems().isEmpty()){
                             Game.characters.get(0).getCurrentRoom().setUnlocked(true);
-                            console.appendText("\nBravo ! Vous avez nettoyé la salle, plus rien n'en bloque la sortie !");
+                            console.appendText("\nBravo ! " +
+                                    "Vous avez nettoyé la salle, plus rien n'en bloque la sortie !");
                         }
                     }
                 }else{
@@ -309,6 +359,9 @@ public class EditorController implements Initializable {
         }
     }
 
+    /**
+     * Set buttons vision after a backButton
+     */
     public void manageBackButton(){
         removeSideButtonsVision();
         changeMainButtonVision();
@@ -318,6 +371,7 @@ public class EditorController implements Initializable {
      * Manage a fight
      * @param opponent The opponent
      * @param nbRounds The number of rounds needed to win
+     * @param console where the text is showed
      */
     public void fight(Character opponent, int nbRounds, TextArea console) {
         this.opponent=opponent;
@@ -326,7 +380,8 @@ public class EditorController implements Initializable {
         console.appendText("\nCombat entre " +
                 Game.characters.get(0).getName() + " et " + opponent.getName() + " en " + nbRounds + " manches !\n");
         console.appendText("Manche " + currentRound + "\n");
-        console.appendText(Game.characters.get(0).getName() + " : " + ptsPlayer + " - " + ptsIa + " : " + opponent.getName() + "\n");
+        console.appendText(Game.characters.get(0).getName() + " : " + ptsPlayer + " - " + ptsIa + " : " +
+                opponent.getName() + "\n");
         console.appendText("Que voulez vous faire ?\n" +
                 "   Attaquer (Attack)\n   Utiliser objet (Use)\n   Fuir (Run Away)\n");
         manageBackButton();
@@ -336,8 +391,12 @@ public class EditorController implements Initializable {
         runButton.setVisible(true);
     }
 
+    /**
+     * Manage a current fight
+     */
     public void manageAttack(){
-        rolledPlayer = Generator.generateScore(Game.characters.get(0).getLowerDice(), Game.characters.get(0).getUpperDice(), Game.characters.get(0).getNbDice());
+        rolledPlayer = Generator.generateScore(Game.characters.get(0).getLowerDice(),
+                Game.characters.get(0).getUpperDice(), Game.characters.get(0).getNbDice());
         rolledIA = Generator.generateScore(opponent.getLowerDice(), opponent.getUpperDice(), opponent.getNbDice());
         console.appendText("Vous avez obtenu " + rolledPlayer + "\n");
         console.appendText(opponent.getName() + " a obtenu " + rolledIA + "\n");
@@ -354,22 +413,26 @@ public class EditorController implements Initializable {
             ptsIa++;
             currentRound++;
         }
-        console.appendText(Game.characters.get(0).getName() + " : " + ptsPlayer + " - " + ptsIa + " : " + opponent.getName() + "\n");
+        console.appendText(Game.characters.get(0).getName() + " : " + ptsPlayer + " - " + ptsIa + " : " +
+                opponent.getName() + "\n");
 
         if (ptsPlayer > nbRounds / 2) {
             console.appendText("Bravo " + Game.characters.get(0).getName() + ", vous avez gagné !\n");
             console.appendText(opponent.getDescription());
             console.appendText("\nGrâce à ce combat :");
             Game.characters.get(0).activateItem(opponent.getInventory().get(0), console, "bonus");
-            if(Game.characters.get(0).getCurrentRoom().containCharac(opponent.getName(), Game.characters.get(0).getCurrentRoom().getLockedCharacters())){
-                Game.characters.get(0).getCurrentRoom().removeCharac(opponent.getName(), Game.characters.get(0).getCurrentRoom().getCharacters());
+            if(Game.characters.get(0).getCurrentRoom().containCharac(opponent.getName(),
+                    Game.characters.get(0).getCurrentRoom().getLockedCharacters())){
+                Game.characters.get(0).getCurrentRoom().removeCharac(opponent.getName(),
+                        Game.characters.get(0).getCurrentRoom().getCharacters());
                 Game.characters.get(0).getCurrentRoom().getLockedCharacters().remove(opponent);
                 console.appendText("Bonne nouvelle ! Vous venez de battre un virus gardien de la salle!\n");
             }else{
                 console.appendText("Félicitation, mais " + opponent.getName() +
                         " n'était pas un gardien de la salle.\n");
             }
-            if(Game.characters.get(0).getCurrentRoom().getLockedCharacters().isEmpty() && Game.characters.get(0).getCurrentRoom().getLockedItems().isEmpty()){
+            if(Game.characters.get(0).getCurrentRoom().getLockedCharacters().isEmpty() &&
+                    Game.characters.get(0).getCurrentRoom().getLockedItems().isEmpty()){
                 Game.characters.get(0).getCurrentRoom().setUnlocked(true);
                 console.appendText("\nBravo ! Vous avez nettoyé la salle, plus rien n'en bloque la sortie !");
             }
@@ -382,6 +445,9 @@ public class EditorController implements Initializable {
         }
     }
 
+    /**
+     * Manage a using of an item during a fight
+     */
     public void manageUse() {
         loadInventory();
         if (Game.characters.get(0).getInventory().size() != 0) {
@@ -402,6 +468,9 @@ public class EditorController implements Initializable {
         }
     }
 
+    /**
+     * Manage a run out of a fight
+     */
     public void manageRun(){
         console.appendText("Vous avez fuit, combat terminé.\n");
         console.appendText("\nA cause de ce combat :");
@@ -440,6 +509,9 @@ public class EditorController implements Initializable {
         knowMoreButton.setVisible(true);
     }
 
+    /**
+     * Manage a release of an item
+     */
     public void manageRelease(){
         loadInventory();
         currentSituation="release";
@@ -449,6 +521,9 @@ public class EditorController implements Initializable {
         comboBoxInventory.setVisible(true);
     }
 
+    /**
+     * Manage a activation of an item
+     */
     public void manageActivate(){
         loadInventory();
         currentSituation="activate";
@@ -458,6 +533,9 @@ public class EditorController implements Initializable {
         ButtonBar.setVisible(true);
     }
 
+    /**
+     * Manage an ask of explication on an item
+     */
     public void manageKnowMore(){
         loadInventory();
         currentSituation="knowMore";
@@ -467,6 +545,9 @@ public class EditorController implements Initializable {
         ButtonBar.setVisible(true);
     }
 
+    /**
+     * Show the first message
+     */
     public void startMessage(){
         console.appendText("\nERREUR ERREUR, VOTRE ORDINATEUR A ETE INFECTE !\n" +
                 "Passez de salle en salle et \n" +
@@ -478,6 +559,9 @@ public class EditorController implements Initializable {
                 "Pour en savoir plus, cliquez sur \"help\".\n");
     }
 
+    /**
+     * Manage the Game Over
+     */
     public void manageGameOver(){
         removeSideButtonsVision();
         console.appendText("---GAME OVER---");
