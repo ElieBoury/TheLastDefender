@@ -2,7 +2,6 @@ package Editor;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import Classes.*;
 import Classes.Character;
 
@@ -18,9 +17,6 @@ public class EditorController implements Initializable {
 
     @FXML
     private BorderPane rootPane;
-
-    @FXML
-    private ComboBox comboBoxInventory;
 
     @FXML
     private ButtonBar ButtonBar;
@@ -93,6 +89,8 @@ public class EditorController implements Initializable {
 
     private String currentSituation="main";
 
+    private String choixItem="";
+
     private String choixUtilisateur="";
 
     int ptsPlayer = 0, ptsIa = 0, rolledPlayer, rolledIA, currentRound = 1, nbRounds;
@@ -106,6 +104,10 @@ public class EditorController implements Initializable {
         objetText.setText(Game.characters.get(0).getCurrentRoom().getItems().toString());
         startMessage();
         comboBox.setVisibleRowCount(3);
+        for (Character c : Game.characters){
+            System.out.println(c.getName());
+            System.out.println(c.getInventory());
+        }
     }
 
     /**
@@ -120,7 +122,7 @@ public class EditorController implements Initializable {
     /**
      * Manage an ask of help
      */
-    public void help() {
+    public void help() throws InterruptedException {
         console.appendText("\nBut : sortir de cette salle.\n" +
                 "Actions possibles :\n" +
                 "   \"quit\" : quit le jeu sans sauvegarder\n" +
@@ -166,17 +168,19 @@ public class EditorController implements Initializable {
      * Manage first step of taking an item
      */
     public void manageTake(){
-        loadItem();
-        currentSituation="take";
-        console.appendText("\nQuel objet voulez-vous récupérer ?\n");
-        for(Item item : Game.characters.get(0).getCurrentRoom().getItems()){
-            console.appendText("   " + item.getName() + "\n");
-            //characList.getItems().add(perso.getName());
+        if(Game.characters.get(0).getCurrentRoom().getItems().size()==0){
+            console.appendText("La salle ne contient pas d'objet !");
+        }else{
+            loadItem();
+            currentSituation="take";
+            console.appendText("\nQuel objet voulez-vous récupérer ?\n");
+            for(Item item : Game.characters.get(0).getCurrentRoom().getItems()){
+                console.appendText("   " + item.getName() + "\n");
+            }
+            changeMainButtonVision();
+            comboBox.setVisible(true);
+            ButtonBar.setVisible(true);
         }
-        changeMainButtonVision();
-        comboBox.setVisible(true);
-        ButtonBar.setVisible(true);
-
     }
 
     /**
@@ -230,7 +234,6 @@ public class EditorController implements Initializable {
     public void removeSideButtonsVision(){
         comboBox.setVisible(false);
         comboxOK.setDisable(false);
-        comboBoxInventory.setVisible(false);
         ButtonBar.setVisible(false);
         attackButton.setVisible(false);
         useButton.setVisible(false);
@@ -243,8 +246,9 @@ public class EditorController implements Initializable {
     /**
      * Recover the value of the textField according to the currentSituatuion and manage in consequence
      */
-    public void recoverTextField (){
+    public void recoverTextField () {
         comboBoxUdapte();
+        manageGameOver();
         switch(currentSituation) {
             case"speak":
                 if (Room.containCharac(choixUtilisateur, Game.characters.get(0).getCurrentRoom().getCharacters())) {
@@ -458,7 +462,7 @@ public class EditorController implements Initializable {
             }
             removeSideButtonsVision();
             ButtonBar.setVisible(true);
-            comboBoxInventory.setVisible(true);
+            comboBox.setVisible(true);
         } else {
             console.appendText("Vous n'avez aucun item.\n");
             removeSideButtonsVision();
@@ -518,7 +522,7 @@ public class EditorController implements Initializable {
         console.appendText("\nQuel item voulez-vous relâcher ?\n");
         removeSideButtonsVision();
         ButtonBar.setVisible(true);
-        comboBoxInventory.setVisible(true);
+        comboBox.setVisible(true);
     }
 
     /**
@@ -529,7 +533,7 @@ public class EditorController implements Initializable {
         currentSituation="activate";
         console.appendText("\nEntrez le nom de l'objet concerné :\n");
         removeSideButtonsVision();
-        comboBoxInventory.setVisible(true);
+        comboBox.setVisible(true);
         ButtonBar.setVisible(true);
     }
 
@@ -541,7 +545,7 @@ public class EditorController implements Initializable {
         currentSituation="knowMore";
         console.appendText("\nEntrez le nom de l'objet concerné :\n");
         removeSideButtonsVision();
-        comboBoxInventory.setVisible(true);
+        comboBox.setVisible(true);
         ButtonBar.setVisible(true);
     }
 
@@ -562,17 +566,30 @@ public class EditorController implements Initializable {
     /**
      * Manage the Game Over
      */
-    public void manageGameOver(){
-        removeSideButtonsVision();
-        console.appendText("---GAME OVER---");
+    public void manageGameOver() {
+        if(Game.characters.get(0).getNbDice()==0){
+            disableMainButton();
+            console.appendText("---GAME OVER---");
+        }
+    }
+
+    public void disableMainButton(){
+        speakButton.setDisable(true);
+        takeButton.setDisable(true);
+        inventoryButton.setDisable(true);
+        lookButton.setDisable(true);
+        nextButton.setDisable(true);
+        previousButton.setDisable(true);
+        helpButton.setDisable(true);
+        saveButton.setDisable(true);
     }
 
     public void loadInventory(){
-        comboBoxInventory.getItems().clear();
-        comboBoxInventory.setEditable(false);
-        comboBoxInventory.setPromptText("Choose Item");
+        comboBox.getItems().clear();
+        comboBox.setEditable(false);
+        comboBox.setPromptText("Choose Item");
         for (Item c : Game.characters.get(0).getInventory()){
-            comboBoxInventory.getItems().add(c.getName());
+            comboBox.getItems().add(c.getName());
         }
     }
 
@@ -606,6 +623,7 @@ public class EditorController implements Initializable {
     public void comboBoxUdapte(){
         try {
             choixUtilisateur = comboBox.getValue().toString();
+            System.out.println(comboBox.getValue().toString());
         }catch (Exception e){
             System.out.println("Choose a value");
         }

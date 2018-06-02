@@ -12,7 +12,7 @@ public class RoomTest {
 
     ArrayList<Item> testInventory = new ArrayList<>();
     Character testCharac = new Character("testCharac", false, "testDialogue", "test",
-            true, 1, 6, 1, testInventory);
+            1,6,1,testInventory);
 
     @Test
     public void containCharac() {

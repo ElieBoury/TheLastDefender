@@ -39,11 +39,6 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </BorderPane.margin>
          <children>
-            <ComboBox id="comboBox" fx:id="comboBoxInventory" onAction="#comboBoxUdapte" prefWidth="150.0" promptText="Choice" visible="false">
-               <VBox.margin>
-                  <Insets left="10.0" />
-               </VBox.margin>
-            </ComboBox>
             <Button id="button2" fx:id="speakButton" layoutX="10.0" layoutY="35.0" mnemonicParsing="false" onAction="#manageSpeak" prefHeight="300.0" prefWidth="167.0" stylesheets="@styleSheet.css" text="Speak">
                <VBox.margin>
                   <Insets bottom="10.0" />
