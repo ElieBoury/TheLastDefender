@@ -1,6 +1,7 @@
 package Editor;
 
 import Classes.Game;
+import Classes.Item;
 import Classes.Sauvegarde;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;

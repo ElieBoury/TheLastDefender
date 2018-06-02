@@ -89,8 +89,6 @@ public class EditorController implements Initializable {
 
     private String currentSituation="main";
 
-    private String choixItem="";
-
     private String choixUtilisateur="";
 
     int ptsPlayer = 0, ptsIa = 0, rolledPlayer, rolledIA, currentRound = 1, nbRounds;
@@ -104,10 +102,6 @@ public class EditorController implements Initializable {
         objetText.setText(Game.characters.get(0).getCurrentRoom().getItems().toString());
         startMessage();
         comboBox.setVisibleRowCount(3);
-        for (Character c : Game.characters){
-            System.out.println(c.getName());
-            System.out.println(c.getInventory());
-        }
     }
 
     /**

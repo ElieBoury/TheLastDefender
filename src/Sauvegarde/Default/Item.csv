@@ -1,4 +1,4 @@
-Name;changeMinBound;changeMaxBound;changeDice;toActivate;Description;
+//Name;changeMinBound;changeMaxBound;changeDice;toActivate;Description;
 itemTrojan;-1;1;0;true;item de Trojan;
 itemJackRipper;1;-1;0;true;item de JackRipper;
 itemRansomWare;-2;2;1;true;item de RansomWare;
@@ -15,4 +15,3 @@ Clé de cryptage;0;0;0;false;Gardez cette clé précieusement, elle peut vous ê
 Vista;-1;-1;0;true;Cet environnement semble plutôt intéressant !;
 Trophée;10;10;2;true;Félicitation, il n'y a plus de virus, plus rien ne peut vous arrêter dans cet ordinateur !!!;
 Antidote;0;0;0;false;Un antidote pour ordinateur ?;
-
