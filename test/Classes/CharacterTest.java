@@ -10,7 +10,7 @@ public class CharacterTest {
     Item testItem = new Item("testItem", 0,1,2, true, "test");
     ArrayList<Item> testInventory = new ArrayList<>();
     Character testCharac = new Character("testCharac", false, "testDialogue", "test",
-            true, 1, 6, 1, testInventory);
+            1, 6, 1, testInventory);
 
     @org.junit.Test
     public void takeItem() {
