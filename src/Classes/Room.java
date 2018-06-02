@@ -1,7 +1,5 @@
 package Classes;
 
-import Editor.EditorController;
-
 import javafx.scene.control.TextArea;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -198,48 +196,52 @@ public class Room extends GameObject {
         //Name; Description;IsUnlocked; Items; Characters; LockedCharacters; lockedItems;
         StringBuilder line =  new StringBuilder();
         line.append(getName()+";"+ getDescription()+";"+isUnlocked()+";");
-        for (Item myItem: items) {
-            if (items.get(items.size()-1)==myItem){
-                line.append(myItem.getName());
-            }else{
-                line.append(myItem.getName()+"/");
-            }
-        }
         if (items.isEmpty()){
             line.append("null");
-        }
-        line.append(";");
-        for (Character myCharacter: characters) {
-            if(characters.get(characters.size()-1)==myCharacter){
-                line.append(myCharacter.getName());
-            }else{
-                line.append(myCharacter.getName()+"/");
+        }else{
+            for (Item myItem: items) {
+                if (items.get(items.size()-1)==myItem){
+                    line.append(myItem.getName());
+                }else{
+                    line.append(myItem.getName()+"/");
+                }
             }
         }
+        line.append(";");
         if (characters.isEmpty()){
             line.append("null");
-        }
-        line.append(";");
-        for (Character myCharacter: lockedCharacters) {
-            if(lockedCharacters.get(lockedCharacters.size()-1)==myCharacter){
-                line.append(myCharacter.getName());
-            }else{
-                line.append(myCharacter.getName()+"/");
+        }else{
+            for (Character myCharacter: characters) {
+                if(characters.get(characters.size()-1)==myCharacter){
+                    line.append(myCharacter.getName());
+                }else{
+                    line.append(myCharacter.getName()+"/");
+                }
             }
         }
+        line.append(";");
         if (lockedCharacters.isEmpty()){
             line.append("null");
-        }
-        line.append(";");
-        for (Item myItem: lockedItems) {
-            if (lockedItems.get(lockedItems.size()-1)==myItem){
-                line.append(myItem.getName());
-            }else{
-                line.append(myItem.getName()+"/");
+        }else{
+            for (Character myCharacter: lockedCharacters) {
+                if(lockedCharacters.get(lockedCharacters.size()-1)==myCharacter){
+                    line.append(myCharacter.getName());
+                }else{
+                    line.append(myCharacter.getName()+"/");
+                }
             }
         }
+        line.append(";");
         if (lockedItems.isEmpty()){
             line.append("null");
+        }else{
+            for (Item myItem: lockedItems) {
+                if (lockedItems.get(lockedItems.size()-1)==myItem){
+                    line.append(myItem.getName());
+                }else{
+                    line.append(myItem.getName()+"/");
+                }
+            }
         }
         line.append(";");
         return line.toString();
@@ -289,5 +291,21 @@ public class Room extends GameObject {
             maRoom.setLockedItems(lockedItems);
         }
         Game.rooms.add(maRoom);
+    }
+
+    public StringBuilder characterRoom(){
+        StringBuilder line =  new StringBuilder();
+        for (Character charac: characters){
+            line.append(charac.getName()+";");
+        }
+        return line;
+    }
+
+    public StringBuilder itemRoom(){
+        StringBuilder line =  new StringBuilder();
+        for (Item item: items){
+            line.append(item.getName()+";");
+        }
+        return line;
     }
 }

@@ -73,9 +73,6 @@ public class EditorController implements Initializable {
     private Button helpButton;
 
     @FXML
-    private Button quitButton;
-
-    @FXML
     private Label roomText;
 
     @FXML
@@ -83,6 +80,15 @@ public class EditorController implements Initializable {
 
     @FXML
     private Label objetText;
+
+    @FXML
+    private Label nbDiceText;
+
+    @FXML
+    private Label lowerDice;
+
+    @FXML
+    private Label upperDice;
 
     @FXML
     private TextArea console;
@@ -98,8 +104,11 @@ public class EditorController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         transitionScene();
         roomText.setText(Game.characters.get(0).getCurrentRoom().getName());
-        characterText.setText(Game.characters.get(0).getCurrentRoom().getCharacters().toString());
-        objetText.setText(Game.characters.get(0).getCurrentRoom().getItems().toString());
+        characterText.setText(Game.characters.get(0).getCurrentRoom().characterRoom().toString());
+        objetText.setText(Game.characters.get(0).getCurrentRoom().itemRoom().toString());
+        nbDiceText.setText("nbDice :" + Game.characters.get(0).getNbDice());
+        upperDice.setText("upperDice" + Game.characters.get(0).getUpperDice());
+        lowerDice.setText("upperDice" + Game.characters.get(0).getLowerDice());
         startMessage();
         comboBox.setVisibleRowCount(3);
     }
@@ -116,14 +125,14 @@ public class EditorController implements Initializable {
     /**
      * Manage an ask of help
      */
-    public void help() throws InterruptedException {
+    public void help(){
         console.appendText("\nBut : sortir de cette salle.\n" +
                 "Actions possibles :\n" +
                 "   \"quit\" : quit le jeu sans sauvegarder\n" +
                 "   \"inventory\" : accéder à l'inventaire\n" +
                 "   \"take\" : prendre un objet présent dans la salle\n" +
                 "   \"speak\" : parler à un personnage présent dans la salle\n" +
-                "   \"look room\" : regarder ce qu'il y a dans la salle\n" +
+                "   \"look room\" : regarder ce qu'il y a dans la salle et actualise le menu de droite\n" +
                 "   \"previous room\" : aller à la salle précédente\n" +
                 "   \"next room\" : aller à la salle suivante\n");
     }
@@ -141,6 +150,16 @@ public class EditorController implements Initializable {
      */
     public void lookRoom(){
         Game.characters.get(0).getCurrentRoom().presentRoom(console);
+        actualiseRight();
+    }
+
+    public void actualiseRight(){
+        roomText.setText(Game.characters.get(0).getCurrentRoom().getName());
+        characterText.setText(Game.characters.get(0).getCurrentRoom().characterRoom().toString());
+        objetText.setText(Game.characters.get(0).getCurrentRoom().itemRoom().toString());
+        nbDiceText.setText("nbDice :" + Game.characters.get(0).getNbDice());
+        upperDice.setText("upperDice" + Game.characters.get(0).getUpperDice());
+        lowerDice.setText("upperDice" + Game.characters.get(0).getLowerDice());
     }
 
     /**
@@ -315,8 +334,8 @@ public class EditorController implements Initializable {
                 }else {
                     console.appendText("\nVous ne possédez pas cet item.\n");
                 }
-                ButtonBar.setVisible(true);
                 removeSideButtonsVision();
+                ButtonBar.setVisible(true);
                 releaseButton.setVisible(true);
                 activateButton.setVisible(true);
                 knowMoreButton.setVisible(true);
@@ -628,7 +647,6 @@ public class EditorController implements Initializable {
     public void comboBoxUdapte(){
         try {
             choixUtilisateur = comboBox.getValue().toString();
-            System.out.println(comboBox.getValue().toString());
         }catch (Exception e){
             System.out.println("Choose a value");
         }
